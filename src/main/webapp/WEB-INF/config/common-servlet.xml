@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+    
+    <!-- Enables the Spring MVC @Controller programming model 책 기준으로 변경 전에는 주석 처리 된 부분 -->
+	<annotation-driven />
+	
+    <!-- Not work, Create PageRequestCustom.java instead of below.    	
+    	Paging argument 추가, default는 첫 페이지가 0이지만, 1로 변경 및 기본 페이지당 데이터 사이즈 20으로 지정    	 
+	<annotation-driven>	
+		<argument-resolvers>
+	        <beans:bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+	            <beans:property name="oneIndexedParameters" value="true"/>				!- Not work : Set first page index 1 from 0 -
+	            <beans:property name="fallbackPageable">
+	                <beans:bean class="org.springframework.data.domain.PageRequest">
+	                    <beans:constructor-arg name="page" value="1" />					!- Default page index 	-
+	                    <beans:constructor-arg name="size" value="20" />				!- Data size in one page -
+	                </beans:bean>
+	            </beans:property>
+	        </beans:bean>
+	    </argument-resolvers>
+	</annotation-driven>
+    -->
+	
+	<context:component-scan base-package="com.abanate.mycoup.web,com.abanate.com.web"/>
+	
+	<!-- 책 기준으로 변경 전에 있던 부분 
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
+	-->
+	
+  	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/view/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+    
+    <!-- properties file read, and use by @value annotation -->
+	<context:property-placeholder location="classpath:/config/*.properties"/>
+	
+	<!--  
+	<mvc:interceptors>
+		<beans:bean class="com.abanate.mycoup.web.MycoupInterceptor"/>
+	</mvc:interceptors>
+	-->
+
+</beans:beans>

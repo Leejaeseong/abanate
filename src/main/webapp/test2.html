@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="keywords" content="쿠폰 관리, 무료 쿠폰, 무료, 포인트 관리, Coupon management, Free coupon, Free, Point management">
+  <meta name="description" content="간편하고 편리한 무료 쿠폰, 포인트 관리 웹 사이트 입니다.">
+  <title>My Coup</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../../css/mycoup/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../../css/mycoup/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="../../css/mycoup/style.min.css" rel="stylesheet">
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="./index.html">
+        <strong>MyCoup</strong>
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./login.html">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./regist.html">회원 가입</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./mycoup_list.html">내 쿠폰(포인트) 함</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./around.html">내 주변 쿠폰(포인트)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./save_use.html">쿠폰(포인트) 적립/사용</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./setup.html">쿠폰(포인트) 설정</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./visit_history.html">방문 내역</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./change_number.html">고객 전화번호 변경</a>
+          </li>          
+        </ul>
+
+      </div> 
+
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- Full Page Intro -->
+  <div class="view" style="background-image: url('../../img/mycoup/maxresdefault.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+      <!-- Content -->
+      <div class="text-left white-text mx-5 wow fadeIn">
+        <h5 class="mb-4">
+          <i class="far fa-star"></i> 번거로운 App 설치 <label class="text-danger font-weight-bold">NO!</label><br/><br/>
+          <i class="far fa-star"></i> 부피만 차지하는 비싼 종이 쿠폰 <label class="text-danger font-weight-bold">NO!</label><br/><br/>
+          <i class="far fa-star"></i> 나의 쿠폰과 포인트를 이제 편리하게 모아 보아요<br/><br/>
+          <i class="far fa-star"></i> 모든 서비스는 <label class="text-danger font-weight-bold">무료</label> 입니다
+        </h5>
+      
+    </div>
+      <!-- Content -->
+
+    </div>
+    <!-- Mask & flexbox options-->
+
+  </div>
+  <!-- Full Page Intro -->
+
+  <!--Footer-->
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+    <hr class="my-4">
+
+    <!-- Contact us -->
+    <div class="pb-4">
+    	MyCoup.io@gmail.com
+    </div>
+    <!-- /Contact us -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+      © 2019 Copyright:
+      <a href="./index.html"> MyCoup.io </a>
+    </div>
+    <!--/.Copyright-->
+
+  </footer>
+  <!--/.Footer-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="../../js/mycoup/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../../js/mycoup/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../../js/mycoup/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../../js/mycoup/mdb.min.js"></script>
+
+  <script type="text/javascript" async defer src="../../js/com/util.js"></script>
+
+  <!-- Initializations -->
+  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+
+    window.addEventListener("load", function(evt) {
+      ajaxSend( "/mycoup/test.json"
+            , {   usrId : "test" }
+            , test );
+      
+    });
+
+    function test( responseText ) {
+      console.log( "responseText : ", responseText );
+    }
+    
+    function loading(){}
+  </script>
+</body>
+
+</html>

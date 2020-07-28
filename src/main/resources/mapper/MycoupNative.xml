@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" version="2.1">
+
+	<!-- 
+		Limitation and solution of native query
+			-. It's error - If a parameter exist but not in the query.
+				-> use ChkUtil.setNativeQueryParam
+			
+			-. Not matched of the string. e.g., It's impossible that parameter is "('A','B')", i.g., clauses string in the IN is impossible.
+				-> 	Use REGEXP_LIKE! i.g., Query : AND REGEXP_LIKE ( U.USR_NM, :USR_NM ), Parameter : query.setParameter( "USR_NM", "^이재성|^미가입" );
+				
+			-. No dynamic query.
+				-> 	alternative 1. Imitaion in the query, i.g., WHERE (ISNULL(:LIKE, '1') = '1' or A.USER_ID LIKE :LIKE)
+					alternative 2. Make query string in Java.
+					
+			-. Only upper case string recognized. e.g., If there's :usrNm in the query, then hibernate find parameter of USR_NM.
+				-> Use upper case string.
+	 -->
+    <!-- JPA Named Native Queries -->
+    <named-native-query name="ChVisit.test">
+        <query>
+        	SELECT U.USR_NM, V.CH_VISIT_SEQ
+			  FROM CH_VISIT V
+			 INNER JOIN CM_USR U
+			    ON U.CM_USR_SEQ  = V.CM_USR_SEQ
+			 INNER JOIN CM_STOR S
+			    ON S.CM_STOR_SEQ = V.CM_STOR_SEQ
+			 
+			 WHERE 1 = 1
+			 /*   
+			   AND U.USR_NM IN ( :USR_NM )
+			 */
+			   AND REGEXP_LIKE ( U.USR_NM, :USR_NM )
+		</query>
+    </named-native-query>
+    
+</entity-mappings>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.abanate</groupId>
+	<artifactId>abanate</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>abanate</name>
+	<description>abanate</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.0.M3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>9</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Spring ORM -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <!-- Spring AspectJ -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
+        
+        <!-- JPA, Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+		<!-- MariaDB -->
+		<dependency> 
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		</dependency>
+		<!-- H2 DB -->
+		<dependency> 
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		</dependency>
+				
+		<dependency><!-- xml bind -->
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		</dependency>
+		<!-- Gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.5</version>
+		</dependency>
+
+        <!-- Connection pool -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        
+        <!-- Meta entity generator 1/2 -> QueryDSL로 전환 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+        </dependency>
+        -->
+        
+        <!-- QueryDSL 1/2
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>3.6.3</version>
+            <scope>provided</scope>
+        </dependency>
+         -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+        </dependency>
+        
+        <!-- 로깅 SLF4j & LogBack 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.6</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        -->
+        
+        <!-- 스프링 데이터 JPA, spring-data-jpa는 spring-data-commons에 의존하므로 두 라이브러리를 함께 받음 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+        <!-- 테스트 spring-boot-starter-test로 되는지 확인, 넣으려면 p.475 -->
+        
+        
+        <!-- WEB, p.474 -->
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+			<scope>provided</scope>
+		</dependency>
+        
+        <!-- Email -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
+        
+        <!-- Redis : test 
+        <dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		</dependency>
+        -->
+        
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- Meta entity generator 2/2  -> QueryDSL로 전환
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArguments>
+						<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			-->
+			
+			<!-- QueryDSL 2/2 -->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<!--  
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+							-->
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+				
+		</plugins>
+	</build>
+	
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

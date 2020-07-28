@@ -1,0 +1,16 @@
+□ 웹앱 접속 주소 : https://mycoup.web.app/
+
+□ push 흐름 설명
+	https://geundung.dev/94
+
+□ 소스 구성 및 설명
+	https://developers.google.com/web/fundamentals/codelabs/push-notifications/?hl=ko
+
+□ 알람에 대한 상세 설명
+	https://joshua1988.github.io/web-development/pwa/pwa-push-noti-guide/
+	
+□ 2.2 How exactly are web push notifications delivered to a user's device?
+	https://www.izooto.com/web-push-notifications-explained
+
+□ 좋은 예제 - 채팅앱
+	https://cionman.tistory.com/67

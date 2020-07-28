@@ -1,0 +1,4 @@
+▣ 트랜잭션이 동작하지 않음( 한 서비스 내에서 ROLLBACK이 동작하지 않고, 하나 INSERT 후 COMMIT되고, 두번째 오류시 ROLLBACK 되지 않음 )
+	→ common-servlet.xml에서 component-scan을 controller만 설정해 주니 됨( 클래스 중복 설정 및 로딩에 의한 것으로 추측 )
+		AS-IS <context:component-scan base-package="com.abanate.mycoup,com.abanate.com"/>
+		TO-BE <context:component-scan base-package="com.abanate.mycoup.web,com.abanate.com.web"/>

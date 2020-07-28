@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" ng-app="test1App">
+  <head>
+    <meta charset="utf-8">
+    <title>My HTML File</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />        
+    <script src="../../node_modules/angular/angular.js"></script>
+    <script src="../test-1/test-1.controller.js"></script>
+  </head>
+  <body ng-controller="test1Controller">
+
+    컨트롤러와 바인딩의 단순 사용
+
+    <p>1 + 2 = {{ 1 + 2 }}</p>
+
+    <br/>
+
+    <ul>
+      <li ng-repeat="phone in phones">
+        <span>{{phone.name}}</span>
+        <p>{{phone.snippet}}</p>
+      </li>
+    </ul>
+
+    <br/>
+
+    <p>Length : {{phones.length}}</p>
+
+  </body>
+</html>

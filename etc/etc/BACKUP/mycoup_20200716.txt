@@ -1,0 +1,208 @@
+▣ Hibernate 초기 설정 참고 : http://happygrammer.tistory.com/150
+
+▣ ERD = ER MASTER
+	1. 다운로드 사이트 : http://justinkwony.github.io/ermaster-nhit/update-site/	
+	2. eclipse-luna\plugins\에 1번의 파일을 복사한다.
+	3. eclipse-luna\configuration\org.eclipse.equinox.simpleconfigurator\의 bundles.info 파일을 연다.
+	4. 아래의 내용을 추가하고 저장한다.
+		org.insightech.er,1.0.0.v20150619-0219,plugins/org.insightech.er_1.0.0.v20150619-0219.jar,4,false
+		(org.insightech.er_1.0.0.v20150619-0219.jar가 파일명이라면 _앞부분,_뒷부분,plugin 경로,4,false)
+		파일 마지막에는 빈줄을 두어야 한다.
+	5. 이클립스를 재시작 한다.
+	
+	- 온라인 메뉴얼 : http://ermaster.sourceforge.net/content/manual/en/index.html
+	
+▣ 클러스터링 쿼츠(2.2.3) 테이블스키마
+	- URL : http://www.quartz-scheduler.org/downloads/
+	- 다운로드 > 압축 해제 > 
+
+▣ Angularjs
+	- url : https://docs.angularjs.org
+	- version : 1.7.8 ( download 2019.06.27 )
+
+▣ Git
+	- url : https://git-scm.com/download/win
+	- version : 2.22.0
+
+▣ Node.js
+	- url : https://nodejs.org/en/
+	- version : node-v12.4.0-x64.msi ( download 2019.06.24 )
+	- 명령어 참조
+		▷ node --version	: 버전 확인( 12.4.0 )
+		▷ node.exe			: node.exe 커맨드 실행		
+		▷ npm --version 	: npm 버전 확인( 6.9.0 )
+		▷ npm install		: package.json 파일을 읽어 install 해 줌
+	- git 다운로드 -> 서버 시작까지
+		▷ git clone https://github.com/~~~/~~~.git	: 소스 다운로드
+			e.g) git checkout -f step-5	: step 5 소스 다운로드( 갱신 )
+		▷ 다운로드 폴더로 들어가기( cd ~ )
+		▷ npm install			: package.json 파일 읽어서 실 라이브러리 다운로드
+		▷ npm start			: package.json 포트로 서버 시작
+		▷ npm test				: karma.conf.js를 읽어 karma 시작
+		▷ npm run protractor	: e2e-tests/protractor.conf.js를 읽어 prostractor 시작
+		
+▣ H2
+	- phan98 / tphan98o
+	- 문법 https://www.h2database.com/html/commands.html
+	- 참조 URL
+		-. https://liveupdate.tistory.com/251
+	
+▣ Font awesome
+	- 아이콘 목록 	: https://fontawesome.com/icons?from=io
+	- 효과 주기 	: https://coding-factory.tistory.com/192
+
+▣ AWS 설치 시 마다 작업
+	### 현재 계정 생성일 : 2020.07.06 ###
+		키 페어 이름 : sooho8286
+		ssh ip : 13.59.144.164 ( port : 22 ) 
+		user : ec2-user
+		도메인 : ec2-13-59-144-164.us-east-2.compute.amazonaws.com
+	
+	### (공통)복사 ###
+	- download 폴더의 openjdk, 톰켓, h2 복사 -> /tmp 폴더로 복사
+	- 압축 해제
+		tar -xvzf openjdk-14.0.1_linux-x64_bin.tar.gz
+		tar -xvzf apache-tomcat-9.0.37.tar.gz
+		tar -xvf h2.tar
+	- home으로 이동
+		mv apache-tomcat-9.0.37 ~/
+		mv jdk-14.0.1/ ~/
+		mv h2 ~/
+		
+	### 공통 - AWS ###
+	- AWS 포트 개방
+		- 톰켓 인바운드 8080 추가
+		- SSL 인바운드 443 추가			
+		- h2 인바운드 8082 추가		
+			
+	### 자바 ###
+	- JAVA_HOME 설정
+		cd ~
+		cp .bash_profile .bash_profile_ori
+		vi .bash_profile
+			가장 아래 부분에 아래 두줄 추가
+			export JAVA_HOME=/home/ec2-user/jdk-14.0.1
+			export PATH=$PATH:/home/ec2-user/jdk-14.0.1/bin
+	- bash적용 : source .bash_pfofile
+	
+	### H2 ###
+	- h2 설정
+		cd /home/ec2-user/h2/bin
+		cp h2.sh h2_ori.sh
+		vi h2.sh
+		가장 아래 옵션 추가
+			java -cp "$dir/h2-1.4.199.jar:$H2DRIVERS:$CLASSPATH" org.h2.tools.Console -webAllowOthers "$@"
+		설정
+			cd /home/ec2-user/h2/bin
+			java -cp h2-*.jar org.h2.tools.Shell
+			URL 		엔터로 넘김
+			Driver		엔터로 넘김
+			User		phan98
+			Password	tphan98o
+			비번확인	tphan98o
+	- h2 시작
+		cd h2/bin/
+		./h2.sh &
+	- h2 브라우저 접속( 도메인 변경 )
+		http://ec2-13-59-144-164.us-east-2.compute.amazonaws.com:8082
+		저장한 설정 	: Generic H2 (Server)
+		JDBC URL(기본)	: jdbc:h2:tcp://localhost/~/test
+		사용자명		: phan98
+		비밀번호		: tphan98o
+	- schema 붓기 : mycoup_ddl_h2.sql 실행
+	
+	### 톰켓 ###
+	- /home/ec2-user/apache-tomcat-9.0.37/lib/ 에 download의 h2-1.4.197.jar 복사
+	- 백업
+		cd /home/ec2-user/apache-tomcat-9.0.37/webapps
+		mkdir BACKUP
+		mv ROOT/ ./BACKUP/
+	- ROOT.war 파일 webapps에 복사
+	
+	- 무료도메인에 연동
+		-. https://my.freenom.com
+		-. aws 도메인 "~~.compute.amazonaws.com"은 아래 무료 인증서 발급 시 막히기 때문 )
+		-. 무료도메인 이용 조건은 일년에 몇십~몇백번 도메인 접속되고, 갱신 15일 전에 갱신해야 함
+		-. 2020.07.15일 mycoup.ml 도메인 생성 함
+		freenom.com, 구글 로그인으로 로그인, 계정은 sooho8286@gmail.com
+		DNS management에서 A record 등록, AWS IP는 가입시 마다 변동( target 부분에 넣으면 됨 )
+	
+	- 무료인증서 발급( 3개월마다 시행? )
+		참고 : 
+			-. https://medium.com/@zauin09/%EC%95%84%EB%A7%88%EC%A1%B4-aws-ec2-amazon-linux%EC%97%90-%EB%AC%B4%EB%A3%8C-ssl-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EC%84%A4%EC%B9%98-lets-encrypt-with-certbot-2668319475e0
+			-. https://idlecomputer.tistory.com/226
+			
+			
+			1. download폴더의 certbot-auto를 temp로 복사하고
+			2. 실행권한 부여 : chmod a+x certbot-auto			
+			3. 아래 내용 실행
+				sudo ./certbot-auto certonly --manual --email sooho8286@gmail.com -d mycoup.ml
+				ip가 로깅되어도 되냐? Y ( 뭔지 잘 모름, 그냥 Y 함 )				
+				해당 위치에 텍스트 파일 추가
+			4. server.xml 편집 : 아래 추가
+				<Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+			               maxThreads="150" SSLEnabled="true" >
+			        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+			        <SSLHostConfig>
+			            <Certificate certificateKeyFile="/etc/letsencrypt/live/mycoup.ml/privkey.pem"
+			                         certificateFile="/etc/letsencrypt/live/mycoup.ml/cert.pem"
+			                         certificateChainFile="/etc/letsencrypt/live/mycoup.ml/chain.pem"
+			                         type="RSA" />
+			        </SSLHostConfig>
+			    </Connector>
+		
+	 - 무료	https://www.sslforfree.com/
+		로그인 : sooho8286@gmail.com / sooho8286!
+		Auto-Generate CSR
+		HTTP File Upload로 진행
+			파일 다운로드 후
+			/.well-known/pki-validation/ 폴더 만들어서 업로드 한 뒤
+			Next 클릭
+			Verify Domain 클릭
+	
+	- 사설 인증서 설치
+		( 참고 : https://namjackson.tistory.com/24
+		         https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_%EC%9E%90%EC%B2%B4%EC%84%9C%EB%AA%85_SSL_%EC%9D%B8%EC%A6%9D%EC%84%9C_%EC%83%9D%EC%84%B1 )
+		cd ~
+		openssl
+		genrsa -out private.key 2048
+		rsa -in private.pem -pubout -out public.key
+		req -new -key private.key -out private.csr
+			국가		: KR
+			지역		: Seoul
+			인근		: City
+			회사명		: mycoup
+			유닛명		: company
+			호스트명	: mycoup
+			이메일		: mycoup.io@gmail.com
+			비번		: tphan98o
+			옵션회사명	: mycoup
+		genrsa -aes256 -out rootCA.key 2048
+			비번		: tphan98o
+		req -x509 -new -nodes -key rootCA.key -days 3650 -out rootCA.pem
+			비번		: tphan98o
+			국가		: KR
+			지역		: Seoul
+			인근		: City
+			회사명		: mycoup
+			유닛명		: company
+			호스트명	: mycoup
+			이메일		: mycoup.io@gmail.com
+			비번		: tphan98o
+			옵션회사명	: mycoup				
+		x509 -req -days 3650 -in private.csr -signkey private.key -out private.crt
+		pkcs12 -export -in private.crt -inkey private.key -out .keystore -name tomcat
+			( 비밀번호 = tphan98o )
+		인증서 이동 : mv .keystore ./apache-tomcat-9.0.37/
+	- server.xml 편집 : 아래 추가
+		<Connector port="443" clientAuth="false" sslProtocol="TLS"   SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               keystoreFile="/home/ec2-user/apache-tomcat-9.0.37/.keystore" keystorePass="tphan98o"  keystoreType="pkcs12"/>
+               
+               	
+	- 기동
+		/home/ec2-user/apache-tomcat-9.0.37/bin
+		./startup.sh
+	- 접속 확인( 도메인은 변경 )
+		http://ec2-13-59-144-164.us-east-2.compute.amazonaws.com:8080/
+		https://ec2-13-59-144-164.us-east-2.compute.amazonaws.com/

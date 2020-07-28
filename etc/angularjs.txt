@@ -1,0 +1,19 @@
+▣ url : https://docs.angularjs.org
+
+▣ 문서
+	- API 				: https://docs.angularjs.org/api
+	- Developer guide 	: https://docs.angularjs.org/guide/
+	- Tutorial 			: https://docs.angularjs.org/tutorial/
+
+▣ 규칙
+	- 파일명은 케밥케이스( 소문자, -으로 연결 ) 
+
+▣ 선언
+	- ng-app 어떻게 할 것인가? <html lang="en" ng-app ng-strict-di>
+	- 배포시 성능을 위해 js는 min버전 사용
+	- [Ⅹ] 스크립트 선언은 성능을 위해 가장 하단에 위치
+		   -> expression 변환 전 잔상이 남음
+
+▣ 테스트
+	- Jasmine's Behavior-Driven Development (BDD) framework	: https://jasmine.github.io/
+	- Karma : 카르마 실행 브라우저 최소화 하지 않기 = 최소화된 브라우저는 자원이 한정적이기에 느릴 수 있음		

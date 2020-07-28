@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>MyCoup</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../../css/mycoup/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../../css/mycoup/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="../../css/mycoup/style.min.css" rel="stylesheet">
+  <style type="text/css">
+    @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+        background: #1C2331 !important;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="./index.html">
+        <strong>MyCoup</strong>
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./login.html">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./regist.html">회원 가입</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./mycoup_list.html">내 쿠폰(포인트) 함</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./around.html">내 주변 쿠폰(포인트)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./save_use.html">쿠폰(포인트) 적립/사용</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./setup.html">쿠폰(포인트) 설정</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="./visit_history.html">방문 내역<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./change_number.html">고객 전화번호 변경</a>
+          </li>          
+        </ul>
+
+      </div> 
+
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!--Main layout-->
+  <main>
+
+    <!-- 상단 공백 -->
+    <p class="my-4">&nbsp;</p>
+
+    <div class="container bg-primary">
+      <h1>        
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-store"></i> 고객 방문 내역</span>
+      </h1>
+    </div>
+
+    <div class="container">
+
+      <div class="row wow fadeIn border border-dark justify-content-center">
+
+        <div class="row w-100">
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">전체 내역</span></h4>
+        </div>
+
+        <div class="w-100">&nbsp;</div> <!-- space br -->
+
+        <div class="col-1 align-self-center">
+          <i class="fas fa-user-friends"></i>
+        </div>                  
+        <div class="col-3 text-left my-auto">
+          <small>전체 고객</small>
+        </div>
+        
+        <div class="col-3 form-inline">
+          <label class="small mt-2">누적 고객</label>
+        </div>
+        <div class="col form-inline text-center">
+          <input type="text" class="form-control form-control-sm text-right" disabled value="3,262 명" style="width:8em;"/>
+          <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
+          <small>※개시:2019.10.01</small>
+        </div>
+        
+        <div class="w-100"><hr/></div> <!-- horizontal line -->
+
+        <div class="col-1 align-self-center text-right">
+          <i class="fas fa-chart-area"></i>
+        </div>                  
+        <div class="col-3 text-left my-auto">
+          <small>전체<br/>적립 현황</small>
+        </div>
+        
+        <div class="col-3 form-inline text-center">
+          <label class="small mt-2">적립</label>          
+          <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
+          <label class="small mt-2">사용가능</label>
+        </div>
+        <div class="col form-inline text-center">
+          <input type="text" class="form-control form-control-sm text-right" disabled value="255장" style="width:8em;"/>
+          <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
+          <input type="text" class="form-control form-control-sm text-right" disabled value="250장" style="width:8em;"/>
+        </div>
+
+        <div class="w-100">&nbsp;</div> <!-- bottom space of regist border -->
+
+      </div> <!-- end of border -->
+
+      <div class="w-100">&nbsp;</div> <!-- space between border -->
+
+      <div class="row wow fadeIn border border-dark justify-content-center">
+
+        <div class="row w-100">
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">검색</span></h4>
+        </div>
+
+        <div class="w-100">&nbsp;</div> <!-- space br -->
+
+        <div class="col-1 align-self-center text-right">
+          <i class="far fa-clock"></i>
+        </div>
+        <div class="col-4 text-left mt-2">
+          <label>일자</label>
+        </div>        
+        <div class="col form-inline text-center">
+          <input type="text" class="form-control form-control-sm text-center" value="2019.10.01" style="width:5em;"/>
+          <label class="mt-2" style="width:2em;">~</label>
+          <input type="text" class="form-control form-control-sm text-center" value="2019.12.31" style="width:5em;"/>
+        </div>
+
+        <div class="w-100"><hr/></div> <!-- horizontal line -->
+
+        <div class="col-1 align-self-center text-right">
+          <i class="fas fa-user-tag"></i>
+        </div>                  
+        <div class="col-4 text-left my-auto">
+          <label>성함<font class="small"><br/>( 또는 예명 )</font>
+          </label>
+        </div>
+        <div class="col form-inline text-center">
+          <input type="text" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="이지은" style="width:12em;">
+        </div>
+
+        <div class="w-100"><hr/></div> <!-- horizontal line -->
+
+        <div class="col text-right">
+          <button type="submit" class="btn btn-primary">검색 <i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="w-100">&nbsp;</div> <!-- bottom space of regist border -->
+
+      </div> <!-- end of border -->
+
+      <div class="w-100">&nbsp;</div> <!-- space between border -->
+
+      <div class="row wow fadeIn border border-dark justify-content-center">
+
+        <div class="row w-100">
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">검색 결과</span></h4>
+        </div>
+
+        <div class="w-100">
+          <div class="col text-center">
+            <small>
+              [검색] <font class="text-info">229</font> [고객] <font class="text-info">10</font> [적립] <font class="text-info">30</font> 
+              [사용] <font class="text-info">25</font> [누적] <font class="text-info">3,500</font>
+            </small>
+          </div>
+        </div>
+        
+        <div class="table-responsive-sm">
+          <table class="table table-striped table-bordered table-sm table-nowrap" style="table-layout: fixed;">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:22%;">방문 일시</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:13%;">구분</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:15%;">성함</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:30%;">전화번호</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;">적용</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;">누적</th>
+              </tr>
+            </th>
+            <tbody>
+              <tr>
+                <td class="text-center">2019.10.21<br/>13:10:00</td>
+                <td class="text-center text-danger">사용</td>
+                <td class="text-left">이지은</td>
+                <td class="text-center">010-1234-5678</td>
+                <td class="text-right">10</td>
+                <td class="text-right">5</td>
+              </tr>
+              <tr>
+                <td class="text-center">2019.10.21<br/>13:10:00</td>
+                <td class="text-center">적립</td>
+                <td class="text-left">이지은</td>
+                <td class="text-center">010-1234-5678</td>
+                <td class="text-right">2</td>
+                <td class="text-right">15</td>
+              </tr>
+              <tr>
+                <td class="text-center">2019.10.19<br/>10:10:00</td>
+                <td class="text-center">적립</td>
+                <td class="text-left">이지은</td>
+                <td class="text-center">010-1234-5678</td>
+                <td class="text-right">1</td>
+                <td class="text-right">13</td>
+              </tr>
+              <tr>
+                <td class="text-center">2019.10.17<br/>11:10:00</td>
+                <td class="text-center">적립</td>
+                <td class="text-left">이지은</td>
+                <td class="text-center">010-1234-5678</td>
+                <td class="text-right">3</td>
+                <td class="text-right">12</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="w-100 d-flex justify-content-center">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <span class="page-link">First</span>
+                </li>
+                <li class="page-item disabled">
+                  <span class="page-link">&lt;&lt;</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link">
+                    2
+                    <span class="sr-only">(current)</span>
+                  </span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">&gt;&gt;</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Last</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          
+        </div>
+
+      </div> <!-- end of border -->
+      
+    </div> <!-- end of container -->
+    
+  </main>
+  <!--Main layout-->
+
+  <!--Footer-->
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+    <hr class="my-4"/>
+    
+    <!-- Contact us -->
+    <div class="pb-4">
+    	MyCoup.io@gmail.com
+    </div>
+    <!-- /Contact us -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+      © 2019 Copyright:
+      <a href="./index.html"> MyCoup.io </a>
+    </div>
+    <!--/.Copyright-->
+
+  </footer>
+  <!--/.Footer-->
+
+  <!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="../../js/mycoup/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="../../js/mycoup/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="../../js/mycoup/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="../../js/mycoup/mdb.min.js"></script>
+  <!-- Initializations -->
+  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+
+  </script>
+</body>
+
+</html>

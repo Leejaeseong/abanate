@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   					   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		   			       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		                   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		                   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<tx:annotation-driven/>
+	
+	<!--  <context:component-scan base-package="com.abanate"/> -->
+	
+	<!-- 아래는 context.xml에 설정된 Resource 사용 방식  
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="resourceRef">
+            <value>true</value>
+        </property>
+        <property name="jndiName">
+            <value>jdbc/abanate_ds</value>
+        </property>
+    </bean>
+	-->
+	<!-- 아래는 context.xml이 아니라 직접 설정 : jUnit 돌릴때 설정 찾기 쉽도록 하기 위함 -->
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+		<property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:tcp://localhost/~/test"/>
+        <property name="username" value="phan98"/>
+        <property name="password" value="tphan98o"/>
+    </bean>
+	
+	
+	<!--  
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+        <property name="driverClassName" value="org.mariadb.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://54.180.17.136:3456/KOKOMATH" />
+        <property name="username" value="kokomath"/>
+        <property name="password" value="kokomath"/>
+    </bean>
+	-->
+	  
+
+	<!-- 스프링 프레임워크에서 JPA를 사용하려면 LocalContainerEntityManagerFactoryBean를 스프링 빈으로 등록해야 한다.
+		순수하게 자바만 사용하는 J2SE 환경에서는 persistence.xml에 엔티티 매니저 팩토리 정보를 설정하지만
+		
+		스프링 프레임워크에서 JPA를 사용하려면 스프링 프레임워크가 제공하는 방식으로 엔티티 매니저 팩토리를 등록해야 한다.
+		여기에서 필요한 설정을 다 할 수 있기 때문에 persistence.xml이 없어도 동작한다.
+		
+		참고로 persistenceUnitName 속성을 사용해서 영속성 유닛 이름을 지정하면 persistence.xml에 설정한 정보도 사용할 수 있다.	
+	 -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="abanateH2"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.abanate.*.domain"/> <!-- @Entity 탐색 시작 위치 -->
+        <property name="jpaVendorAdapter">  <!-- 사용할 JPA 벤더를 지정, 여기서는 하이버네이트 구현체로 사용하므로 HibernateJpaVendorAdapter를 등록 -->
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        
+        <property name="jpaProperties">
+            <props>
+            	<!-- SQL 로그를 콘솔이 아닌 로거를 통해서 남기려면 logback.xml에 다음처럼 설정하면 된다.
+            		 이렇게 로거를 설정하면 hibernate.show_sql 옵션을 꺼야 콘솔에 로그가 중복 출력되지 않는다.
+            		 <logger name="org.hibernate.SQL"  level="DEBUG">...</logger> -> hibernate.show_sql 속성과 거의 같은 로그를 남긴다.
+            		 <logger name="org.hibernate.type" level="TRACE">...</logger> -> 실행된 SQL에 바인딩된 파라미터 정보를 로그로 남긴다.
+            	 -->
+            	<!--  
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+            	-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>	<!-- 방언 -->
+                <prop key="hibernate.show_sql">false</prop>								<!-- SQL 보기 -->
+                <prop key="hibernate.format_sql">true</prop>							<!-- SQL 정렬해서 보기 -->
+                <prop key="hibernate.use_sql_comments">true</prop>						<!-- SQL 코멘트 보기 -->
+                <prop key="hibernate.id.new_generator_mappings">true</prop>				<!-- 새 버전의 ID 생성 옵션, 이 옵션 설정하지 않으면 과거 버전 키 생성 전략 사용하게 됨, true 권장 -->
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>						<!-- DDL검증만 수행 create, create-drop, update, validate (p.485) -->
+                
+                <!-- 자바 카멜 표기법을 테이블의 언더스코어 표기법으로 매핑을 위해 Hibernate5 부터는 아래를 사용( 이전 버전에서 유효하던 PhysicalNamingStrategy는 안 되어서 직접 구현, 인터넷 검색시에도 구현밖엔 답이 없는 듯 ) -->
+                <prop key="hibernate.physical_naming_strategy">com.abanate.com.util.PhysicalNamingStrategyImpl</prop>
+            
+            </props>
+            
+        </property>
+        
+        <!-- Not working. Use persistence.xml, instead of below.        	  
+        <property name="persistenceUnitPostProcessors">
+        	<list>
+            	<bean class="org.springframework.data.jpa.support.ClasspathScanningPersistenceUnitPostProcessor">
+                	<constructor-arg value="web" />
+                	<property name="mappingFileNamePattern" value="**/*.xml" />
+              	</bean>
+            </list>
+		</property>
+        -->
+        
+    </bean>
+    
+</beans>

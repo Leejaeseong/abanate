@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"	   	   
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                   http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- JPA 예외를 스프링 예외로 변환
+    	 @Repository 어노테이션이 붙어 있는 스프링 빈에 예외 변환 AOP를 적용한다.
+    	 이 AOP는 JPA 예외를 스프링 프레임워크가 추상화한 예외로 변환해 준다.
+    -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    
+    <!-- 스프링 데이터 JPA 설정 
+    	 환경설정은 pom에 spring-data-jpa라이브러리 설정과 아래 한줄이 전부이다.
+    	 스프링 데이터 JPA는 어플리케이션을 실행할 때 basePackage에 있는 리포지토리 인터페이스들을 찾아서 해당 인터페이스를 구현한 클래스를
+    	 동적으로 생성한 다음 스프링 빈으로 등록한다. 따라서 개발자가 직접 구현 클래스를 만들지 않아도 된다.
+    	 
+    	 공통 인터페이스 설정
+    	 public interface MemberRepository extends JpaRepository<Member, Long>{
+    	 }
+    	 [JpaRepository 상속시 사용 가능 한 주요 메소드 몇가지 소개 시작] //////////////////////
+    	 참고로 T는 엔티티, ID는 엔티티의 식별자 타입, S는 엔티티와 그 자식 타입을 의미
+	    	 - save(S) : 새로운 엔티티는 저장하고, 이미 있는 엔티티는 수정한다.
+	    	 			 엔티티에 식별자 값이 없으면(null이면) 새로운 엔티티로 판단해서 EntityManager.persist()를 호출하고,
+	    	 			  식별자 값이 있으면 이미 있는 엔티티로 판단해서 EntityManager.merge()를 호출한다.
+	    	 			  필요하다면 스프링 데이터JPA의 기능을 확장해서 신규 엔티티 판단 전략을 변경할 수 있다.
+	    	 - delete(T) : 엔티티 하나를 삭제한다. 내부에서 EntityManager.remove()를 호출한다.
+	    	 - findOne(ID) : 엔티티 하나를 조회한다. 내부에서 EntityManager.find()를 호출한다.
+	    	 - getOne(ID) : 엔티티를 프록시로 조회한다. 내부에서 EntityManager.getReference()를 호출한다.
+	    	 - findAll(...) : 모든 엔티티를 조회한다. 정렬(Sort)이나 페이징(Pageable)조건을 파라미터로 제공할 수 있다.
+    	 [JpaRepository 상속시 사용 가능 한 주요 메소드 몇가지 소개 끝]   //////////////////////
+    
+    	 JavaConfig를 사용한다면 아래와 같이
+    	 org.springfraemwork.data.jpa.repository.config.EnableJpaRepositories 어노테이션을 추가하고
+    	 , basePackages에는 리포지토리를 검색할 패키지 위치를 적음
+    	 
+    	 @Configuration
+    	 @EnableJpaRepositories(basePackages = "jpabook.jpashop.repository")
+    	 public class AppConfig{}
+    -->
+    <jpa:repositories base-package="com.abanate.mycoup" />
+    
+</beans>

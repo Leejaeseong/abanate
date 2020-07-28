@@ -1,0 +1,215 @@
+▣ Hibernate 초기 설정 참고 : http://happygrammer.tistory.com/150
+
+▣ 과금 제약
+	- 구글맵( 매월 200$ 까지는 무료 )
+		1. Geocoding
+			 : 1,000건당 5$ - 한달 1만건 제약으로 산정 = 50$, 하루 제한 = 400건
+			 → 그냥 입력 방식으로 전환
+		2. Dynamic maps
+			- 모바일용 무료
+			- 하루 920건으로 제한( 요청 1,000건당 7$ )
+				일 920건, x 31 = 28,520회 * 7$ = 199,640$
+
+▣ ERD = ER MASTER
+	1. 다운로드 사이트 : http://justinkwony.github.io/ermaster-nhit/update-site/	
+	2. eclipse-luna\plugins\에 1번의 파일을 복사한다.
+	3. eclipse-luna\configuration\org.eclipse.equinox.simpleconfigurator\의 bundles.info 파일을 연다.
+	4. 아래의 내용을 추가하고 저장한다.
+		org.insightech.er,1.0.0.v20150619-0219,plugins/org.insightech.er_1.0.0.v20150619-0219.jar,4,false
+		(org.insightech.er_1.0.0.v20150619-0219.jar가 파일명이라면 _앞부분,_뒷부분,plugin 경로,4,false)
+		파일 마지막에는 빈줄을 두어야 한다.
+	5. 이클립스를 재시작 한다.
+	
+	- 온라인 메뉴얼 : http://ermaster.sourceforge.net/content/manual/en/index.html
+	
+▣ 클러스터링 쿼츠(2.2.3) 테이블스키마
+	- URL : http://www.quartz-scheduler.org/downloads/
+	- 다운로드 > 압축 해제 > 
+
+▣ Angularjs
+	- url : https://docs.angularjs.org
+	- version : 1.7.8 ( download 2019.06.27 )
+
+▣ Git
+	- url : https://git-scm.com/download/win
+	- version : 2.22.0
+
+▣ Node.js
+	- url : https://nodejs.org/en/
+	- version : node-v12.4.0-x64.msi ( download 2019.06.24 )
+	- 명령어 참조
+		▷ node --version	: 버전 확인( 12.4.0 )
+		▷ node.exe			: node.exe 커맨드 실행		
+		▷ npm --version 	: npm 버전 확인( 6.9.0 )
+		▷ npm install		: package.json 파일을 읽어 install 해 줌
+	- git 다운로드 -> 서버 시작까지
+		▷ git clone https://github.com/~~~/~~~.git	: 소스 다운로드
+			e.g) git checkout -f step-5	: step 5 소스 다운로드( 갱신 )
+		▷ 다운로드 폴더로 들어가기( cd ~ )
+		▷ npm install			: package.json 파일 읽어서 실 라이브러리 다운로드
+		▷ npm start			: package.json 포트로 서버 시작
+		▷ npm test				: karma.conf.js를 읽어 karma 시작
+		▷ npm run protractor	: e2e-tests/protractor.conf.js를 읽어 prostractor 시작
+		
+▣ H2
+	- phan98 / tphan98o
+	- 문법 https://www.h2database.com/html/commands.html
+	- 참조 URL
+		-. https://liveupdate.tistory.com/251
+	
+▣ Font awesome
+	- 아이콘 목록 	: https://fontawesome.com/icons?from=io
+	- 효과 주기 	: https://coding-factory.tistory.com/192
+
+▣ AWS 설치 시 마다 작업
+	### 현재 계정 생성일 : 2020.07.06 ###
+		키 페어 이름 : sooho8286
+		ssh ip : 13.59.144.164 ( port : 22 ) 
+		user : ec2-user
+		도메인 : ec2-13-59-144-164.us-east-2.compute.amazonaws.com
+	
+	### 볼륨 수정 ###
+	- 기본 10G -> 30G로 변경 ( 30G 까지 1년 무료 )
+	
+	### (공통)복사 ###
+	- download 폴더의 openjdk, 톰켓, h2 복사 -> /tmp 폴더로 복사
+	- 압축 해제
+		tar -xvzf openjdk-14.0.1_linux-x64_bin.tar.gz
+		tar -xvzf apache-tomcat-9.0.37.tar.gz
+		tar -xvf h2.tar
+	- home으로 이동
+		mv apache-tomcat-9.0.37 ~/
+		mv jdk-14.0.1/ ~/
+		mv h2 ~/
+		
+	### 공통 - AWS ###
+	- AWS 포트 개방
+		- 톰켓 인바운드 8080 추가
+		- SSL 인바운드 443 추가
+		- h2 인바운드 8082 추가
+			
+	- 서버 시간 UTC에서 서울시간으로 변경
+		sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+	
+	### 자바 ###
+	- JAVA_HOME 설정
+		cd ~
+		cp .bash_profile .bash_profile_ori
+		vi .bash_profile
+			가장 아래 부분에 아래 두줄 추가
+			export JAVA_HOME=/home/ec2-user/jdk-14.0.1
+			export PATH=$PATH:/home/ec2-user/jdk-14.0.1/bin
+	- bash적용 : source .bash_pfofile
+	
+	### H2 ###
+	- h2 설정
+		cd /home/ec2-user/h2/bin
+		cp h2.sh h2_ori.sh
+		vi h2.sh
+		가장 아래 옵션 추가
+			java -cp "$dir/h2-1.4.199.jar:$H2DRIVERS:$CLASSPATH" org.h2.tools.Console -webAllowOthers "$@"
+		설정
+			cd /home/ec2-user/h2/bin
+			java -cp h2-*.jar org.h2.tools.Shell
+			URL 		엔터로 넘김
+			Driver		엔터로 넘김
+			User		phan98
+			Password	tphan98o
+			비번확인	tphan98o
+	- h2 시작
+		cd h2/bin/
+		./h2.sh &
+	- h2 브라우저 접속( 도메인 변경 )
+		http://ec2-13-59-144-164.us-east-2.compute.amazonaws.com:8082
+		저장한 설정 	: Generic H2 (Server)
+		JDBC URL(기본)	: jdbc:h2:tcp://localhost/~/test
+		사용자명		: phan98
+		비밀번호		: tphan98o
+	- schema 붓기 : mycoup_ddl_h2.sql 실행
+	
+	### 톰켓 ###
+	- /home/ec2-user/apache-tomcat-9.0.37/lib/ 에 download의 h2-1.4.197.jar 복사
+	- 백업
+		cd /home/ec2-user/apache-tomcat-9.0.37/webapps
+		mkdir BACKUP
+		mv ROOT/ ./BACKUP/
+	- ROOT.war 파일 webapps에 복사
+	
+	- 무료도메인에 연동
+		-. https://my.freenom.com
+		-. aws 도메인 "~~.compute.amazonaws.com"은 아래 무료 인증서 발급 시 막히기 때문 )
+		-. 무료도메인 이용 조건은 일년에 몇십~몇백번 도메인 접속되고, 갱신 15일 전에 갱신해야 함
+		-. 2020.07.15일 mycoup.ml 도메인 생성 함
+		freenom.com, 구글 로그인으로 로그인, 계정은 sooho8286@gmail.com
+		DNS management에서 A record 등록, AWS IP는 가입시 마다 변동( target 부분에 넣으면 됨 )
+	
+	- 무료인증서 발급( 3개월마다 시행? )
+		참고 사이트
+			-. https://medium.com/@zauin09/%EC%95%84%EB%A7%88%EC%A1%B4-aws-ec2-amazon-linux%EC%97%90-%EB%AC%B4%EB%A3%8C-ssl-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EC%84%A4%EC%B9%98-lets-encrypt-with-certbot-2668319475e0
+			-. https://idlecomputer.tistory.com/226
+			
+			
+		1. download폴더의 certbot-auto를 temp로 복사하고
+		2. 실행권한 부여 : chmod a+x certbot-auto			
+		3. 아래 내용 실행
+			sudo ./certbot-auto certonly --manual --email sooho8286@gmail.com -d mycoup.ml
+			ip가 로깅되어도 되냐? Y ( 뭔지 잘 모름, 그냥 Y 함 )				
+			해당 위치에 텍스트 파일 추가
+		4. server.xml 편집 : 아래 추가
+			<Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+		               maxThreads="150" SSLEnabled="true" >
+		        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+		        <SSLHostConfig>
+		            <Certificate certificateKeyFile="/etc/letsencrypt/live/mycoup.ml/privkey.pem"
+		                         certificateFile="/etc/letsencrypt/live/mycoup.ml/cert.pem"
+		                         certificateChainFile="/etc/letsencrypt/live/mycoup.ml/chain.pem"
+		                         type="RSA" />
+		        </SSLHostConfig>
+		5. 자동 재 인증 설정
+			sudo -i
+			crontab -e
+			30 2 * * Sun /tmp/certbot-auto renew
+			           	
+	- 민감정보 properties 파일 작성
+		vi /home/ec2-user/mycoup.properties ( 내용은 에버노트 확인 )
+		gmail_pw
+		setting_api_key_secret_recaptcha_secret
+		setting_api_key_secret_naver_map
+		setting_api_key_google_map
+		setting_api_address_key_pc
+    	setting_api_address_key_mobile
+	
+	- 쿠키 전송 레벨 설정
+		- 참고 https://ifuwanna.tistory.com/223
+		- 오류 메시지(크롬) : A cookie associated with a cross-site resource at https://google.com/ was set without the `SameSite` attribute. It has been blocked, as Chrome now only delivers cookies with cross-site requests if they are set with `SameSite=None` and `Secure`. You can review cookies in developer tools under Application>Storage>Cookies and see more details at https://www.chromestatus.com/feature/5088147346030592 and https://www.chromestatus.com/feature/5633521622188032.
+		- 설정
+			1. 톰켓 context.xml에서 Context 가장 하단에 아래 추가
+				<CookieProcessor sameSiteCookies="none"/>
+			[폐기, 하지 않아도 되었던 것 같음] 2. 톰켓 web.xml에서 <session-timeout>30</session-timeout> 바로 아래쪽에 아래 추가 
+				<cookie-config>
+            		<http-only>true</http-only>
+            		<secure>true</secure>
+    			</cookie-config>
+	
+	- 기동
+		cd /home/ec2-user/apache-tomcat-9.0.37/bin
+		sudo ./startup.sh
+		
+	### 서비스 시작 스크립트 작성 ###
+	cd ~
+	vi start.sh
+	아래는 내용
+	#!/bin/sh
+	/home/ec2-user/h2/bin/h2.sh &
+	sleep 10
+	sudo /home/ec2-user/apache-tomcat-9.0.37/bin/startup.sh
+	
+	빠져 나온 후 실행 권한 부여
+	chmod a+x ./start.sh
+	
+	### 재 부팅 시 시작 ###
+	/home/ec2-user/start.sh
+	
+	- 접속 확인( 도메인은 변경 )
+		https://mycoup.ml
+		[폐기, firebase 주소] https://mycoup.web.app		

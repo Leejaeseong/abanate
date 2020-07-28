@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        	http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <!-- Transaction AOP -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<!--  
+    	<tx:attributes>
+    		<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+    	</tx:attributes>
+    	-->
+    	<tx:attributes>
+			<!-- all methods starting with 'list' or 'get' are read-only -->
+			<tx:method name="list*" read-only="true"/>
+			<tx:method name="get*" read-only="true"/>
+			 <!-- for other methods use the default transaction settings -->
+			<tx:method name="*" />
+		</tx:attributes>
+		
+    </tx:advice>
+    
+    <aop:config>
+    	<aop:pointcut id="requiredTx" expression="execution(* com.abanate..service.*Service.*(..))"/>
+    	<aop:advisor pointcut-ref="requiredTx" advice-ref="txAdvice"/>
+    </aop:config>
+	
+</beans>

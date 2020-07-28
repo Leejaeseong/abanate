@@ -1,0 +1,125 @@
+▣ 조회(Select) 설정 메모
+	◎ OneToMany는 설정하지 않음( Transient 설정 )
+		: 필요 시 QueryDSL 등으로 추출
+	◎ ManyToOne인 경우
+		□ 무조건 Lazy로 설정 > 조회 시 Fetch 적용
+			, 특히 Controller에 담겨서 View로 전달되는 경우 필수 설정( 미 설정 시 오류 발생 )
+			, 미 설정 상태에서 Service에서 Join Object 조회 시 추가 조회 발생( 조인별로 1번씩만 조회 하지만, 그래도 성능에 영향을 끼침 )
+			-. Case1. Repo Interface만 사용시 : ManyToOne 부분에 EntityGraph 사용 = fetch join, left outer join으로 동작하지만 실제 데이터는 1개뿐이기에 괜찮을 것으로 예상
+					e.g. @EntityGraph(attributePaths = {"cmUsr","cmStor"})
+			-. Case2. Custom Repo 사용 시( EntityGraph 적용되지 않기에 아래 방법 사용 )
+				[O]	방법1 : QueryDSL 사용
+						query.innerJoin( chVisit.cmUsr 	).fetchJoin();
+				[X]	방법2 : Query annotation 사용
+						대부분 QueryDSL로 가능하므로 이 방법 사용하지 않음						 
+						e.g. @Query("select a from ChVisit a join fetch a.cmUsr")
+						XML로 NamedQuery사용 시 참조 = https://memorynotfound.com/hibernate-jpa-named-query-xml-annotation-example/				
+			-. Case3. Native Query, XML로 별도 쿼리 모음
+					참조
+						https://memorynotfound.com/hibernate-jpa-named-native-query-xml-annotation-example/
+						https://jistol.github.io/java/2017/11/06/jpa-namedquery/
+							-. namedQuery에서 map으로 결과값 받기
+						https://kwonnam.pe.kr/wiki/java/jpa/persistence.xml
+							-. persistence.xml 버전 별 기본 뼈대
+	
+	◎ 결과 변환 참조 : https://www.programcreek.com/java-api-examples/?api=com.querydsl.jpa.JPQLQuery
+	
+	◎ [실패] 함수명으로 조회시 파라미터가 null일 경우 where 조건에서 배제하기 위해 어노테이션 생성 = https://jira.spring.io/browse/DATAJPA-209
+	   BETWEEN의 경우 널갑인 경우 함수명에서 where 조건 제외 하기 위해 아래와 같이 다각도로 살펴 보았으나 실패
+	   		-. matcher 적용 안됨, findAll만 적용되지만 시간 범위값이 안 됨
+	   			ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues();
+	   			Example<ChVisit> exampleQuery = Example.of( chVisit, matcher );
+	   			List<ChVisit> chVisitList = chVisitRepo.findAll( exampleQuery );
+	   		-. NullMeans 어노테이션 개발, 동작 안 됨
+	   		-. 함수명에 after와 before 두개 조합
+	   	→ null인 경우 최소, 최대 시간 값으로 설정되는 방식으로 변경 함
+
+▣ 하이버네이트 설정
+	
+▣ 코드 생성 -> QueryDSL만 사용
+	1. p.427 코드 생성기 설정( pom.xml )
+		<!-- Meta entity generator 1/2 -->
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <!-- 이 부분은 상위 버전으로 관리되고 있다는 warning으로 인해 제거함
+            <version>1.3.0.Final</version>	
+            -->
+        </dependency>
+        ...
+        <!-- Meta entity generator 2/2 -->
+		<plugin>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>1.6</source>
+				<target>1.6</target>
+				<compilerArguments>
+					<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+				</compilerArguments>
+			</configuration>
+		</plugin>
+	2. 코드 생성
+		2.1. mvn compile 실행
+		2.2. target/generated-sources/annotations/ 하위에 생성됨
+		※ 아래 오류 발생하는 경우 Q~~~.java 파일 삭제 후 작업
+			error: Attempt to recreate a file for type com.abanate.com.domain.Q~~~
+	3. 참고
+		3.1. 하이버네이트가 제공하는 JPA 메타모델 생성기 = http://docs/jboss.org/hibernate/jpamodelgen/1.3/reference/en-US/html_single
+		
+▣ QueryDSL : p.429
+	1. 설정( pom.xml )
+		<!-- QueryDSL 1/2 -->
+		[아래는 책 내용]
+			        <dependency>
+			            <groupId>com.mysema.querydsl</groupId>
+			            <artifactId>querydsl-jpa</artifactId>
+			            <version>3.6.3</version>
+			        </dependency>
+			        <dependency>
+			            <groupId>com.mysema.querydsl</groupId>
+			            <artifactId>querydsl-apt</artifactId>
+			            <version>3.6.3</version>
+			            <scope>provided</scope>
+			        </dependency>
+			        
+        [버전으로 인해 실제 적용은 아래]
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <!-- duplicationg managed version 경고로 버전 주석 처리
+            <version>4.2.1</version>
+            -->
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <!-- duplicationg managed version 경고로 버전 주석 처리
+            <version>3.7.4</version>
+            -->
+            <scope>provided</scope>
+        </dependency>
+        ...
+        
+        <!-- QueryDSL 2/2 -->
+		<plugin>
+			<groupId>com.mysema.maven</groupId>
+			<artifactId>apt-maven-plugin</artifactId>
+			<version>1.1.3</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>process</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>target/generated-sources/java</outputDirectory>
+						<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						<!-- 아래 주석은 책 내용
+						<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+						-->
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	2. 코드 생성
+		2.1. mvn compile 실행
+		2.2. target/generated-sources/annotations/ 하위에 생성됨

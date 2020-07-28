@@ -1,0 +1,17 @@
+<< PC용 도로명주소 팝업 API >>
+업체(기관)명 	: mycoup
+URL(IP) 		: localhost
+승인키			: devU01TX0FVVEgyMDE5MTEyNzE0MzczMzEwOTIzNjk=
+서비스망		: 인터넷망
+서비스 용도		: 개발 ( 사용기간 : 2019-11-27 ~ 2020-02-25 )
+
+<< 모바일용 도로명주소 팝업 API >>
+업체(기관)명 	: mycoup
+URL(IP) 		: localhost
+승인키			: devU01TX0FVVEgyMDE5MTEyODE3NTAzMjEwOTI0NzI=
+서비스망		: 인터넷망
+서비스 용도		: 개발 ( 사용기간 : 2019-11-27 ~ 2020-02-25 )
+
+
+API 사용 안내	: https://www.juso.go.kr/addrlink/devAddrLinkRequestGuide.do?menu=roadApi
+참고 블로그 	: https://useful-coding-dictionary.tistory.com/entry/%EC%A3%BC%EC%86%8C-API-%EC%97%B0%EB%8F%99-%EB%B0%A9%EB%B2%95 
