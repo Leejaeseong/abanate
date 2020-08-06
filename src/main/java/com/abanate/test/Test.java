@@ -1,7 +1,5 @@
 package com.abanate.test;
 
-import com.abanate.mycoup.domain.CmStor;
-
 public class Test {
 	
 	public static void main(String[] args) {

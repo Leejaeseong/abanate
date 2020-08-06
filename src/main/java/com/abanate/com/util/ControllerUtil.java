@@ -48,40 +48,64 @@ public class ControllerUtil {
 	/**
 	 * Set cookie
 	 */
-	public static void setCookie( String domain, HttpServletResponse res, String key, String value ) {
-		/*
+	public static void setCookie( String path, HttpServletResponse res, String key, String value ) {
 		ResponseCookie cookie = ResponseCookie.from( key,  value )
 	            //.domain( domain ) 
-	            .sameSite("None")
-	            .secure(true)
-	            .path( domain )
+	            //.sameSite("None")
+	            //.secure(true)
+	            .path( path )
 	            .maxAge( 60 * 60 * 24 * 30 )	// 30 days)
 	            .build();
 		
 		res.addHeader("Set-Cookie", cookie.toString());
+		
+		/*
+		Cookie cookie = new Cookie( key, value );
+		cookie.setPath( path );
+		cookie.setMaxAge( 60 * 60 * 24 * 30 );	// 30 days
 		*/
 		
-		Cookie cookie = new Cookie( key, value );
-		cookie.setPath( domain );
-		cookie.setMaxAge( 60 * 60 * 24 * 30 );	// 30 days
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "1111111111111111111111111111111" );
+		System.out.println( "path = " + path + ", " + cookie );
 		
-		res.addCookie(cookie);
+		//res.addCookie(cookie);
 		
 	}
 	
 	/**
 	 * Remove all cookies
 	 */
-	public static void removeAllCookies( HttpServletResponse res, HttpServletRequest  req ) {
+	public static void removeCookie( String path, String key, HttpServletResponse res ) {
+		Cookie cookie = new Cookie( key, "" );
+        cookie.setValue("");
+        cookie.setPath( path );
+        cookie.setMaxAge(0);
+        res.addCookie(cookie);
+	}
+	
+	/**
+	 * Remove all cookies
+	 * Caution : If Cookie of session id is removed, then don't keep login.
+	 */
+	public static void removeAllCookies( String path, HttpServletResponse res, HttpServletRequest  req ) {
 		Cookie[] cookies = req.getCookies();
-	    if (cookies != null) {
-	        for (Cookie cookie : cookies) {
-	            cookie.setValue("");
-	            cookie.setPath("/");
-	            cookie.setMaxAge(0);
-	            res.addCookie(cookie);
-	        }
-	    }
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				cookie.setValue("");
+				cookie.setPath( path );
+				cookie.setMaxAge(0);
+				res.addCookie(cookie);
+			}
+		}
 	}
 
 }

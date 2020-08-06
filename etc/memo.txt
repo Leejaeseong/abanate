@@ -3,14 +3,54 @@
 	-. encoding UTF-8 : JAVA, TEXT
 	-. JDK + SERVER 설정
 	-. Validation disable all
+	
+▣ ERD = ER MASTER
+	1. 다운로드 사이트 : http://justinkwony.github.io/ermaster-nhit/update-site/	
+	2. eclipse-luna\plugins\에 1번의 파일을 복사한다.
+	3. eclipse-luna\configuration\org.eclipse.equinox.simpleconfigurator\의 bundles.info 파일을 연다.
+	4. 아래의 내용을 추가하고 저장한다.
+		org.insightech.er,1.0.0.v20150619-0219,plugins/org.insightech.er_1.0.0.v20150619-0219.jar,4,false
+		(org.insightech.er_1.0.0.v20150619-0219.jar가 파일명이라면 _앞부분,_뒷부분,plugin 경로,4,false)
+		파일 마지막에는 빈줄을 두어야 한다.
+	5. 이클립스를 재시작 한다.
+	
+	- 온라인 메뉴얼 : http://ermaster.sourceforge.net/content/manual/en/index.html
+	
+▣ 클러스터링 쿼츠(2.2.3) 테이블스키마
+	- URL : http://www.quartz-scheduler.org/downloads/
+	- 다운로드 > 압축 해제 > 
 
-▣ (사용자) 이름, 이메일 주소, 마케팅 동의, 비밀번호 변경
-▣ (경영주) 상호, 연락처, 주소 + (사용자) 변경 화면
-▣ 적립제한 구현 해야 할듯?
+▣ Angularjs
+	- url : https://docs.angularjs.org
+	- version : 1.7.8 ( download 2019.06.27 )
 
-▣ 양수 후 내 쿠폰(포인트)함에서 상호 옆의 적립 총 수와, 방문내역 적립 총 수 확인( 상호 옆 적립 총 수 = 방문내역 적립 총 수 = 검색 결과 적립 같아야 함 )
+▣ Git
+	- url : https://git-scm.com/download/win
+	- version : 2.22.0
 
-▣ 차후 회원가입 시 강화( 리캡챠 적용 완료 = 로그인, 회원가입 )
-	-. 무작위 전화번호 가입...???
-		-. https://trend21c.tistory.com/2082, 10만건 제한, SDK 한정?
-		-. 문자 수신하여 파싱 후 번호가 맞고 내용이 맞으면 가입 여부 초기화
+▣ Node.js
+	- url : https://nodejs.org/en/
+	- version : node-v12.4.0-x64.msi ( download 2019.06.24 )
+	- 명령어 참조
+		▷ node --version	: 버전 확인( 12.4.0 )
+		▷ node.exe			: node.exe 커맨드 실행		
+		▷ npm --version 	: npm 버전 확인( 6.9.0 )
+		▷ npm install		: package.json 파일을 읽어 install 해 줌
+	- git 다운로드 -> 서버 시작까지
+		▷ git clone https://github.com/~~~/~~~.git	: 소스 다운로드
+			e.g) git checkout -f step-5	: step 5 소스 다운로드( 갱신 )
+		▷ 다운로드 폴더로 들어가기( cd ~ )
+		▷ npm install			: package.json 파일 읽어서 실 라이브러리 다운로드
+		▷ npm start			: package.json 포트로 서버 시작
+		▷ npm test				: karma.conf.js를 읽어 karma 시작
+		▷ npm run protractor	: e2e-tests/protractor.conf.js를 읽어 prostractor 시작
+		
+▣ H2
+	- phan98 / tphan98o
+	- 문법 https://www.h2database.com/html/commands.html
+	- 참조 URL
+		-. https://liveupdate.tistory.com/251
+	
+▣ Font awesome
+	- 아이콘 목록 	: https://fontawesome.com/icons?from=io
+	- 효과 주기 	: https://coding-factory.tistory.com/192

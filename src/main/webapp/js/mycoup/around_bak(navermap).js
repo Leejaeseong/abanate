@@ -2,11 +2,8 @@
 var pageVisitNo			= firstPageNo;
 var clickedCmStorSeq 	= "";
 
-// Varaiables about google map
-var zoomLvl 	= 15;
-var map;
-
-
+var markerMe;
+var zoomLvl = 15;
 var HOME_PATH = window.HOME_PATH || '.';
 
 //Relational variables of the goods table.
@@ -24,128 +21,119 @@ var nVisitRow, colVisitVisitDtm, colVisitUseTp, colVisitSavUseAmt, colVisitAccum
 // Event > addEventListener
 //***************************************************************************************************
 //***************************************************************************************************
+
 // Event load of document
-window.addEventListener("load", function() { // This function can define a event parameter. i.g., evt
-	if( canLoadGmap ) {
-		initMap();	// Call google map api.
-	}
+window.addEventListener("load", function() {	// This function can define a event parameter. i.g., evt
+	if (navigator.geolocation) {
+        /**
+         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+         */
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:5px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
 	
 });
-
-//***************************************************************************************************
-//***************************************************************************************************
-// Event > Google map
-//***************************************************************************************************
-//***************************************************************************************************
-
-// Markers search range - Latitude : ± 0.015000, Longitude : ± 0.035000
-// Search length is about 5 km diameter.
-
-// Initialize and add the map
-function initMap() {
-	if (navigator.geolocation) {
-		/**
-		 * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-		 * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-		 * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-		 */
-		navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-	} else {		        
-		onErrorGeolocation();
-	}
-	
-}
-
-// Set marker my location
-function onSuccessGeolocation( position ) {
-	var curPos = { lat: position.coords.latitude, lng: position.coords.longitude };
-	
-	let map = new google.maps.Map(
-		document.getElementById( 'map' ), {zoom: zoomLvl, center: curPos }
-	);
-
-	console.log( map );
-	
-	var imgMe = {
-		url: '/img/mycoup/map-marker-me_1.png',
-		// This marker is 20 pixels wide by 32 pixels high.
-		//size: new google.maps.Size(20, 32),
-		scaledSize: new google.maps.Size(35, 35),
-		// The origin for this image is (0, 0).
-		origin: new google.maps.Point(0, 0),
-		// The anchor for this image is the base of the flagpole at (0, 32).
-		anchor: new google.maps.Point(0, 32)
-	};
-	
-	// set marker of me
-	new google.maps.Marker({position: curPos, map: map, icon: imgMe, opacity: 0.6 });
-	
-	// call store location list
-	ajaxSend( "./findStoreLocation.json" 
-		, {lat: curPos.lat, lng: curPos.lng}
-		, findStoreLocationAft );
-
-}		
-
-// Response of finding store location list by ajax.
-function findStoreLocationAft( responseText ) {
-	
-	var rData = JSON.parse(responseText);
-
-	// set multimarkers
-	rData.forEach( function( item, idx ){ // This function can define 3rd parameter. i.g., arr
-
-		if( chkNull( item.mapLat ) && chkNull( item.mapLng ) ) {
-
-			let marker = new google.maps.Marker({
-				position: {lat: Number( item.mapLat ), lng: Number( item.mapLng ) },
-				map: map,			      
-				title: item.storNm,
-				zIndex: idx
-			});
-			
-			console.log( idx );
-
-			// add event
-			attachClickEvent( marker, item.cmStorSeq, item.storNm, item.savTp );
-
-		}
-		
-	});
-
-}
-
-function attachClickEvent( marker, cmStorSeq, storNm, savTp ) {
-	marker.addListener("click", function() {
-		
-		clearStorInfo();	// Clear data.
-		
-		document.querySelector( "#idClickedStorNm" ).textContent = storNm;		
-		document.querySelector( "#idStorSavImg" ).src = ( savTp == "C" ? "../../img/mycoup/stamp.gif" : "../../img/mycoup/point.gif" );
-		
-		// Show store visit history and goods gift information.
-		document.querySelector( "#idStorInfo" )				.style.display = "";
-		document.querySelector( "#idStorInfoMoreBtnDiv" )	.style.display = "";
-		
-		clickedCmStorSeq = cmStorSeq;
-		
-		ajaxSend( "./findStoreInfo.json" 
-				, {   cmStorSeq	: clickedCmStorSeq }
-				, getStorInfoAft );
-
-	});
-}
-
-// Failed to get my location.
-function onErrorGeolocation() {
-	// TODO Print message of error to Not supported location service in this device.			
-}
 
 //***************************************************************************************************
 //***************************************************************************************************
 // Function
 //***************************************************************************************************
 //***************************************************************************************************
+var map = new naver.maps.Map('map', {
+    //center: new naver.maps.LatLng(37.5666805, 126.9784147),
+    zoom: zoomLvl,
+    mapTypeId: naver.maps.MapTypeId.NORMAL
+});
+
+var infowindow = new naver.maps.InfoWindow();
+var markers 	= [];
+var storInfos 	= [];
+
+// Set marker at my location.
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); 	// 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(zoomLvl); 		// 지도의 줌 레벨을 변경합니다.
+
+    markerMe = new naver.maps.Marker({
+        position: new naver.maps.LatLng( position.coords.latitude, position.coords.longitude ),
+        map: map,
+        icon: {
+    		content:[
+    					'<img src="' + HOME_PATH +'/../../img/mycoup/map-marker-me_1.png" width="35em" height="35em" style="filter: opacity(60%);"/>'
+    		].join(''),
+    		anchor: new naver.maps.Point(15, 26)
+	    }
+    });
+    
+    // call store location list
+    ajaxSend( "./findStoreLocation.json" 
+			, {}
+			, findStoreLocationAft );
+    
+}
+// Failed to get my location.
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:5px;">' + '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5></div>');	
+    infowindow.open(map, center);
+}
+
+// Response of finding store location list by ajax.
+function findStoreLocationAft( responseText ) {
+	
+	var rData = JSON.parse(responseText);
+	rData.forEach( function( item ){ // This function can define 2rd of index and 3rd of array parameters.
+		if( chkNull( item.mapLat ) && chkNull( item.mapLng ) ) {
+			// marker
+			var marker = new naver.maps.Marker({
+			    position: new naver.maps.LatLng( item.mapLat, item.mapLng ),
+			    map: map
+			});
+			
+			markers.push( marker );
+			storInfos.push( {cmStorSeq:item.cmStorSeq, storNm:item.storNm, savTp:item.savTp} );
+			//naver.maps.Event.addListener( markers[idx], 'click', getClickHandler(idx) );
+			//naver.maps.Event.addListener(markers[idx], 'click', function(idx) {});
+		}
+		
+	});
+	
+	// Event handler regist.
+	// Certainly fullfill below format. or not work properly. naver sample : navermap3.html
+	for (var i=0, ii=markers.length; i<ii; i++) {
+	    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));	    
+	}
+
+}
+
+// Marker click event.
+function getClickHandler(seq) {
+    return function() {	// This function can define a error parameter. i.g., e
+    	
+    	clearStorInfo();	// Clear data.
+		
+		document.querySelector( "#idClickedStorNm" ).textContent = storInfos[ seq ].storNm;		
+		document.querySelector( "#idStorSavImg" ).src = ( storInfos[ seq ].savTp == "C" ? "../../img/mycoup/stamp.gif" : "../../img/mycoup/point.gif" );
+		
+		// Show store visit history and goods gift information.
+		document.querySelector( "#idStorInfo" )				.style.display = "";
+		document.querySelector( "#idStorInfoMoreBtnDiv" )	.style.display = "";
+		
+    	clickedCmStorSeq = storInfos[ seq ].cmStorSeq;
+		ajaxSend( "./findStoreInfo.json" 
+				, {   cmStorSeq	: clickedCmStorSeq }
+				, getStorInfoAft );
+    }
+}
 
 //Clear data.
 function clearStorInfo() {

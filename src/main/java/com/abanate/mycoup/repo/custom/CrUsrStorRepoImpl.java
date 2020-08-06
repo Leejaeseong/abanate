@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.abanate.com.util.CustomLogger;
 import com.abanate.mycoup.domain.CmStor;
 import com.abanate.mycoup.domain.CmUsr;
 import com.abanate.mycoup.domain.CrUsrStor;
@@ -17,7 +15,7 @@ import com.querydsl.jpa.JPQLQuery;
 
 public class CrUsrStorRepoImpl extends QuerydslRepositorySupport implements CustomCrUsrStorRepo {
 
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 
 	public CrUsrStorRepoImpl() {
 		super(CrUsrStor.class);

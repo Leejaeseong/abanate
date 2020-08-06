@@ -8,7 +8,7 @@ var form 		= document.querySelector( '#idForm' );
 //***************************************************************************************************
 
 // Event load of document
-window.addEventListener("load", function(evt) {  	
+window.addEventListener("load", function() {	// It can declare parameter in function( i.g. "evt" ) 
 	
   	if( isError ) {									// Case of error.
 		showComModal( {type:"error", msg:errMsg} );
@@ -19,27 +19,27 @@ window.addEventListener("load", function(evt) {
   	
 });
 
-document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#phone1' ).addEventListener("keyup", function() {	// It can declare parameter in function( i.g. "evt" )
 	if( document.querySelector( '#phone1' ).value.length == 3 ) {
 		document.querySelector( '#phone2' ).focus();
 	}
 });
-document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#phone2' ).addEventListener("keyup", function() {	// It can declare parameter in function( i.g. "evt" )
 	if( document.querySelector( '#phone2' ).value.length == 4 ) {
 		document.querySelector( '#phone3' ).focus();
 	}
 });
 
 // Event blur at the first form of a user phone number
-form.querySelector( "#phone1" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone1" ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
   	findUsr();
 });
 // Event blur at the second form of a user phone number
-form.querySelector( "#phone2" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone2" ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
   	findUsr();
 });
 // Event blur at the third form of a user phone number
-form.querySelector( "#phone3" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone3" ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
   	findUsr();
 });
 

@@ -50,12 +50,15 @@
           <small>고객 전화번호</small>
         </div>
         <div class="col form-inline text-center">
+          <!--  
           <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
           <input type="hidden" name="usrId"/>
+          -->
+          <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
           <input type="hidden" name="savAmt" value="0"/>
           <input type="hidden" name="useAmt" value="0"/>
         </div>
@@ -158,12 +161,12 @@
           <table id="idHistoryTbl" class="table table-striped table-bordered table-sm table-nowrap">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:25%;">방문일</th>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:15%;">구분</th>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:15%;">적용수</th>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:20%;">적립상태</th>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:25%;">상품</th>
-                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap;">메모</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:22%;">방문일</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:13%;">구분</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:10%;">적용수</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:10%;">적립상태</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:35%;">상품</th>
+                <th scope="col" class="text-center font-weight-bold" style="white-space:nowrap; width:10%;">메모</th>
               </tr>
             </th>
             <tbody>            

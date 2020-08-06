@@ -1,7 +1,5 @@
 package com.abanate.mycoup.domain;
 
-import javax.persistence.criteria.Root;
-
 import org.springframework.data.jpa.domain.Specification;
 
 /**

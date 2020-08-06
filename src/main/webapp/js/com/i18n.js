@@ -6,11 +6,11 @@
 let usrLang = "";
 
 // After document load.
-window.addEventListener("load", function(evt) {
+window.addEventListener("load", function() {	// This function can define a event parameter. 
 	
 	if( !getCookie( "usrLang" ) ) {
 		usrLang = getLanguage();
-		setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS );
+		setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS, "/mycoup/" );
 	} else {
 		usrLang = getCookie( "usrLang" );
 	}
@@ -31,7 +31,7 @@ function callTrans() {
 // Change language select box.
 function changeLanguage( obj ) {
 	usrLang = obj.value;
-	setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS );
+	setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS, "/mycoup/" );
 	callTrans();
 }
 

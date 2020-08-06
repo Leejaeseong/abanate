@@ -17,7 +17,7 @@ var nRow, colVisitDtm, colUseTp, colApplyAmt, cAccumAmt, colGoosNm;
 //***************************************************************************************************
 
 // Event load of document
-window.addEventListener("load", function(evt) {  	
+window.addEventListener("load", function() { // There can be a parameter of event.  	
 	
 	changeTitle(); 	// Change this page's title  	
   	changeLabels(); // Change this page's labels
@@ -34,11 +34,12 @@ window.addEventListener("load", function(evt) {
   	//}
 });
 
-form.querySelector( "select[name='useTp']" ).addEventListener( "change", function(evt) {
+form.querySelector( "select[name='useTp']" ).addEventListener( "change", function() { // There can be a parameter of event.
 	useTp = form.querySelector( "select[name='useTp']" ).value;
 	changeLabels();	// Change this page's labels
 });
 
+/*
 // Event of move phone focus
 document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
 	if( document.querySelector( '#phone1' ).value.length == 3 ) {
@@ -50,22 +51,30 @@ document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
 		document.querySelector( '#phone3' ).focus();
 	}
 });
+*/
 
+
+// Event blur at the form of user phone number.
+form.querySelector( 'input[name="usrId"]' ).addEventListener( "blur", function() {	// There can be a parameter of event.
+  	findUsr();
+});
+/*
 // Event blur at the first form of a user phone number
-form.querySelector( "#phone1" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone1" ).addEventListener( "blur", function() {	// There can be a parameter of event.
   	findUsr();
 });
 // Event blur at the second form of a user phone number
-form.querySelector( "#phone2" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone2" ).addEventListener( "blur", function() {	// There can be a parameter of event.
   	findUsr();
 });
 // Event blur at the third form of a user phone number
-form.querySelector( "#phone3" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#phone3" ).addEventListener( "blur", function() {	// There can be a parameter of event.
   	findUsr();
 });
+*/
 
 //Event key up at the form of save or use amount
-form.querySelector( "#savUseAmt" ).addEventListener( "keyup", function(evt) {
+form.querySelector( "#savUseAmt" ).addEventListener( "keyup", function() {	// There can be a parameter of event.
 	if( useTp == "save" ) {
 		var savAmt = Number( accumAmt ) + Number( form.querySelector( "#savUseAmt" ).value );
 		
@@ -97,9 +106,10 @@ function findUsr() {
 	historyClear();	// Clear of the visit history table.
 	
   	// If all of the forms are filled, then execute this.
-  	if( chkPhoneNo( "phone1", "phone2", "phone3", true ) ) {
+  	//if( chkPhoneNo( "phone1", "phone2", "phone3", true ) ) {
+	if( chkPhoneNo( "usrId", true ) ) {
   	  	// Set phone number
-		form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
+		//form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
 
 		// Send ajax data.
 		ajaxSend( "./findSaveUseInfo.json" 
@@ -167,7 +177,7 @@ function viewVisitHistory( resJson ) {
 function viewMore() {
 	
 	if( !chkNull( form.querySelector( 'input[name="usrId"]' ).value ) ) {
-		showComModal( {msg:"고객 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
+		showComModal( {msg:"고객 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 		return false;
 	}
 	
@@ -246,7 +256,6 @@ function historyAdd( visitDtm, useTp, savAmt, useAmt, accumAmt, goosNm, rmks ) {
 }
 //The function of clearing history table.
 function historyClear() {
-	var pageNo 	= firstPageNo;
 	var trs 	= document.querySelectorAll( '#idHistoryTbl > tbody > tr' );
 	for( var i = 0; i < trs.length; i++ ) {
 		trs[i].remove();
@@ -308,7 +317,7 @@ function chkBeforeSave() {
 		showComModal( {type:"warning",msg:"숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#savUseAmt' ).focus() }} );
 		return false;
 	} else if ( !chkNull( form.querySelector( 'input[name="usrId"]' ).value ) ) {
-		showComModal( {msg:"고객 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
+		showComModal( {msg:"고객 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 		return false;
 	}
   	

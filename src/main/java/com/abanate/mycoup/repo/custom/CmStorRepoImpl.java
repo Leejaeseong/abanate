@@ -3,12 +3,10 @@ package com.abanate.mycoup.repo.custom;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.abanate.com.util.ChkUtil;
-import com.abanate.com.util.CustomLogger;
 import com.abanate.mycoup.domain.CmStor;
 import com.abanate.mycoup.domain.CmUsr;
 import com.abanate.mycoup.domain.QChVisit;
@@ -16,20 +14,18 @@ import com.abanate.mycoup.domain.QCmStor;
 import com.abanate.mycoup.domain.QCmUsr;
 import com.abanate.mycoup.domain.QCrUsrStor;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.JPQLQuery;
 
 public class CmStorRepoImpl extends QuerydslRepositorySupport implements CustomCmStorRepo{
 	
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 	
 	public CmStorRepoImpl() {
 		super( CmUsr.class );
 	}
 
 	@Override
-	public Map<String, Object> findByStorIdContainingAndStorNmContaining( String usrId, String storId, String storNm, boolean isVisited, String sType, Pageable pageable ) {
+	public Map<String, Object> findByTelNoContainingAndStorNmContainingAndNatiCd( String usrId, String telNo, String storNm, String natiCd, boolean isVisited, String sType, Pageable pageable ) {
 		QCmUsr 						cmUsr 		= QCmUsr		.cmUsr		;
 		QCmStor 					cmStor 		= QCmStor		.cmStor		;
 		QCrUsrStor 					crUsrStor	= QCrUsrStor	.crUsrStor	;
@@ -52,11 +48,13 @@ public class CmStorRepoImpl extends QuerydslRepositorySupport implements CustomC
 			query.leftJoin( crUsrStor 	).on( cmStor.cmStorSeq			.eq( crUsrStor.cmStor.cmStorSeq	) );
 			query.leftJoin( cmUsr 		).on( crUsrStor.cmUsr.cmUsrSeq	.eq( cmUsr.cmUsrSeq 			) );
 			query.leftJoin( chVisit		).on( cmStor.cmStorSeq			.eq( chVisit.cmStor.cmStorSeq 	) );
+			
+			query.where( cmUsr.natiCd.eq( natiCd ) );
 		}
 		
 		// Set conditions.
-		if( ChkUtil.chkNull( storId ) ) {
-			query.where(cmStor.storId.eq( storId ) );			
+		if( ChkUtil.chkNull( telNo ) ) {
+			query.where(cmStor.telNo.eq( telNo ) );			
 		}
 		if( ChkUtil.chkNull( storNm ) ) {
 			query.where(cmStor.storNm.likeIgnoreCase( "%" + storNm + "%" ) );

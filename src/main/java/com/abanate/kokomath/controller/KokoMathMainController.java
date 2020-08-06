@@ -246,7 +246,6 @@ public class KokoMathMainController {
 		if( kokoMathMainService.getMemberMgr( (String)request.getParameter( "inputId" ) ) != null ) {
 			model.addAttribute( "processResult", "dupleId" );
 		} else {
-			HashMap<String,Object> hashMap = new HashMap<String, Object>();
 			
 			try {
 				KokoMemberMgr kokoMemberMgr = new KokoMemberMgr();

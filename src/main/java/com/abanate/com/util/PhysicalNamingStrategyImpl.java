@@ -19,7 +19,9 @@ import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
  */
 public class PhysicalNamingStrategyImpl extends PhysicalNamingStrategyStandardImpl implements Serializable {
 
- public static final PhysicalNamingStrategyImpl INSTANCE = new PhysicalNamingStrategyImpl();
+private static final long serialVersionUID = 6422455690367276621L;
+	
+public static final PhysicalNamingStrategyImpl INSTANCE = new PhysicalNamingStrategyImpl();
 
  @Override
  public Identifier toPhysicalTableName(Identifier name, JdbcEnvironment context) {

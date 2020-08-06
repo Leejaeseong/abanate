@@ -29,7 +29,7 @@ public interface ChVisitRepo extends JpaRepository<ChVisit, Long>, JpaSpecificat
 	//public List<ChVisit> findByVisitDtmContainingAndfindUsrIdContainingAndUsrNmContaining( CmUsr cmUsr, CmStor cmStor );
 	
 	@EntityGraph(attributePaths = {CmUsr.entityName,CmStor.entityName})
-	public List<ChVisit> findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_UsrNmContainingOrderByChVisitSeqDesc( Long cmStorSeq, String fDt, String tDt, String usrId, String usrNm, Pageable pageable );
+	public List<ChVisit> findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_usrNmContainingAndCmUsr_natiCdOrderByChVisitSeqDesc( Long cmStorSeq, String fDt, String tDt, String usrId, String usrNm, String natiCd, Pageable pageable );
 	
 	@EntityGraph(attributePaths = {CmUsr.entityName,CmStor.entityName})
 	public List<ChVisit> findByCmUsr_usrIdAndCmStor_cmStorSeqOrderByVisitDtmDescChVisitSeqDesc( String usrId, Long cmStorSeq, Pageable pageable );

@@ -36,7 +36,7 @@ function flatpickrDefault( idNm, calcDays ) {
 			}
 			, dateFormat:"Y-m-d"
 			, defaultDate:new Date().setDate( new Date().getDate() + ( calcDays?calcDays:0 ) )
-			, onReady: function(selectedDates, dateStr, instance){
+			, onReady: function(){ // It can be parameters that "selectedDates, dateStr, instance"
 				document.querySelector( "#" + idNm ).style.width="6.5em"
 			}
 	};
@@ -65,10 +65,11 @@ function isKorea( lang ) {
 }
 
 // Set cookie
-var setCookie = function(name, value, day) {
+var setCookie = function(name, value, day, path) {
+	if( !path ) path = "/";
     var date = new Date();
 	date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000);
-	document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+	document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=' + path;
 	//document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/;SameSite=none;Secure';
 };
 
@@ -79,9 +80,10 @@ var getCookie = function(name) {
 };
 
 // Remove cookie
-var deleteCookie = function(name) {
+var deleteCookie = function(name, path) {
+	if( !path ) path = "/";
     var date = new Date();
-    document.cookie = name + "= " + "; expires=" + date.toUTCString() + "; path=/";
+    document.cookie = name + "= " + "; expires=" + date.toUTCString() + "; path=" + path;
 }
 
 
@@ -123,18 +125,17 @@ function goMainAfterMessage() {
 
 function ajaxSend( url, data, succeedFnc ) {
 	loading( true );	// Show loading layer.
+
    	xhr.open("POST", url, true);
    	xhr.setRequestHeader('Content-Type', 'application/json'); 	// Content type to json
    	xhr.send(JSON.stringify( data )); 							// Send data by use stringify function
 	xhr.onreadystatechange = function() {
 		
-		
     	if (this.readyState == 4 && this.status == 200) {
-    		console.log( "11111" );
     		//setTimeout(function() { loading( false ); },500)
     		
-    		loading( false );	// Hide loading layer.
-    		
+			loading( false );	// Hide loading layer.
+			
     		// The common line about the authentification check.
     		if( this.responseText == "authentification is failed" ) { goMainAfterMessage(); return false; } // Move to main page if authentification is failed
     		
@@ -193,15 +194,18 @@ function chkNull( str ) {
 
 /**
  * Validation phone numbers
- * @param id1		Input form id of phone number#1
- * @param id2		Input form id of phone number#2
- * @param id3		Input form id of phone number#3
+ //* @param id1		Input form id of phone number#1 → phone number fields is integrated to one field.
+ //* @param id2		Input form id of phone number#2
+ //* @param id3		Input form id of phone number#3
+ * @param pNumber	Input form name of number to check.
  * @param isRequire	Check necessariness
  * @returns			true 	: Validation successed.
  * 					false	: Validation failed.
  */
-function chkPhoneNo( id1, id2, id3, isRequire ) {
+//function chkPhoneNo( id1, id2, id3, isRequire ) {
+function chkPhoneNo( pNumber, isRequire ) {
 	// If required option is true or filled at least in one form.
+	/*
 	if( isRequire || ( chkNull( document.querySelector( '#phone1' ).value ) || chkNull( document.querySelector( '#phone2' ).value ) || chkNull( document.querySelector( '#phone3' ).value ) ) ) {
 		if( !chkNull( document.querySelector( '#'+id1 ).value ) || !chkNull( document.querySelector( '#'+id2 ).value ) || !chkNull( document.querySelector( '#'+id3 ).value ) ) {
 			return false;			
@@ -213,8 +217,23 @@ function chkPhoneNo( id1, id2, id3, isRequire ) {
 			return false;
 		}
 	}
-	
-	return true;
+	*/
+	if( isRequire ) {
+		if( !chkNull( document.querySelector( 'input[name="' + pNumber + '"]').value ) ) {
+			return false;
+		} else if( isNaN( document.querySelector( 'input[name="' + pNumber + '"]').value ) ) {
+			return false;
+		} else {
+			return true;
+		}		
+	} else {
+		// If there is a value and not a number, then check fail.
+		if( chkNull( document.querySelector( 'input[name="' + pNumber + '"]').value ) && isNaN( document.querySelector( 'input[name="' + pNumber + '"]').value ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 }
 
@@ -259,6 +278,8 @@ function toNumWithSep( number ) {
  * Convert Id to cell phone format.
  */
 function toPhoneFormat( str ) {
+	return str;	// Disable format convert of phone number. Because this site will use in international regions.
+	/*
 	if( chkNull( str ) ) {
 		if( str.length == 11 ) {
 			return str.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
@@ -276,6 +297,7 @@ function toPhoneFormat( str ) {
 	} else {
 		return "";
 	}
+	*/
 }
 
 /**

@@ -148,7 +148,6 @@ public class ChkUtil {
 	 * @param paramVal
 	 */
 	public static void setNativeQueryParam( Query query, String paramNm, String paramVal ) {
-		boolean isExist = false;
 		java.util.Iterator<Parameter<?>> iter = query.getParameters().iterator();
 		while( iter.hasNext() ) {			
 			if( iter.next().getName().equals( paramNm ) ) {

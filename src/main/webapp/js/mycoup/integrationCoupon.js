@@ -11,7 +11,7 @@ var oldOrNew	= "";
 //***************************************************************************************************
 
 // Event load of document
-window.addEventListener("load", function(evt) {  	
+window.addEventListener("load", function() {	// This function could be define a event parameter, i.g., evt  	
 	
   	if( isError ) {									// Case of error.
 		showComModal( {type:"error", msg:errMsg} );
@@ -21,60 +21,72 @@ window.addEventListener("load", function(evt) {
   	
 });
 
+/*
 // Event of move phone focus
-document.querySelector( '#oldPhone1' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#oldPhone1' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	if( document.querySelector( '#oldPhone1' ).value.length == 3 ) {
 		document.querySelector( '#oldPhone2' ).focus();
 	}
 });
-document.querySelector( '#oldPhone2' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#oldPhone2' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	if( document.querySelector( '#oldPhone2' ).value.length == 4 ) {
 		document.querySelector( '#oldPhone3' ).focus();
 	}
 });
 
-document.querySelector( '#newPhone1' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#newPhone1' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	if( document.querySelector( '#newPhone1' ).value.length == 3 ) {
 		document.querySelector( '#newPhone2' ).focus();
 	}
 });
-document.querySelector( '#newPhone2' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#newPhone2' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	if( document.querySelector( '#newPhone2' ).value.length == 4 ) {
 		document.querySelector( '#newPhone3' ).focus();
 	}
 });
+*/
 
 // Event blur at the first form of a user phone number
-form.querySelector( "#oldPhone1" ).addEventListener( "blur", function(evt) {
+form.querySelector( 'input[name="oldUsrId"]' ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
+	oldOrNew = "old";
+  	findUsr();
+});
+form.querySelector( 'input[name="newUsrId"]' ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
+	oldOrNew = "new";
+  	findUsr();
+});
+/*
+form.querySelector( "#oldPhone1" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "old";
   	findUsr();
 });
 // Event blur at the second form of a user phone number
-form.querySelector( "#oldPhone2" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#oldPhone2" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "old";
   	findUsr();
 });
 // Event blur at the third form of a user phone number
-form.querySelector( "#oldPhone3" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#oldPhone3" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "old";
   	findUsr();
 });
 
 // Event blur at the first form of a user phone number
-form.querySelector( "#newPhone1" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#newPhone1" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "new";
   	findUsr();
 });
 // Event blur at the second form of a user phone number
-form.querySelector( "#newPhone2" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#newPhone2" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "new";
   	findUsr();
 });
 // Event blur at the third form of a user phone number
-form.querySelector( "#newPhone3" ).addEventListener( "blur", function(evt) {
+form.querySelector( "#newPhone3" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
 	oldOrNew = "new";
   	findUsr();
 });
+*/
 
 //***************************************************************************************************
 //***************************************************************************************************
@@ -92,9 +104,10 @@ function findUsr() {
 	}
 	
   	// If all of the forms are filled, then execute this.
-  	if( chkPhoneNo( oldOrNew + "Phone1", oldOrNew + "Phone2", oldOrNew + "Phone3", true ) ) {
+  	//if( chkPhoneNo( oldOrNew + "Phone1", oldOrNew + "Phone2", oldOrNew + "Phone3", true ) ) {
+	if( chkPhoneNo( oldOrNew + "UsrId", true ) ) {
   	  	// Set phone number
-		form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' ).value = document.querySelector( '#' + oldOrNew + 'Phone1' ).value + document.querySelector( '#' + oldOrNew + 'Phone2' ).value + document.querySelector( '#' + oldOrNew + 'Phone3' ).value;
+		//form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' ).value = document.querySelector( '#' + oldOrNew + 'Phone1' ).value + document.querySelector( '#' + oldOrNew + 'Phone2' ).value + document.querySelector( '#' + oldOrNew + 'Phone3' ).value;
 
 		// Send ajax data.
 		ajaxSend( "./findUserAndAccumInfo.json" 
@@ -170,13 +183,16 @@ function chkBeforeSave() {
 		showComModal( {type:"warning",msg:"양도할 적립금을 확인해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name=addAccumAmt]' ).focus() }} );
 		return false;		
 	} else if( !chkNull( form.querySelector( 'input[name="oldUsrId"]' ).value ) ) {
-		showComModal( {msg:"통합하실 전화번호를 입력해 주세요<br/>또는 이전하실 적립금이 없습니다.",closeCallbackFnc:function(){ document.querySelector( '#oldPhone1' ).focus() }} );
+		showComModal( {msg:"통합하실 전화번호를 입력해 주세요<br/>또는 이전하실 적립금이 없습니다.",closeCallbackFnc:function(){ document.querySelector( 'input[name="oldUsrId"]' ).focus() }} );
 		return false;
 	} else if( !chkNull( form.querySelector( 'input[name="newUsrId"]' ).value ) ) {
-		showComModal( {msg:"통합하실 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( '#newPhone1' ).focus() }} );
+		showComModal( {msg:"통합하실 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
 		return false;
 	} else if( form.querySelector( 'input[name="oldUsrId"]' ).value == form.querySelector( 'input[name="newUsrId"]' ).value ) {
-		showComModal( {msg:"동일한 전화번호 입니다.",closeCallbackFnc:function(){ document.querySelector( '#newPhone1' ).focus() }} );
+		showComModal( {msg:"동일한 전화번호 입니다.",closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
+		return false;
+	} else if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
+		showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 		return false;
 	}
   	

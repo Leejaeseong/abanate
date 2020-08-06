@@ -8,13 +8,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.abanate.com.util.ChkUtil;
 import com.abanate.com.util.ConstUtil;
-import com.abanate.com.util.CustomLogger;
 import com.abanate.com.util.DateUtil;
 import com.abanate.com.util.SecureUtil;
 import com.abanate.com.util.SendMail;
@@ -51,7 +49,7 @@ public class MycoupService {
 	@Autowired
 	ChVisitRepo chVisitRepo;
 	
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 	
 	public CmUsr joinUsr2( CmUsr cmUsr, CmStor cmStor, HttpSession sess, HttpServletRequest req ) {
 		return new CmUsr();
@@ -88,7 +86,7 @@ public class MycoupService {
 								+"<br/><br/><br/>Thank you.";
 				
 				SendMail sm = new SendMail();
-				if( sm.SendMail( email, "[" + ConstUtil.MY_COUP_EMAIL + "] Change your password.", content ) ) {
+				if( sm.sendMail( email, "[" + ConstUtil.MY_COUP_EMAIL + "] Change your password.", content ) ) {
 					return true;
 				} else {
 					return false;
@@ -131,7 +129,7 @@ public class MycoupService {
 		} 
 		// End of validation - ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 		*/
-		CmUsr tCmUsr = cmUsrRepo.findByUsrId( cmUsr.getUsrId() );
+		CmUsr tCmUsr = cmUsrRepo.findByUsrIdAndNatiCd( cmUsr.getUsrId(), cmUsr.getNatiCd() );
 		if( ChkUtil.chkNull( tCmUsr) ) {
 			cmUsr.setCmUsrSeq( tCmUsr.getCmUsrSeq() );
 			cmUsr.setJoinYn( "Y" );
@@ -184,6 +182,7 @@ public class MycoupService {
 			}
 		}
 		
+		sess.setAttribute( "natiCd", cmUsr.getNatiCd() );
 		return true;
 	}
 	
@@ -214,7 +213,7 @@ public class MycoupService {
 		}
 		
 		// 1. If receiver not exist then create user and cr_usr_stor entity who is not joined. 
-		CmUsr newUsr = cmUsrRepo.findByUsrId( req.getParameter( "usrId" ) );		
+		CmUsr newUsr = cmUsrRepo.findByUsrIdAndNatiCd( req.getParameter( "usrId" ), sess.getAttribute( "natiCd" ).toString() );		
 		if( !ChkUtil.chkNull( newUsr ) ) {	// Create user.
 			newUsr = new CmUsr();
 			
@@ -227,10 +226,8 @@ public class MycoupService {
 		
 		// Find coupon and point.
 		for( CrUsrStor oCrUsrStor : crUsrStorRepo.findByCmUsrAndAccumAmtGreaterThan( oldUsr, 0L ) ) {			
-			Long accumAmt = 0L;
 			CrUsrStor nCrUsrStor = crUsrStorRepo.findByCmUsrAndCmStor( newUsr, oCrUsrStor.getCmStor() );
 			if( ChkUtil.chkNull( nCrUsrStor) ) {
-				accumAmt = nCrUsrStor.getAccumAmt();
 				
 				// 3-1. Update CrUsrStor new.
 				nCrUsrStor.setSavAmt(   nCrUsrStor.getSavAmt()   + oCrUsrStor.getSavAmt()   );
@@ -307,6 +304,9 @@ public class MycoupService {
 		// Save amount of limitations
 		if( cmStor.getSavLimitAmt() != Long.parseLong( req.getParameter( "savLimitAmt" ) ) ) {
 			cmStor.setSavLimitAmt( Long.parseLong( req.getParameter( "savLimitAmt" ) ) );
+			
+			cmStor.setComSuffix	( sess, req	);
+			cmStorRepo.save( cmStor );
 		}
 		
 		// Save or merge data
@@ -340,14 +340,20 @@ public class MycoupService {
 	 * Save save or use
 	 */
 	public boolean saveSaveUse( HttpServletRequest req, HttpSession sess, CrUsrStor crUsrStor, String usrId ) {
-		CmUsr  cmUsr 	= cmUsrRepo.findByUsrId( usrId );
+		CmUsr  cmUsr 	= cmUsrRepo.findByUsrIdAndNatiCd( usrId, sess.getAttribute( "natiCd" ).toString() );
 		CmStor cmStor 	= (CmStor)sess.getAttribute( "cmStor" );
 			   cmStor	= ( cmStorRepo.findById( cmStor.getCmStorSeq() ) ).get();
 		
+		// Check save limit
+		if( req.getParameter( "useTp").equals( "save" ) && ( ChkUtil.toZeroByLong( crUsrStor.getAccumAmt() ) + ChkUtil.toZeroByLong( crUsrStor.getSavAmt() ) > cmStor.getSavLimitAmt() ) ) {
+			throw new ComException( "적립 제한을 초과하기에 적립할 수 없습니다" );
+		}
+			   
 		// Create user who is not joined.
 		if( cmUsr == null ) {
 			cmUsr = new CmUsr();
 			cmUsr.setUsrId			( usrId 	);
+			cmUsr.setNatiCd			( ( (CmUsr)sess.getAttribute( "cmUsr" ) ).getNatiCd() );
 			cmUsr.setPasswd			( "*" 		);
 			cmUsr.setUsrNm			( "미가입"	);
 			cmUsr.setMarketAgreeYn	( "N" 		);
@@ -448,7 +454,7 @@ public class MycoupService {
 	 * Save integration coupon.
 	 */
 	public boolean saveIntegrationCoupon( HttpServletRequest req, HttpSession sess ) {
-		
+		String natiCd = ( (CmUsr)sess.getAttribute( "cmUsr" ) ).getNatiCd();
 		// Check validation of sender and receiver's ID.
 		if( req.getParameter( "oldUsrId" ).equals( req.getParameter( "newUsrId" ) ) )  {
 			throw new ComException( "양도/양수자가 동일한 전화번호 입니다" );
@@ -457,12 +463,12 @@ public class MycoupService {
 		// Check validation of sender's password.
 		String passwd = "";
 		try {
-			passwd = SecureUtil.sha256( req.getParameter( "password" ) );
+			passwd = SecureUtil.sha256( req.getParameter( "passwd" ) );
 		} catch( NoSuchAlgorithmException e ) {
 			throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
 		}
 		
-		CmUsr 		oldUsr 			= cmUsrRepo.findByUsrIdAndPasswd( req.getParameter( "oldUsrId" ), passwd );
+		CmUsr 		oldUsr 			= cmUsrRepo.findByUsrIdAndPasswdAndNatiCd( req.getParameter( "oldUsrId" ), passwd, natiCd );
 		if( !ChkUtil.chkNull( oldUsr ) ) {
 			throw new ComException( "비밀번호를 확인해 주세요" );			
 		}
@@ -477,7 +483,7 @@ public class MycoupService {
 			throw new ComException( "양도자가 가진 적립금보다 더 많이 이동할 수 없습니다." );
 		}		
 		
-		CmUsr 		newUsr			= cmUsrRepo.findByUsrId( req.getParameter( "newUsrId" ) );
+		CmUsr 		newUsr			= cmUsrRepo.findByUsrIdAndNatiCd( req.getParameter( "newUsrId" ), sess.getAttribute( "natiCd" ).toString() );
 		CrUsrStor 	newCrUsrStor 	= crUsrStorRepo.findByCmUsrAndCmStor( newUsr, cmStor );
 		
 		// If receiver not exist then create user and cr_usr_stor entity who is not joined. 
@@ -485,6 +491,7 @@ public class MycoupService {
 			newUsr = new CmUsr();
 			
 			newUsr.setUsrId( req.getParameter( "newUsrId" ) );
+			newUsr.setNatiCd( natiCd );
 			newUsr.setJoinYn( "N" );
 			newUsr.setComSuffix(sess, req);
 			
@@ -548,11 +555,8 @@ public class MycoupService {
 	 * Find CmUsr
 	 * @return CmUsr
 	 */
-	public CmUsr findCmUsr( String usrId ) {
-//		return cmUsrRepo.findByUsrId( usrId );
-//		return cmUsrRepo.search( usrId );
-		
-		return cmUsrRepo.findByUsrId( usrId );
+	public CmUsr findCmUsr( String usrId, String natiCd ) {
+		return cmUsrRepo.findByUsrIdAndNatiCd( usrId, natiCd );
 	}
 	
 	/**

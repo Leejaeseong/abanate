@@ -36,6 +36,7 @@
           <label>전화번호(ID)</label>
         </div>
         <div class="col form-inline text-center">
+        	<%-- 
         	<c:set var = "usrId"         value = "${cookie.usrId.value}"/>
         	<c:set var = "usrIdLength"   value = "${fn:length(cookie.usrId.value)}"/>
         	<c:set var = "usrIdStarts01" value = "${fn:substring(usrId,0,2)}"/>
@@ -46,6 +47,8 @@
 	        <label class="mt-2" style="width:0.8em;">-</label>
 	        <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4" value="<c:if test="${cookie.usrId != null}">${fn:substring(usrId, usrIdLength-4, usrIdLength ) }</c:if>">
 	        <input type="hidden" name="usrId"/>
+        	--%>
+        	<input type="text" class="form-control form-control-sm" name="usrId" value="<c:if test="${cookie.usrId != null}">${cookie.usrId.value}</c:if>" style="width:12em;" maxlength="20">
         </div>
 
 		<div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -98,9 +101,9 @@
     
     </form>
     
-    
-    
-    
+
+
+
     <div class="w-100">&nbsp;</div> <!-- space -->
     
     <div class="container bg-primary">
@@ -122,12 +125,15 @@
           <label>전화번호(ID)</label>
         </div>
         <div class="col form-inline text-center">
+        	<!--  
         	<input type="text" class="form-control form-control-sm" id="pwdPhone1" style="width:3em;" maxlength="3" />
 	        <label class="mt-2" style="width:0.8em;">-</label>
 	        <input type="text" class="form-control form-control-sm" id="pwdPhone2" style="width:3.5em;" maxlength="4" />
 	        <label class="mt-2" style="width:0.8em;">-</label>
 	        <input type="text" class="form-control form-control-sm" id="pwdPhone3" style="width:3.5em;" maxlength="4" />
 	        <input type="hidden" id="pwdUsrId"/>
+        	-->
+        	<input type="text" class="form-control form-control-sm" name="pwdUsrId" style="width:12em;" maxlength="20">
         </div>
         
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -173,10 +179,10 @@
 	<script>
 		// Event load of document.
 		window.addEventListener("load", function(evt) {
-			var isComplete	= '${isComplete}';	// 처리 완료
-			var isError 	= '${isError}'; 	// 오류 발생
-			var errMsg  	= '${errMsg}';		// 오류 메시지
-			var cookieUsrId = '${cookie.usrId}';		// 오류 메시지
+			var isComplete	= '${isComplete}';			// 처리 완료 여부
+			var isError 	= '${isError}'; 			// 오류 발생
+			var errMsg  	= '${errMsg}';				// 오류 메시지
+			var cookieUsrId = '${cookie.usrId.value}';	// 쿠키에 저장된 사용자 아이디
 			
 			if( isError ) {
 				showComModal( {type:"error", msg:errMsg} );
@@ -194,6 +200,7 @@
 			}
 		});
 
+		/*
 		// Event of move phone focus
 	  	document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
 			if( document.querySelector( '#phone1' ).value.length == 3 ) {
@@ -216,11 +223,13 @@
 				document.querySelector( '#pwdPhone3' ).focus();
 			}
 		});
+	  	*/
 
 		// Event click login
 		function onLogin() {
 			var form = document.querySelector( '#idForm' );
-			// 체크
+			// 체크			
+			/*
 			if( 	   document.querySelector( '#phone1' ).value == "" ) {
 				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
 				return false;
@@ -242,13 +251,20 @@
 			} else if( document.querySelector( '#phone1' ).value.length < 2 || document.querySelector( '#phone2' ).value.length < 3 || document.querySelector( '#phone3' ).value.length < 4 ) {
 				showComModal( {type:"warning",msg:"전화번호 형식이 아닙니다",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
 				return false;
+			*/
+			if( document.querySelector( 'input[name="usrId"]' ).value == "" ) {
+				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
+				return false;
+			} else if( isNaN( document.querySelector( 'input[name="usrId"]' ).value ) ) {
+				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
+				return false;			
 			} else if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
 				showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 				return false;
 			}
 			
 			// 전화번호(아이디) 설정
-			form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
+			//form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
 
 			// Server validation을 위해 dummy 값 입력
 			form.querySelector( 'input[name="usrTp"]' )			.value 	= "U";
@@ -271,6 +287,7 @@
 			// 체크
 			var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			
+			/*
 			if( 	   document.querySelector( '#pwdPhone1' ).value == "" ) {
 				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone1' ).focus() }} );
 				return false;
@@ -292,6 +309,13 @@
 			} else if( document.querySelector( '#pwdPhone1' ).value.length < 2 || document.querySelector( '#pwdPhone2' ).value.length < 3 || document.querySelector( '#pwdPhone3' ).value.length < 4 ) {
 				showComModal( {type:"warning",msg:"전화번호 형식이 아닙니다",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone1' ).focus() }} );
 				return false;
+			*/
+			if( document.querySelector( 'input[name="pwdUsrId"]' ).value == "" ) {
+				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="pwdUsrId"]' ).focus() }} );
+				return false;
+			} else if( isNaN( document.querySelector( 'input[name="pwdUsrId"]' ).value ) ) {
+				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="pwdUsrId"]' ).focus() }} );
+				return false;
 			} else if( document.querySelector( '#pwdEmail' ).value == "" ) {
 				showComModal( {type:"warning",msg:"이메일 주소를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdEmail' ).focus() }} );
 				return false;
@@ -301,13 +325,14 @@
 			}
 			
 			// 전화번호(아이디) 설정
-			document.querySelector( '#pwdUsrId' ).value = document.querySelector( '#pwdPhone1' ).value + document.querySelector( '#pwdPhone2' ).value + document.querySelector( '#pwdPhone3' ).value;
+			//document.querySelector( '#pwdUsrId' ).value = document.querySelector( '#pwdPhone1' ).value + document.querySelector( '#pwdPhone2' ).value + document.querySelector( '#pwdPhone3' ).value;
 
 			grecaptcha.ready(function() {
 		        grecaptcha.execute('${setting_api_recaptcha_site_key}', {action: 'submit'}).then(function(token) {
 	    	        // Add your logic to submit to your backend server here.
 					ajaxSend( "./sendMailForChngPwd.json"
-							, {   usrId  : document.querySelector( '#pwdUsrId' ).value
+							, {   //usrId  : document.querySelector( '#pwdUsrId' ).value
+								  usrId  : document.querySelector( 'input[name="pwdUsrId"]' ).value
 								, natiCd : document.querySelector( 'select[name="natiCdPwChng"]' ).value
 								, email  : document.querySelector( '#pwdEmail' ).value
 								, recaptchaToken : token
@@ -354,8 +379,6 @@
 			}
 			
 		});
-		
-		
 	</script>
 	
 </body>

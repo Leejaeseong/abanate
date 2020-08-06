@@ -9,6 +9,6 @@ import org.springframework.data.domain.Pageable;
  */
 public interface CustomCmStorRepo {
 	
-	Map<String,Object> findByStorIdContainingAndStorNmContaining( String usrId, String storId, String storNm, boolean isVisited, String sType, Pageable pageable );
+	Map<String,Object> findByTelNoContainingAndStorNmContainingAndNatiCd( String usrId, String telNo, String storNm, String natiCd, boolean isVisited, String sType, Pageable pageable );
 	
 }

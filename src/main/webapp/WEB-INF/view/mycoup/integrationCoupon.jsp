@@ -41,12 +41,15 @@
           <small>적립금 양도 전화번호</small>
         </div>
         <div class="col form-inline text-center">
+          <!--  
           <input type="text" class="form-control form-control-sm" id="oldPhone1" style="width:3em;" maxlength="3">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="oldPhone2" style="width:3.5em;" maxlength="4">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="oldPhone3" style="width:3.5em;" maxlength="4">
           <input type="hidden" name="oldUsrId"/>
+          -->
+          <input type="text" class="form-control form-control-sm" name="oldUsrId" style="width:12em;" maxlength="20">
           <input type="hidden" name="oldSavAmt" value="0"/>
           <input type="hidden" name="oldUseAmt" value="0"/>
         </div>
@@ -84,12 +87,15 @@
           <small>적립금 양수 전화번호</small>
         </div>
         <div class="col form-inline text-center">
+          <!--  
           <input type="text" class="form-control form-control-sm" id="newPhone1" style="width:3em;" maxlength="3">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="newPhone2" style="width:3.5em;" maxlength="4">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="newPhone3" style="width:3.5em;" maxlength="4">
           <input type="hidden" name="newUsrId"/>
+          -->
+          <input type="text" class="form-control form-control-sm" name="newUsrId" style="width:12em;" maxlength="20">
           <input type="hidden" name="newSavAmt" value="0"/>
           <input type="hidden" name="newUseAmt" value="0"/>
         </div>
@@ -138,7 +144,7 @@
           <small>양도자 비밀번호</small>
         </div>
         <div class="col form-inline text-center">
-          <input type="password" class="form-control form-control-sm" name="password" placeholder="Password" style="width:12em;">
+          <input type="password" class="form-control form-control-sm" name="passwd" placeholder="Password" style="width:12em;">
           <label for="password" class="font-italic small">&nbsp;&nbsp;※ 고객 직접 입력</label>
         </div>
         

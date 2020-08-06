@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,15 +28,17 @@ import com.abanate.com.service.RecaptchaService;
 import com.abanate.com.util.ChkUtil;
 import com.abanate.com.util.ConstUtil;
 import com.abanate.com.util.ControllerUtil;
-import com.abanate.com.util.CustomLogger;
+import com.abanate.com.util.DateUtil;
 import com.abanate.com.util.SecureUtil;
 import com.abanate.com.web.ComException;
 import com.abanate.com.web.PageRequestCustom;
+import com.abanate.mycoup.domain.ChGmap;
 import com.abanate.mycoup.domain.ChVisit;
 import com.abanate.mycoup.domain.CmGoos;
 import com.abanate.mycoup.domain.CmStor;
 import com.abanate.mycoup.domain.CmUsr;
 import com.abanate.mycoup.domain.CrUsrStor;
+import com.abanate.mycoup.repo.ChGmapRepo;
 import com.abanate.mycoup.repo.ChVisitRepo;
 import com.abanate.mycoup.repo.CmGoosRepo;
 import com.abanate.mycoup.repo.CmStorRepo;
@@ -73,6 +74,9 @@ public class MycoupController {
 	ChVisitRepo chVisitRepo;
 	
 	@Autowired
+	ChGmapRepo chGmapRepo;
+	
+	@Autowired
 	RecaptchaService recaptchaService;
 	
 	@Value( "${setting_api_naver_map_id}" )
@@ -81,7 +85,7 @@ public class MycoupController {
 	@Value( "${setting_api_recaptcha_site_key}" )
 	public String SETTING_API_RECAPTCHA_SITE_KEY;
 	
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 	
 	/**
 	 * Join member load
@@ -186,10 +190,10 @@ public class MycoupController {
 			if( isPass ) {
 				// Handle with cache
 				if( req.getParameter( "rememberId" ) != null && req.getParameter( "rememberId" ).equals( "Y") ) {
-					ControllerUtil.setCookie( "/mycoup", res, "usrId"	, cmUsr.getUsrId()  );
-					ControllerUtil.setCookie( "/mycoup", res, "natiCd"	, cmUsr.getNatiCd() );
+					ControllerUtil.setCookie( "/mycoup/", res, "usrId"	, cmUsr.getUsrId()  );
+					ControllerUtil.setCookie( "/mycoup/", res, "natiCd"	, cmUsr.getNatiCd() );
 				} else {
-					ControllerUtil.removeAllCookies( res, req );
+					ControllerUtil.removeCookie( "/mycoup/", "usrId", res );
 				}
 				
 				String rPage = "redirect:/mycoup/mycoupList.do"; // Mpve to user page			
@@ -332,14 +336,6 @@ public class MycoupController {
 			return "ok";
 		}
 		
-		/*
-		CmUsr cmUsr = mycoupService.findCmUsr( map.get( "usrId" ) );
-		if( cmUsr == null || "".equals( cmUsr.getUsrId() ) ) {
-			return "ok";
-		} else {
-			return "duplicated";
-		}
-		*/
 	}
 	
 	/**
@@ -431,7 +427,7 @@ public class MycoupController {
 		
 		//List<Map<String,Object>> list = null;
 		CmUsr 				cmUsr	= (CmUsr)sess.getAttribute( "cmUsr" );
-		Map<String,Object>	rMap = cmStorRepo.findByStorIdContainingAndStorNmContaining( cmUsr.getUsrId(), (String)map.get( "storId" ), (String)map.get( "storNm" ), (Boolean)map.get( "isVisited" ), sType, pageable );			
+		Map<String,Object>	rMap = cmStorRepo.findByTelNoContainingAndStorNmContainingAndNatiCd( cmUsr.getUsrId(), (String)map.get( "storId" ), (String)map.get( "storNm" ), cmUsr.getNatiCd(), (Boolean)map.get( "isVisited" ), sType, pageable );			
 		
 		if( rMap != null && ( (List<?>)rMap.get( "data" ) ).size() > 0 ) {
 			return gson.toJson( rMap );
@@ -513,8 +509,17 @@ public class MycoupController {
 		// Check user login status.
 		if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
 		
-		model.addAttribute( "naverKey"		, SETTING_API_NAVER_MAP_ID );
-		model.addAttribute( "naverSecret"	, MycoupPreLoadService.naverMapSecretKey );
+		//model.addAttribute( "naverKey"		, SETTING_API_NAVER_MAP_ID );
+		//model.addAttribute( "naverSecret"	, MycoupPreLoadService.naverMapSecretKey );
+		
+		// Check possible to load.		
+		model.addAttribute( "canLoadGoogleMap", true );
+		ChGmap chGmap = chGmapRepo.findByMgrDt( DateUtil.getDateStrNoMark() );
+		if( chGmap != null && chGmap.getLoadCnt() > 920 ) {
+			model.addAttribute( "canLoadGoogleMap", false );			
+		}
+		
+		model.addAttribute( "googleMapKey"	, MycoupPreLoadService.googleMapKey );
 		model = ControllerUtil.setModel( model, sess, req );
 		return "mycoup/around";
 	}
@@ -534,9 +539,16 @@ public class MycoupController {
 		if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_JSON; }
 		
 		Gson gson = new Gson();
-		//Map<String, Object> map = ( Map<String, Object> )gson.fromJson( jsonString, new HashMap<String, Object>().getClass() );
+		Map<String, Object> map = ( Map<String, Object> )gson.fromJson( jsonString, new HashMap<String, Object>().getClass() );
 		
-		return gson.toJson( cmStorRepo.findAll() );
+		Double latFrom, latTo, lngFrom, lngTo;
+		latFrom = (Double)map.get( "lat" ) - 0.015000;
+		latTo	= (Double)map.get( "lat" ) + 0.015000;
+		lngFrom = (Double)map.get( "lng" ) - 0.035000;
+		lngTo	= (Double)map.get( "lng" ) + 0.035000;
+		
+		return gson.toJson( cmStorRepo.findByMapLatBetweenAndMapLngBetween( String.valueOf( latFrom ), String.valueOf( latTo ), String.valueOf( lngFrom ), String.valueOf( lngTo ) ) );
+		//return gson.toJson( cmStorRepo.findAll() );
 	}
 	
 	/**
@@ -571,7 +583,7 @@ public class MycoupController {
 		Map<String, Object> map = ( Map<String, Object> )gson.fromJson( jsonString, new HashMap<String, Object>().getClass() );
 		String usrId 	= (String)map.get( "usrId" 	);
 
-		CmUsr cmUsr = cmUsrRepo.findByUsrId( usrId );
+		CmUsr cmUsr = cmUsrRepo.findByUsrIdAndNatiCd( usrId, sess.getAttribute( "natiCd" ).toString() );
 		
 		if( ChkUtil.chkNull( cmUsr ) ) {
 			return gson.toJson( cmUsr );
@@ -631,7 +643,7 @@ public class MycoupController {
 		Gson gson = new Gson();
 		Map<String, String> map = ( Map<String, String> )gson.fromJson( jsonString, new HashMap<String, String>().getClass() );
 		
-		CmUsr cmUsr = mycoupService.findCmUsr( map.get( "usrId" ) );
+		CmUsr cmUsr = mycoupService.findCmUsr( map.get( "usrId" ), sess.getAttribute( "natiCd" ).toString() );
 		
 		if( cmUsr != null && !"".equals( cmUsr.getUsrId() ) ) {
 			CmStor 			cmStor 			= (CmStor)sess.getAttribute( "cmStor" );
@@ -675,7 +687,7 @@ public class MycoupController {
 		Gson gson = new Gson();
 		Map<String, Object> map = ( Map<String, Object> )gson.fromJson( jsonString, new HashMap<String, Object>().getClass() );
 		
-		CmUsr cmUsr = mycoupService.findCmUsr( (String)map.get( "usrId" ) );
+		CmUsr cmUsr = mycoupService.findCmUsr( (String)map.get( "usrId" ), sess.getAttribute( "natiCd" ).toString() );
 		
 		if( cmUsr != null && !"".equals( cmUsr.getUsrId() ) ) {
 			CmStor cmStor = (CmStor)sess.getAttribute( "cmStor" );
@@ -761,21 +773,23 @@ public class MycoupController {
 		String tDt 		= (String)map.get( "tDt" 	);
 		int    pageNo	= ChkUtil.toIntPaging( map.get( "pageNo" ) );
 		CmStor cmStor 	= (CmStor)sess.getAttribute( "cmStor" );
+		String natiCd   = ( (CmUsr)sess.getAttribute( "cmUsr" ) ).getNatiCd();
 				
 		//List<ChVisit> chVisitList = null;
 		//List<ChVisit> chVisitList = chVisitRepo.findVisitDtmContainingAndfindUsrIdContainingAndUsrNmContaining(fDt, tDt, usrId, usrNm, pageNo);
 		Pageable pageable 	= PageRequestCustom.of(pageNo, ConstUtil.PAGE_SIZE);
-		List<ChVisit> chVisitList = chVisitRepo.findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_UsrNmContainingOrderByChVisitSeqDesc(
+		List<ChVisit> chVisitList = chVisitRepo.findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_usrNmContainingAndCmUsr_natiCdOrderByChVisitSeqDesc(
 											cmStor.getCmStorSeq()
 										, 	ChkUtil.getMinDtm( fDt )
 										, 	ChkUtil.getMaxDtm( tDt )
 										, 	usrId
 										, 	usrNm
+										,   natiCd
 										,  	pageable );		
 		
 		if( chVisitList != null && chVisitList.size() > 0 ) {
 			Map<String, Object> rMap = new HashMap<String, Object>();
-			rMap.put( "chVisitMeta", chVisitRepo.findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_UsrNmContainingSummary( cmStor.getCmStorSeq(), fDt, tDt, usrId, usrNm ) );
+			rMap.put( "chVisitMeta", chVisitRepo.findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_usrNmContainingAndCmUsr_natiCdSummary( cmStor.getCmStorSeq(), fDt, tDt, usrId, usrNm, natiCd ) );
 			rMap.put( "chVisit", chVisitList );
 			return gson.toJson( rMap );
 		} else {
@@ -871,7 +885,7 @@ public class MycoupController {
 			boolean existData = false;
 			// If none of data and search type is new then research from user information.
 			if( map.get( "searchType" ).equals( "new" ) ) {
-				CmUsr cmUsr = cmUsrRepo.findByUsrId( usrId );
+				CmUsr cmUsr = cmUsrRepo.findByUsrIdAndNatiCd( usrId, sess.getAttribute( "natiCd" ).toString() );
 				if( ChkUtil.chkNull( cmUsr ) && ChkUtil.chkNull( cmUsr.getUsrId() ) ) {
 					rMap = new HashMap<String, Object>();
 					rMap.put( "usrNm"	, cmUsr.getUsrNm() 	);

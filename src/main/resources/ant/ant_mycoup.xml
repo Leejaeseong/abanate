@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<project default="main" basedir="." name="mycoup">
+
+	<!-- load Properties file  -->
+    <property file="ant_setting_mycoup.properties"/>    
+
+	<!-- main target -->
+    <target name="main" >
+    	
+    	<antcall target="dist_mycoup"/>
+    	
+    </target>    
+	
+	<!-- distribute mycoup source -->
+    <target name="dist_mycoup" >
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== Mycoup distribute start"/>
+        <echo message="======================================================================"/>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 1. Build source to make file of 'ROOT.war'"/>
+        <echo message="======================================================================"/>
+    	
+    </target>
+	
+	<target name="buildwar" description="create a war file">
+	    <war basedir="${basedir}/build" destfile="ROOT.war"
+	         webxml="${basedir}/WebContent/WEB-INF/web.xml">
+	          <fileset dir="WebContent"/>
+	            <exclude name="WEB-INF/**" />
+	                <lib dir="WebContent/WEB-INF/lib"/>
+	                <lib dir="lib"/>
+	                <classes dir="build/classes"/>
+	                <classes dir="config"/>
+	        <webinf dir="${basedir}/WebContent/WEB-INF/">
+	            <include name="**/*.jar" />
+	        </webinf>
+	    </war> 
+	</target>
+	<target name="deploy" depends="buildwar" description="Deploy this in apache webapps">
+	    <copy file="${app}.war" todir="${tomcatWebApps}" />
+	</target>
+	
+</project>

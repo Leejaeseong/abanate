@@ -4,22 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.abanate.com.util.ChkUtil;
-import com.abanate.com.util.CustomLogger;
 import com.abanate.mycoup.domain.ChVisit;
-import com.abanate.mycoup.domain.CmUsr;
-import com.abanate.mycoup.domain.CrUsrStor;
 import com.abanate.mycoup.domain.QChVisit;
-import com.abanate.mycoup.domain.QCrUsrStor;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPQLQuery;
 
 public class ChVisitRepoImpl extends QuerydslRepositorySupport implements CustomChVisitRepo {
 
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 
 	public ChVisitRepoImpl() {
 		super(ChVisit.class);
@@ -58,14 +53,14 @@ public class ChVisitRepoImpl extends QuerydslRepositorySupport implements Custom
 	*/
 
 	@Override
-	public Map<String, Object> findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_UsrNmContainingSummary( Long cmStorSeq, String fDt, String tDt, String usrId, String usrNm ) {
-		Map<String, Long> rMap = new HashMap<String, Long>();
+	public Map<String, Object> findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_usrNmContainingAndCmUsr_natiCdSummary( Long cmStorSeq, String fDt, String tDt, String usrId, String usrNm, String natiCd ) {
 		QChVisit chVisit = QChVisit.chVisit;
 
 		JPQLQuery<ChVisit> query = from(chVisit);
 
 		// Set conditions.
 		query.where(chVisit.cmStor.cmStorSeq.eq( cmStorSeq ) );
+		query.where(chVisit.cmUsr.natiCd.eq( natiCd ) );
 		if (ChkUtil.chkNull(fDt)) {
 			query.where(chVisit.visitDtm.between( ChkUtil.getMinDtm( fDt ), ChkUtil.getMaxDtm( tDt ) ));
 		}

@@ -61,7 +61,7 @@ public class KokoMathMainService {
      */
     public KokoMemberMgr getMemberMgr( String id ) {
     	KokoMemberMgr kokoMemberMgr = kokoMathDao.findOne( id );
-    	return null;
+    	return kokoMemberMgr;
     }
     
     /**

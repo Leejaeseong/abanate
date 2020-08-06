@@ -90,11 +90,14 @@
         <label class="small">매장 전화번호</label>
       </div>
       <div class="col form-inline text-center">
+        <!--  
       	<input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
         <label class="mt-2" style="width:0.8em;">-</label>
         <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
         <label class="mt-2" style="width:0.8em;">-</label>
         <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
+        -->
+        <input type="text" class="form-control form-control-sm" name="telNo" style="width:12em;" maxlength="20">
       </div>
 
       <div class="w-100"><hr/></div> <!-- horizontal line -->

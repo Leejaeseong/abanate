@@ -1,7 +1,6 @@
 package com.abanate.mycoup.service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Assert;
 import org.junit.Test;

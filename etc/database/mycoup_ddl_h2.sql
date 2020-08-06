@@ -9,6 +9,7 @@ CREATE SEQUENCE SQ_CR_USR_STOR START WITH 1 INCREMENT BY 1 NOCYCLE;
 CREATE SEQUENCE SQ_CM_GOOS START WITH 1 INCREMENT BY 1 NOCYCLE;
 CREATE SEQUENCE SQ_CH_VISIT START WITH 1 INCREMENT BY 1 NOCYCLE;
 CREATE SEQUENCE SQ_CM_NATI_CD START WITH 1 INCREMENT BY 1 NOCYCLE;
+CREATE SEQUENCE SQ_CH_GMAP START WITH 1 INCREMENT BY 1 NOCYCLE;
 
 /*
 DROP SEQUENCE SQ_CM_USR;
@@ -61,7 +62,6 @@ CREATE TABLE CM_STOR COMMENT '점포관리'
 	STOR_ID varchar(64) NOT NULL COMMENT '점포아이디 : 점포 아이디, 매장 전화번호를 아이디로 사용' UNIQUE,
 	STOR_NM varchar(128) NOT NULL COMMENT '점포명 : 점포명',
 	TEL_NO varchar(32) COMMENT '전화번호 : 매장전화번호',
-	NATI_CD varchar(3) COMMENT '국적코드 : 국적코드',	
 	ADDR_PT1 varchar(256) COMMENT '주소1 : 주소1',
 	ADDR_PT2 varchar(256) COMMENT '주소2 : 주소2',
 	ADDR_DTL varchar(256) COMMENT '상세 주소 : 상세 주소',
@@ -153,16 +153,33 @@ CREATE TABLE CM_NATI_CD COMMENT '국가코드'
 	NATI_CD varchar(2) NOT NULL COMMENT '국가코드',
 	NATI_NM_KOR varchar(64) NOT NULL COMMENT '국가코드_한국어',
 	NATI_NM_ENG varchar(256) NOT NULL COMMENT '국가코드_영어',
+	RMKS varchar(512) COMMENT '비고 : 비고',
 	REG_PGM_ID varchar(256) NOT NULL COMMENT '등록프로그램아이디',
 	REG_USR_ID varchar(50) COMMENT '등록사용자아이디',
-	REG_USR_IP varchar(64) NOT NULL COMMENT '등록사용자아이피',
-	RMKS varchar(512) COMMENT '비고 : 비고',
+	REG_USR_IP varchar(64) NOT NULL COMMENT '등록사용자아이피',	
 	REG_DTTM datetime NOT NULL COMMENT '등록일시',
 	UPD_PGM_ID varchar(256) NOT NULL COMMENT '수정프로그램아이디',
 	UPD_USR_ID varchar(50) COMMENT '수정사용자아이디',
 	UPD_USR_IP varchar(64) NOT NULL COMMENT '수정사용자아이피',
 	UPD_DTTM datetime NOT NULL COMMENT '수정일시',
 	PRIMARY KEY (CM_NATI_CD_SEQ)
+);
+
+CREATE TABLE CH_GMAP COMMENT '구글맵이력'
+(
+	CH_GMAP_SEQ bigint NOT NULL COMMENT '순번 : 고유 식별 값' UNIQUE,
+	MGR_DT VARCHAR(8) NOT NULL COMMENT '관리일자',
+	LOAD_CNT bigint DEFAULT 0 NOT NULL COMMENT '로딩횟수',
+	RMKS varchar(512) COMMENT '비고 : 비고',
+	REG_PGM_ID varchar(256) NOT NULL COMMENT '등록프로그램아이디',
+	REG_USR_ID varchar(50) COMMENT '등록사용자아이디',
+	REG_USR_IP varchar(64) NOT NULL COMMENT '등록사용자아이피',
+	REG_DTTM datetime NOT NULL COMMENT '등록일시',
+	UPD_PGM_ID varchar(256) NOT NULL COMMENT '수정프로그램아이디',
+	UPD_USR_ID varchar(50) COMMENT '수정사용자아이디',
+	UPD_USR_IP varchar(64) NOT NULL COMMENT '수정사용자아이피',
+	UPD_DTTM datetime NOT NULL COMMENT '수정일시',
+	PRIMARY KEY (CH_GMAP_SEQ)
 );
 
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -215,14 +232,14 @@ CREATE UNIQUE INDEX UK_CM_USR_USR_ID_NATI_CD ON CM_USR (USR_ID, NATI_CD);
 -- 사용자명으로　검색
 CREATE INDEX IX_CM_USR_USR_NM ON CM_USR (USR_NM);
 
--- 점포 아이디와 국적코드 Unique 인덱스
-CREATE UNIQUE INDEX UK_CM_STOR_STOR_ID_NATI_CD ON CM_STOR (STOR_ID, NATI_CD);
-
 -- 점포명으로　검색
 CREATE INDEX IX_CM_STOR_STOR_NM ON CM_STOR (STOR_NM);
 
 -- 국가코드 Unique 인덱스
 CREATE UNIQUE INDEX UK_CM_NATI_CD_ID ON CM_NATI_CD (NATI_CD);
+
+-- 관리일자  검색
+CREATE INDEX IX_CH_GMAP_MGR_DT ON CH_GMAP (MGR_DT);
 
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

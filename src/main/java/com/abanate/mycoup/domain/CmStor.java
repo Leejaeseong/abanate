@@ -15,8 +15,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.jpa.repository.EntityGraph;
-
 import com.abanate.com.domain.ComSuffixDomain;
 
 @Entity

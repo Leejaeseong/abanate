@@ -2,18 +2,15 @@ package com.abanate.mycoup.repo.custom;
 
 import java.util.List;
 
-import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.abanate.com.util.CustomLogger;
 import com.abanate.mycoup.domain.CmGoos;
-import com.abanate.mycoup.domain.CmUsr;
 import com.abanate.mycoup.domain.QCmGoos;
 import com.querydsl.jpa.JPQLQuery;
 
 public class CmGoosRepoImpl extends QuerydslRepositorySupport implements CustomCmGoosRepo{
 	
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 	
 	public CmGoosRepoImpl() {
 		super( CmGoos.class );

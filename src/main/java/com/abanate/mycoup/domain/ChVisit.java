@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
@@ -44,7 +43,7 @@ public class ChVisit extends ComSuffixDomain{
 	// Set default values 
 	@PrePersist
 	public void prePersist(){
-		if( visitDtm	== null ) this.setVisitDtm	( DateUtil.getDateStrNoMark() );
+		if( visitDtm	== null ) this.setVisitDtm	( DateUtil.getDateTimeStrNoMark() );
 		if( savAmt 		== null ) this.setSavAmt	( 0L );
 		if( useAmt 		== null ) this.setUseAmt	( 0L );
 		if( accumAmt	== null ) this.setAccumAmt	( 0L );

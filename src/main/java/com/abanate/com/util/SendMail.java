@@ -13,7 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendMail{
-	public boolean SendMail( String email, String subject, String content ) {		
+	public boolean sendMail( String email, String subject, String content ) {		
 //	public static void main(String[] args) {
 		boolean sendOk = false;
 		Properties prop = System.getProperties();

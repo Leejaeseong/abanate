@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +52,7 @@
         <div class="col form-inline text-center">
           <input id="idAccumCustomerCnt" type="text" class="form-control form-control-sm text-right" disabled style="width:8em;"/>
           <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
-          <small id="idOpenDt">※개시:2019.10.01</small>
+          <small id="idOpenDt">※개시:<fmt:formatDate value="${cmStor.regDttm}" pattern="yyyy.MM.dd" /></small>
         </div>
         
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -109,12 +110,15 @@
           <label>전화번호(ID)</label>
         </div>        
         <div class="col form-inline text-center">
+          <!--  
           <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
           <input type="hidden" id="usrId"/>
+          -->
+          <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -166,10 +170,11 @@
               <tr>
                 <th scope="col" class="text-center" style="white-space:nowrap; width:22%;">방문 일시</th>
                 <th scope="col" class="text-center" style="white-space:nowrap; width:13%;">구분</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:15%;">성함</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:30%;">전화번호</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;">적용</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;">누적</th>
+                <th scope="col" class="text-left"   style="white-space:nowrap; width:25%;">성함</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;">전화번호</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;">적용</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;">누적</th>
+                <th scope="col" class="text-left"   style="white-space:nowrap; width:5%;">상품</th>
               </tr>
             </th>
             <tbody>
@@ -257,12 +262,12 @@
 	var accumCustomerCnt 	= 0;
 	var savTp 				= "C"; // Type of save
 	var firstPageNo			= '<%=com.abanate.com.util.ConstUtil.FIRST_PAGE_STR%>';	// First page number.
-	
-  	window.addEventListener("load", function(evt) {
+
+	window.addEventListener("load", function(evt) {
   		savTp 				= "${sessionScope.cmStor.savTp}";			// Type of save
 		accumSavAmt 		= toNumWithSep( ${cmStor.savAmt} 		);	
 		accumUseAmt 		= toNumWithSep( ${cmStor.useAmt} 		);
-		accumCustomerCnt 	= toNumWithSep( ${accumCustomerCnt} - 1	);	// Calculate to minus of store master himself.
+		accumCustomerCnt 	= toNumWithSep( ${accumCustomerCnt} 	);
 
 		init();
   	});

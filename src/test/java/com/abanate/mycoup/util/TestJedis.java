@@ -1,9 +1,5 @@
 package com.abanate.mycoup.util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 //import redis.clients.jedis.Jedis;
 //import redis.clients.jedis.JedisPool;
 //import redis.clients.jedis.JedisPoolConfig;

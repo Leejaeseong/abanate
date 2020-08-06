@@ -17,7 +17,7 @@ public class KokoMemberMgrRepoImpl extends QuerydslRepositorySupport implements 
 	public KokoMemberMgr search( String id, String pw ) {
 		QKokoMemberMgr mem = QKokoMemberMgr.kokoMemberMgr;
 		
-		JPQLQuery query = from( mem );
+		JPQLQuery<KokoMemberMgr> query = from( mem );
 		
 		query.where( mem.usrId.eq( id ) );
 		query.where( mem.passwd.eq( pw ) );

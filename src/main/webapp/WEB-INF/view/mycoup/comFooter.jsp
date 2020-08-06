@@ -66,8 +66,6 @@
 				*/
 				IS_LOADING = true;
 				$('#loadingModal').on('shown.bs.modal', function (e) {
-					console.log( "aaa" );
-					
 				});	
 				
 				$('#loadingModal').modal("show");

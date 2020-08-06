@@ -1,3 +1,5 @@
+▣ Hibernate 초기 설정 참고 : http://happygrammer.tistory.com/150
+
 ▣ 조회(Select) 설정 메모
 	◎ OneToMany는 설정하지 않음( Transient 설정 )
 		: 필요 시 QueryDSL 등으로 추출

@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.abanate.com.domain.ComSuffixDomain;
-import com.abanate.com.util.ChkUtil;
 
 @Entity
 @SequenceGenerator( name= "CM_GOOS_GENERATOR", sequenceName = "SQ_CM_GOOS", initialValue = 1, allocationSize = 1 )

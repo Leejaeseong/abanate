@@ -17,7 +17,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.abanate.com.util.ChkUtil;
 import com.abanate.com.util.ConstUtil;
 import com.abanate.com.util.CustomLogger;
 import com.abanate.com.web.PageRequestCustom;
@@ -104,7 +103,7 @@ public class MycoupServiceTest {
 		String usrId = "TEST1";
 		
 		// When ------------------------------------------------------------------------------------------
-		CmUsr cmUsr = mycoupService.findCmUsr( usrId );
+		CmUsr cmUsr = mycoupService.findCmUsr( usrId, "KOR" );
 		
 		// Then ------------------------------------------------------------------------------------------
 		Assert.assertEquals( usrId, cmUsr.getUsrId() );
@@ -129,7 +128,7 @@ public class MycoupServiceTest {
 	public void testJoin1() throws Exception {
 		
 		// Given ------------------------------------------------------------------------------------------
-		String storId = "U";
+		//String storId = "U";
 		
 		// When ------------------------------------------------------------------------------------------
 		//List<ChVisit> chVisitList = chVisitRepo.findAll( ChVisitSpecs.usrNmLike() );
@@ -155,7 +154,7 @@ public class MycoupServiceTest {
 		
 		//List<ChVisit> chVisitList = chVisitRepo.findByVisitDtmContainingAndCmUsr_usrIdContaining( "", "" );
 		
-		Pageable pageable 	= PageRequestCustom.of(ConstUtil.FIRST_PAGE, ConstUtil.PAGE_SIZE);
+		//Pageable pageable 	= PageRequestCustom.of(ConstUtil.FIRST_PAGE, ConstUtil.PAGE_SIZE);
 		//List<ChVisit> chVisitList = chVisitRepo.findByCmStor_cmStorSeqAndVisitDtmBetweenAndCmUsr_usrIdContainingAndCmUsr_UsrNmContaining( 64L, ChkUtil.getMinDtm( "20200201000000" ), ChkUtil.getMaxDtm( "" ), "01012345678", "이재성", pageable );
 				
 		//Assert.assertTrue( chVisitList.size() > 0 );
@@ -173,7 +172,7 @@ public class MycoupServiceTest {
 		cmStor.setCmStorSeq( 64L );
 		
 		// When ------------------------------------------------------------------------------------------
-		CrUsrStor 	  crUsrStor		= crUsrStorRepo	.findByCmUsrAndCmStor( cmUsr, cmStor );
+		//CrUsrStor 	  crUsrStor		= crUsrStorRepo	.findByCmUsrAndCmStor( cmUsr, cmStor );
 		//List<ChVisit> chVisitList 	= chVisitRepo	.findVisitDtmContainingAndfindUsrIdContainingAndUsrNmContaining( null, null, null, "이재성", 1 );
 		
 		// Then ------------------------------------------------------------------------------------------
@@ -194,14 +193,15 @@ public class MycoupServiceTest {
 		
 		// Given ------------------------------------------------------------------------------------------
 		String usrId 		= "01011111234";
-		String storId 		= "";
+		String telNo 		= "";
 		String storNm 		= "";
+		String natiCd 		= "KR";
 		String sType 		= "";
 		boolean isVisited 	= false;
 		Pageable pageable 	= PageRequestCustom.of(1, ConstUtil.PAGE_SIZE);
 		
 		// When ------------------------------------------------------------------------------------------
-		Map<String,Object> map = cmStorRepo.findByStorIdContainingAndStorNmContaining( usrId, storId, storNm, isVisited, sType, pageable );
+		Map<String,Object> map = cmStorRepo.findByTelNoContainingAndStorNmContainingAndNatiCd( usrId, telNo, storNm, natiCd, isVisited, sType, pageable );
 		
 		// Then ------------------------------------------------------------------------------------------
 		Assert.assertTrue( map.size() > 0 );

@@ -93,13 +93,19 @@
   	<script language="javascript">
   		var naverSecret = '${naverSecret}';
   		var firstPageNo	= '<%=com.abanate.com.util.ConstUtil.FIRST_PAGE_STR%>';	// First page number.
+  		var canLoadGmap = ${canLoadGmap};
   		window.addEventListener("load", function(evt) {
   	  		
 		});
 	</script>
 	
+	<%--
 	<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${naverKey}"></script>	
+	--%>
 	<script type="text/javascript" async defer src="../../js/mycoup/around.js?removeCache=<%=new java.util.Date().getTime()%>"></script>
+	<c:if test="${canLoadGoogleMap == null}">
+	<script defer src="https://maps.googleapis.com/maps/api/js?key=${googleMapKey}"></script>
+	</c:if>
 	
 <jsp:include page="comFooter.jsp"/>
 <jsp:include page="footer.jsp"/>

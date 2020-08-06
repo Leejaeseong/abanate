@@ -7,16 +7,14 @@ import javax.persistence.Query;
 
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
-import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.abanate.com.util.ChkUtil;
-import com.abanate.com.util.CustomLogger;
 
 public class NqueryRepoImpl extends QuerydslRepositorySupport implements CustomNqueryRepo
 {
 	
-	private static final Logger log = CustomLogger.getLogger();
+	//private static final Logger log = CustomLogger.getLogger();
 	
 	public NqueryRepoImpl() {
 		super( NqueryRepoImpl.class );

@@ -26,48 +26,17 @@ var nVisitRow, colVisitVisitDtm, colVisitUseTp, colVisitSavUseAmt, colVisitAccum
 //***************************************************************************************************
 
 // Event load of document
-window.addEventListener("load", function(evt) {
+window.addEventListener("load", function() {	// This function could be define a event parameter, i.g., evt
 	
 });
 
-//Event of move phone focus
-document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
-	if( document.querySelector( '#phone1' ).value.length == 3 ) {
-		document.querySelector( '#phone2' ).focus();
-	}
-});
-document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
-	if( document.querySelector( '#phone2' ).value.length == 4 ) {
-		document.querySelector( '#phone3' ).focus();
-	}
-});
-
-//Event blur at the first form of a user phone number
-document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
-	if( document.querySelector( '#phone1' ).value.length == 3 ) {
-		document.querySelector( '#phone2' ).focus();
-	}
-});
-document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
-	if( document.querySelector( '#phone2' ).value.length == 4 ) {
-		document.querySelector( '#phone3' ).focus();
-	}
-});
-
-
-document.querySelector( '#idStorNm' ).addEventListener("keyup", function(evt) {
+document.querySelector( '#idStorNm' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	clearStorInfo( true );	// Clear data.
 });
-document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
+document.querySelector( 'input[name="telNo"]' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
 	clearStorInfo( true );	// Clear data.
 });
-document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
-	clearStorInfo( true );	// Clear data.
-});
-document.querySelector( '#phone3' ).addEventListener("keyup", function(evt) {
-	clearStorInfo( true );	// Clear data.
-});
-document.querySelector( '#isVisited' ).addEventListener("change", function(evt) {
+document.querySelector( '#isVisited' ).addEventListener("change", function() {	// This function could be define a event parameter, i.g., evt
 	clearStorInfo( true );	// Clear data.
 });
 
@@ -97,14 +66,14 @@ function searchStore( isMore, sType ) {
 	}
 	
 	// Validation of phone number.
-	if( !chkPhoneNo( "phone1", "phone2", "phone3", false ) ) {
-			showComModal( {msg:"매장 전화번호를 확인해 주세요.",closeCallbackFnc:function(){ document.querySelector( "#phone1" ).focus() }} );
+	if( !chkPhoneNo( "telNo", false ) ) {
+			showComModal( {msg:"매장 전화번호를 확인해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="telNo"]' ).focus() }} );
 			return;
 	}
 		
 	// Send ajax data.
 	ajaxSend( "./findStore.json" 
-			, {   storId	: ( document.querySelector( "#phone1" ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value )
+			, {   telNo		: document.querySelector( 'input[name="telNo"]' ).value
 				, storNm	: document.querySelector( "#idStorNm" ).value
 				, isVisited : document.querySelector( "#isVisited" ).checked
 				, pageNo	: ( isMore ? ++pageStorNo : firstPageNo )
@@ -179,7 +148,7 @@ function viewStor( rData ) {
 function viewStoreMore() {
 	// Send ajax data.
 	ajaxSend( "./findStore.json" 
-			, {   storId	: ( document.querySelector( "#phone1" ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value )
+			, {   telNo		: document.querySelector( 'input[name="telNo"]' ).value
 				, storNm	: document.querySelector( "#idStorNm" ).value
 				, isVisited : document.querySelector( "#isVisited" ).checked
 			  }

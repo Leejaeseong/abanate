@@ -2,7 +2,6 @@ package com.abanate.mycoup.service;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import javax.transaction.Transactional;
 
@@ -21,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.abanate.mycoup.domain.CmStor;
 import com.abanate.mycoup.web.MycoupController;
@@ -41,14 +39,14 @@ public class MycoupControllerTest {
 	@InjectMocks
 	private MycoupController mycoupController;
 	
-	private ModelAndView 			mv;
+	//private ModelAndView 			mv;
 	private MockMvc 				mockMvc;
 	public  MockHttpServletRequest 	mockReq;
 	public  MockHttpSession 		mockSess;
 	
 	@Before
 	public void seUp() throws Exception {
-		mv = new ModelAndView();
+		//mv = new ModelAndView();
         		
 		mockReq 	= new MockHttpServletRequest();
 		mockSess 	= new MockHttpSession();

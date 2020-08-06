@@ -2,7 +2,6 @@ package com.abanate.mycoup.repo;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -13,4 +12,5 @@ public interface CmStorRepo extends JpaRepository<CmStor, Long>, JpaSpecificatio
 		
 	CmStor findByStorId( String storId );
 	
+	List<CmStor> findByMapLatBetweenAndMapLngBetween( String mapLatFrom, String mapLatTo, String mapLngFrom, String mapLngTo );
 }
