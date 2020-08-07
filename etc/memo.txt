@@ -1,8 +1,20 @@
 ▣ Eclipse 설치 시 작업
-	-. font 나눔고딕코딩 size 12
-	-. encoding UTF-8 : JAVA, TEXT
-	-. JDK + SERVER 설정
+	-. 해당 eclipse에 workspace 폴더 생성
+	-. SpringToolSuite4.ini 편집( product 위쯤에 아래 추가 )
+		-vm
+		D:/Tool/sts-3.9.6/app/java/openjdk-11.0.1/bin/javaw.exe
+	-. font 나눔고딕코딩 size 12( Text )
+	-. encoding UTF-8 : TEXT
+	-. JDK( 설정된 상태임 ) + SERVER 설정
 	-. Validation disable all
+	-. Git Repositories
+		- Add and existing local Git repository
+			- Directory : D:\workspace\git\abanate
+			- check abanate
+	-. import > git > Existing local repository > abanate 선택 > Import existing Eclipse projects 선택
+	-. Server > Tomcat 9( Server name = abanate ) > abanate add
+		> 서버 더블 클릭 > Port : 80, Timeouts start : 180
+		> Modules : Path = /, Auto reloading enabled 체크 해제	
 	
 ▣ ERD = ER MASTER
 	1. 다운로드 사이트 : http://justinkwony.github.io/ermaster-nhit/update-site/	

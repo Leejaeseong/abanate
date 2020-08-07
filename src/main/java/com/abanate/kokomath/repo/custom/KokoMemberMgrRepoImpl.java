@@ -3,9 +3,7 @@ package com.abanate.kokomath.repo.custom;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.abanate.kokomath.domain.KokoMemberMgr;
-import com.abanate.kokomath.domain.QKokoMemberMgr;
 import com.abanate.kokomath.repo.KokoMemberMgrRepoI;
-import com.querydsl.jpa.JPQLQuery;
 
 public class KokoMemberMgrRepoImpl extends QuerydslRepositorySupport implements KokoMemberMgrRepoI{
 	
@@ -15,6 +13,7 @@ public class KokoMemberMgrRepoImpl extends QuerydslRepositorySupport implements 
 
 	@Override
 	public KokoMemberMgr search( String id, String pw ) {
+		/*
 		QKokoMemberMgr mem = QKokoMemberMgr.kokoMemberMgr;
 		
 		JPQLQuery<KokoMemberMgr> query = from( mem );
@@ -28,7 +27,8 @@ public class KokoMemberMgrRepoImpl extends QuerydslRepositorySupport implements 
 		
 		//return (KokoMemberMgr)query.list( mem ).get( 0 );
 		return (KokoMemberMgr)query.fetchOne();
-		
+		*/
+		return null;
 
 	}
 

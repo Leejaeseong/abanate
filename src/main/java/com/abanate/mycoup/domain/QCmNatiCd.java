@@ -1,15 +1,12 @@
 package com.abanate.mycoup.domain;
 
-import static com.querydsl.core.types.PathMetadataFactory.forVariable;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import javax.annotation.Generated;
+import com.querydsl.core.types.dsl.*;
 
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.PathMetadata;
-import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.EntityPathBase;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
+import javax.annotation.Generated;
+import com.querydsl.core.types.Path;
 
 
 /**
@@ -18,7 +15,7 @@ import com.querydsl.core.types.dsl.StringPath;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QCmNatiCd extends EntityPathBase<CmNatiCd> {
 
-    private static final long serialVersionUID = -1617571566L;
+    private static final long serialVersionUID = 1394924601L;
 
     public static final QCmNatiCd cmNatiCd = new QCmNatiCd("cmNatiCd");
 
@@ -39,10 +36,10 @@ public class QCmNatiCd extends EntityPathBase<CmNatiCd> {
     public final StringPath regPgmId = _super.regPgmId;
 
     //inherited
-    public final StringPath regUsrId = _super.regUsrId;
+    public final StringPath regUsrIp = _super.regUsrIp;
 
     //inherited
-    public final StringPath regUsrIp = _super.regUsrIp;
+    public final NumberPath<Long> regUsrSeq = _super.regUsrSeq;
 
     //inherited
     public final StringPath rmks = _super.rmks;
@@ -54,10 +51,10 @@ public class QCmNatiCd extends EntityPathBase<CmNatiCd> {
     public final StringPath updPgmId = _super.updPgmId;
 
     //inherited
-    public final StringPath updUsrId = _super.updUsrId;
+    public final StringPath updUsrIp = _super.updUsrIp;
 
     //inherited
-    public final StringPath updUsrIp = _super.updUsrIp;
+    public final NumberPath<Long> updUsrSeq = _super.updUsrSeq;
 
     public QCmNatiCd(String variable) {
         super(CmNatiCd.class, forVariable(variable));

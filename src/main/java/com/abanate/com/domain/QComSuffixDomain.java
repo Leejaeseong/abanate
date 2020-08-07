@@ -23,9 +23,9 @@ public class QComSuffixDomain extends EntityPathBase<ComSuffixDomain> {
 
     public final StringPath regPgmId = createString("regPgmId");
 
-    public final StringPath regUsrId = createString("regUsrId");
-
     public final StringPath regUsrIp = createString("regUsrIp");
+
+    public final NumberPath<Long> regUsrSeq = createNumber("regUsrSeq", Long.class);
 
     public final StringPath rmks = createString("rmks");
 
@@ -33,9 +33,9 @@ public class QComSuffixDomain extends EntityPathBase<ComSuffixDomain> {
 
     public final StringPath updPgmId = createString("updPgmId");
 
-    public final StringPath updUsrId = createString("updUsrId");
-
     public final StringPath updUsrIp = createString("updUsrIp");
+
+    public final NumberPath<Long> updUsrSeq = createNumber("updUsrSeq", Long.class);
 
     public QComSuffixDomain(String variable) {
         super(ComSuffixDomain.class, forVariable(variable));

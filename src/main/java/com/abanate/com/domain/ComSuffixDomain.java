@@ -24,8 +24,8 @@ public abstract class ComSuffixDomain {
 	@Column(name = "REG_PGM_ID")
 	private String 	regPgmId;
 	
-	@Column(name = "REG_USR_ID")
-	private String 	regUsrId;
+	@Column(name = "REG_USR_SEQ")
+	private Long 	regUsrSeq;
 	
 	@Column(name = "REG_USR_IP")
 	private String 	regUsrIp;
@@ -38,8 +38,8 @@ public abstract class ComSuffixDomain {
 	@Column(name = "UPD_PGM_ID")
 	private String 	updPgmId;
 	
-	@Column(name = "UPD_USR_ID")
-	private String 	updUsrId;
+	@Column(name = "UPD_USR_SEQ")
+	private Long 	updUsrSeq;
 	
 	@Column(name = "UPD_USR_IP")
 	private String 	updUsrIp;
@@ -63,19 +63,17 @@ public abstract class ComSuffixDomain {
 			this.setUpdPgmId( e.getClassName() + "->" + e.getMethodName() );
 		}
 		
-		if( ( this.getRegUsrId() == null || "".equals( this.getRegUsrId() ) ) 
+		if( ( this.getRegUsrSeq() == null || "".equals( this.getRegUsrSeq() ) ) 
 			&& session.getAttribute( "cmUsr" ) != null 
-			&& ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() != null
-			&& !"".equals( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() )
+			&& ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() != null && !"".equals( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() )
 		) {
-			this.setRegUsrId( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() );
+			this.setRegUsrSeq( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() );
 		}
-		if( ( this.getUpdUsrId() == null || "".equals( this.getUpdUsrId() ) ) 
+		if( ( this.getUpdUsrSeq() == null || "".equals( this.getUpdUsrSeq() ) ) 
 				&& session.getAttribute( "cmUsr" ) != null 
-				&& ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() != null
-				&& !"".equals( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() )
+				&& ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() != null && !"".equals( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() )
 				) {
-			this.setUpdUsrId( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getUsrId() );
+			this.setUpdUsrSeq( ( (CmUsr)session.getAttribute( "cmUsr" ) ).getCmUsrSeq() );
 		}
 		
 		if( ( this.getRegUsrIp() == null || "".equals( this.getRegUsrIp() ) ) 
@@ -112,11 +110,11 @@ public abstract class ComSuffixDomain {
 	public void setRegPgmId(String regPgmId) {
 		this.regPgmId = regPgmId;
 	}
-	public String getRegUsrId() {
-		return regUsrId;
+	public Long getRegUsrSeq() {
+		return regUsrSeq;
 	}
-	public void setRegUsrId(String regUsrId) {
-		this.regUsrId = regUsrId;
+	public void setRegUsrSeq(Long regUsrSeq) {
+		this.regUsrSeq = regUsrSeq;
 	}
 	public String getRegUsrIp() {
 		return regUsrIp;
@@ -136,11 +134,11 @@ public abstract class ComSuffixDomain {
 	public void setUpdPgmId(String updPgmId) {
 		this.updPgmId = updPgmId;
 	}
-	public String getUpdUsrId() {
-		return updUsrId;
+	public Long getUpdUsrSeq() {
+		return updUsrSeq;
 	}
-	public void setUpdUsrId(String updUsrId) {
-		this.updUsrId = updUsrId;
+	public void setUpdUsrSeq(Long updUsrSeq) {
+		this.updUsrSeq = updUsrSeq;
 	}
 	public String getUpdUsrIp() {
 		return updUsrIp;

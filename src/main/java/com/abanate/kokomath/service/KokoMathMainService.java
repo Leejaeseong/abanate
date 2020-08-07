@@ -34,12 +34,12 @@ public class KokoMathMainService {
 		kokoVisitLog.setVisitPage( (String)hashMap.get( "visitPage" ) 	);
 		kokoVisitLog.setVisitDtm( DateUtil.getDateTimeStrNoMark() 			);
 		kokoVisitLog.setUsrIp( 	(String)hashMap.get( "userIp" ) 		);
-		kokoVisitLog.setRegUsrId( 	"saveVisitLog" 						);
+		//kokoVisitLog.setRegUsrId( 	"saveVisitLog" 						);
 		kokoVisitLog.setRegUsrIp( 	(String)hashMap.get( "userIp" ) 	);
 		kokoVisitLog.setRegPgmId( 	"수정해야함123" 					);
 		kokoVisitLog.setRegDttm( 	date 								);
 		kokoVisitLog.setUpdPgmId( 	"수정해야함321" 					);
-		kokoVisitLog.setUpdUsrId( 	"saveVisitLog" 						);
+		//kokoVisitLog.setUpdUsrId( 	"saveVisitLog" 						);
 		kokoVisitLog.setUpdUsrIp( 	(String)hashMap.get( "userIp" ) 	);
 		kokoVisitLog.setUpdDttm( 	date 								);
 		

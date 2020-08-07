@@ -35,12 +35,12 @@ public class KokoMathDao {
 		kokoVisitLog.setVisitPage( (String)hashMap.get( "visitPage" ) 	);
 		kokoVisitLog.setVisitDtm( DateUtil.getDateTimeStrNoMark() );
 		kokoVisitLog.setUsrIp( 	(String)hashMap.get( "userIp" ) 	);
-		kokoVisitLog.setRegUsrId( 	"saveVisitLog" 					);
+		//kokoVisitLog.setRegUsrId( 	"saveVisitLog" 					);
 		kokoVisitLog.setRegUsrIp( 	(String)hashMap.get( "userIp" ) 	);
 		kokoVisitLog.setRegPgmId( 	"수정해야함" 					);
 		kokoVisitLog.setRegDttm( 	date 								);
 		kokoVisitLog.setUpdPgmId( 	"수정해야함" 					);
-		kokoVisitLog.setUpdUsrId( 	"saveVisitLog" 					);
+		//kokoVisitLog.setUpdUsrId( 	"saveVisitLog" 					);
 		kokoVisitLog.setUpdUsrIp( 	(String)hashMap.get( "userIp" ) 	);
 		kokoVisitLog.setUpdDttm( 	date 								);
 		
@@ -86,9 +86,9 @@ public class KokoMathDao {
 	public void saveMember( KokoMemberMgr kokoMemberMgr ) {
 		Date date = DateUtil.getDate();
 	
-		kokoMemberMgr.setRegUsrId	( "saveMember"	);
+		//kokoMemberMgr.setRegUsrId	( "saveMember"	);
 		kokoMemberMgr.setRegDttm	( date 			);
-		kokoMemberMgr.setUpdUsrId	( "saveMember" 	);
+		//kokoMemberMgr.setUpdUsrId	( "saveMember" 	);
 		kokoMemberMgr.setUpdDttm	( date 			);
 		
 		em.persist(kokoMemberMgr);

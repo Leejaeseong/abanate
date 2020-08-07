@@ -42,10 +42,10 @@ public class QCmUsr extends EntityPathBase<CmUsr> {
     public final StringPath regPgmId = _super.regPgmId;
 
     //inherited
-    public final StringPath regUsrId = _super.regUsrId;
+    public final StringPath regUsrIp = _super.regUsrIp;
 
     //inherited
-    public final StringPath regUsrIp = _super.regUsrIp;
+    public final NumberPath<Long> regUsrSeq = _super.regUsrSeq;
 
     //inherited
     public final StringPath rmks = _super.rmks;
@@ -57,10 +57,10 @@ public class QCmUsr extends EntityPathBase<CmUsr> {
     public final StringPath updPgmId = _super.updPgmId;
 
     //inherited
-    public final StringPath updUsrId = _super.updUsrId;
+    public final StringPath updUsrIp = _super.updUsrIp;
 
     //inherited
-    public final StringPath updUsrIp = _super.updUsrIp;
+    public final NumberPath<Long> updUsrSeq = _super.updUsrSeq;
 
     public final StringPath usrId = createString("usrId");
 
