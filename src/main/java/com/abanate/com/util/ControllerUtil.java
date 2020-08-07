@@ -65,18 +65,6 @@ public class ControllerUtil {
 		cookie.setMaxAge( 60 * 60 * 24 * 30 );	// 30 days
 		*/
 		
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "1111111111111111111111111111111" );
-		System.out.println( "path = " + path + ", " + cookie );
-		
 		//res.addCookie(cookie);
 		
 	}
@@ -85,11 +73,23 @@ public class ControllerUtil {
 	 * Remove all cookies
 	 */
 	public static void removeCookie( String path, String key, HttpServletResponse res ) {
+		/*
 		Cookie cookie = new Cookie( key, "" );
         cookie.setValue("");
         cookie.setPath( path );
         cookie.setMaxAge(0);
         res.addCookie(cookie);
+        */
+		
+		ResponseCookie cookie = ResponseCookie.from( key,  "" )
+	            //.domain( domain ) 
+	            //.sameSite("None")
+	            //.secure(true)
+	            .path( path )
+	            .maxAge(0)	// remove immediately
+	            .build();
+		
+		res.addHeader("Set-Cookie", cookie.toString());
 	}
 	
 	/**

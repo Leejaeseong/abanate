@@ -7,6 +7,7 @@ var debugObj 			= new Object();			// For debug.
 var xhr 				= new XMLHttpRequest();	// For ajax communication.
 var DATESEPERATOR 		= ".";					// Date seperator mark. 
 var NOT_EXIST_DATA		= "Not exist data";		// If would change this value then ConstUtil.java is changed too.
+var RECAPTCHA_SUCCESS	= "Recaptcha success";	// If would change this value then ConstUtil.java is changed too.
 var IS_LOADING			= false;				// For loading spinner switch.
 var COOKIE_VALID_DAYS 	= 30;					// Days of cookie saving.
 

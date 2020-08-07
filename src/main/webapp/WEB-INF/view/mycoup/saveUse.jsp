@@ -184,6 +184,7 @@
     
   </main>
   <!--Main layout-->
+  <input type="hidden" name="recaptchaToken"/>
   </form>
   
   <script language="javascript">
@@ -193,12 +194,15 @@
 	var errMsg  	= '${errMsg}';											// Message of error
   	var firstPageNo	= '<%=com.abanate.com.util.ConstUtil.FIRST_PAGE_STR%>';	// First page number.
   	
+  	var recaptchaSiteKey	= '${setting_api_recaptcha_site_key}';
+  	
   </script>
 
 <jsp:include page="comFooter.jsp"/>
 <jsp:include page="footer.jsp"/>
 
 <script type="text/javascript" async defer src="../../js/mycoup/saveUse.js?removeCache=<%=new java.util.Date().getTime()%>"></script>
+<script defer src="https://www.google.com/recaptcha/api.js?render=${setting_api_recaptcha_site_key}"></script>
 
 </body>
 

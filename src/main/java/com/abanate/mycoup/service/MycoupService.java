@@ -345,8 +345,11 @@ public class MycoupService {
 			   cmStor	= ( cmStorRepo.findById( cmStor.getCmStorSeq() ) ).get();
 		
 		// Check save limit
-		if( req.getParameter( "useTp").equals( "save" ) && ( ChkUtil.toZeroByLong( crUsrStor.getAccumAmt() ) + ChkUtil.toZeroByLong( crUsrStor.getSavAmt() ) > cmStor.getSavLimitAmt() ) ) {
-			throw new ComException( "적립 제한을 초과하기에 적립할 수 없습니다" );
+		if( req.getParameter( "useTp").equals( "save" ) && cmUsr != null && cmStor.getSavLimitAmt() > 0L ) {
+			CrUsrStor chkCrUsrStor = crUsrStorRepo.findByCmUsrAndCmStor(cmUsr, cmStor);
+			if( ( ChkUtil.toZeroByLong( chkCrUsrStor.getAccumAmt() ) + ChkUtil.toZeroByLong( crUsrStor.getSavAmt() ) ) > cmStor.getSavLimitAmt() ) {
+				throw new ComException( "적립 제한을 초과하기에 적립할 수 없습니다" );
+			}
 		}
 			   
 		// Create user who is not joined.

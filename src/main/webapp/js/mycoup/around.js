@@ -26,8 +26,18 @@ var nVisitRow, colVisitVisitDtm, colVisitUseTp, colVisitSavUseAmt, colVisitAccum
 //***************************************************************************************************
 // Event load of document
 window.addEventListener("load", function() { // This function can define a event parameter. i.g., evt
-	if( canLoadGmap ) {
-		initMap();	// Call google map api.
+	if( canLoadGooglemap ) {
+		grecaptcha.ready(function() {
+			grecaptcha.execute(recaptchaSiteKey, {action: 'submit'}).then(function(token) {
+				// Add your logic to submit to your backend server here.
+				ajaxSend( "./saveAroundGoogleMapLoadCntInc.json"
+						, { recaptchaToken : token }
+						, initMap );	// Call google map api.
+			});
+		});
+	} else {
+		showComModal( {type:"info",msg:"오늘의 구글 지도 서비스가 종료되었습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+										,closeCallbackFnc:function(){ location.href = window.location.protocol + "//" + window.location.hostname + "/mycoup/mycoupList.do"; } } );		
 	}
 	
 });
@@ -42,16 +52,21 @@ window.addEventListener("load", function() { // This function can define a event
 // Search length is about 5 km diameter.
 
 // Initialize and add the map
-function initMap() {
-	if (navigator.geolocation) {
-		/**
-		 * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
-		 * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
-		 * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
-		 */
-		navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-	} else {		        
-		onErrorGeolocation();
+function initMap( responseText ) {
+	if( responseText == RECAPTCHA_SUCCESS ) {
+		if (navigator.geolocation) {
+			/**
+			 * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+			 * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+			 * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+			 */
+			navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+		} else {		        
+			onErrorGeolocation();
+		}
+	} else {
+		showComModal( {type:"warning",msg:"자동화된 접근으로 판단됩니다.<br/>해당 메뉴는 이용하실 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+									,closeCallbackFnc:function(){ goMain(); } } );
 	}
 	
 }
@@ -138,7 +153,9 @@ function attachClickEvent( marker, cmStorSeq, storNm, savTp ) {
 
 // Failed to get my location.
 function onErrorGeolocation() {
-	// TODO Print message of error to Not supported location service in this device.			
+	// TODO Print message of error to Not supported location service in this device.
+	showComModal( {type:"info",msg:"현재 위치를 인식할 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+							  ,closeCallbackFnc:function(){ location.href = window.location.protocol + "//" + window.location.hostname + "/mycoup/mycoupList.do"; } } );			
 }
 
 //***************************************************************************************************

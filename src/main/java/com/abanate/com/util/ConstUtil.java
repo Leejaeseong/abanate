@@ -21,6 +21,7 @@ public class ConstUtil {
 	public final static String 	AUTH_FAIL_PAGE			= "redirect:/mycoup/index.do";
 	public final static String 	AUTH_FAIL_JSON			= "authentification is failed";
 	public final static String 	NOT_EXIST_DATA			= "Not exist data";				// If would change this value then util.js is changed too.
+	public final static String 	RECAPTCHA_SUCCESS		= "Recaptcha success";			// Success of recaptcha. If would change this value then util.js is changed too.
 	public final static String 	RECAPTCHA_FAIL			= "Recaptcha failed data";		// Data which didn't pass recaptcha validation.
 	public final static float 	RECAPTCHA_SUCC_SCORE	= 0.5f;							// Score of recaptcha to recognize in human( not machine or robot to attack )
 	public final static int 	GMAP_DAILY_LOAD_CNT		= 920;							// Count of possiblity to load google map. 

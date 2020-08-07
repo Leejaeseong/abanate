@@ -3,6 +3,7 @@ package com.abanate.com.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice(annotations = Controller.class)
 public class ComExceptionAdvice {
 
+	@Value( "${setting_api_recaptcha_site_key}" )
+	public String SETTING_API_RECAPTCHA_SITE_KEY;
+	
 	/**
 	 * Http exception
 	 */
@@ -59,6 +63,7 @@ public class ComExceptionAdvice {
         model.addObject("errStatusCode"	,statusCode);
         model.addObject("errMsg"		,msg);
         model.addObject("isError"		,true);
+        model.addObject( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
         response.setStatus(statusCode);
 
         return model;

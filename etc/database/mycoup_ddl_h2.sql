@@ -239,7 +239,7 @@ CREATE INDEX IX_CM_STOR_STOR_NM ON CM_STOR (STOR_NM);
 CREATE UNIQUE INDEX UK_CM_NATI_CD_ID ON CM_NATI_CD (NATI_CD);
 
 -- 관리일자  검색
-CREATE INDEX IX_CH_GMAP_MGR_DT ON CH_GMAP (MGR_DT);
+CREATE UNIQUE INDEX UX_CH_GMAP_MGR_DT ON CH_GMAP (MGR_DT);
 
 /* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

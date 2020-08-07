@@ -200,58 +200,10 @@
 			}
 		});
 
-		/*
-		// Event of move phone focus
-	  	document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
-			if( document.querySelector( '#phone1' ).value.length == 3 ) {
-				document.querySelector( '#phone2' ).focus();
-			}
-		});
-	  	document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
-			if( document.querySelector( '#phone2' ).value.length == 4 ) {
-				document.querySelector( '#phone3' ).focus();
-			}
-		});
-		
-	  	document.querySelector( '#pwdPhone1' ).addEventListener("keyup", function(evt) {
-			if( document.querySelector( '#pwdPhone1' ).value.length == 3 ) {
-				document.querySelector( '#pwdPhone2' ).focus();
-			}
-		});
-	  	document.querySelector( '#pwdPhone2' ).addEventListener("keyup", function(evt) {
-			if( document.querySelector( '#pwdPhone2' ).value.length == 4 ) {
-				document.querySelector( '#pwdPhone3' ).focus();
-			}
-		});
-	  	*/
-
 		// Event click login
 		function onLogin() {
 			var form = document.querySelector( '#idForm' );
-			// 체크			
-			/*
-			if( 	   document.querySelector( '#phone1' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#phone2' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone2' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#phone3' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone3' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#phone1" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#phone2" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone2' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#phone3" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone3' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#phone1' ).value.length < 2 || document.querySelector( '#phone2' ).value.length < 3 || document.querySelector( '#phone3' ).value.length < 4 ) {
-				showComModal( {type:"warning",msg:"전화번호 형식이 아닙니다",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-				return false;
-			*/
+			// 체크
 			if( document.querySelector( 'input[name="usrId"]' ).value == "" ) {
 				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 				return false;
@@ -263,9 +215,6 @@
 				return false;
 			}
 			
-			// 전화번호(아이디) 설정
-			//form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
-
 			// Server validation을 위해 dummy 값 입력
 			form.querySelector( 'input[name="usrTp"]' )			.value 	= "U";
 			form.querySelector( 'input[name="usrNm"]' )			.value 	= "-";
@@ -273,8 +222,7 @@
 
 			grecaptcha.ready(function() {
 		        grecaptcha.execute('${setting_api_recaptcha_site_key}', {action: 'submit'}).then(function(token) {
-	    	        // Add your logic to submit to your backend server here.
-	    	        
+	    	        // Add your logic to submit to your backend server here.	    	        
 	    	        document.querySelector( 'input[name="recaptchaToken"]' ).value = token;
 
 					form.submit();
@@ -286,30 +234,6 @@
 		function onSendPwdChng() {
 			// 체크
 			var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-			
-			/*
-			if( 	   document.querySelector( '#pwdPhone1' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone1' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#pwdPhone2' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone2' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#pwdPhone3' ).value == "" ) {
-				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone3' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#pwdPhone1" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone1' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#pwdPhone2" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone2' ).focus() }} );
-				return false;
-			} else if( isNaN( document.querySelector( "#pwdPhone3" ).value ) ) {
-				showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone3' ).focus() }} );
-				return false;
-			} else if( document.querySelector( '#pwdPhone1' ).value.length < 2 || document.querySelector( '#pwdPhone2' ).value.length < 3 || document.querySelector( '#pwdPhone3' ).value.length < 4 ) {
-				showComModal( {type:"warning",msg:"전화번호 형식이 아닙니다",closeCallbackFnc:function(){ document.querySelector( '#pwdPhone1' ).focus() }} );
-				return false;
-			*/
 			if( document.querySelector( 'input[name="pwdUsrId"]' ).value == "" ) {
 				showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="pwdUsrId"]' ).focus() }} );
 				return false;
@@ -324,9 +248,6 @@
 				return false;
 			}
 			
-			// 전화번호(아이디) 설정
-			//document.querySelector( '#pwdUsrId' ).value = document.querySelector( '#pwdPhone1' ).value + document.querySelector( '#pwdPhone2' ).value + document.querySelector( '#pwdPhone3' ).value;
-
 			grecaptcha.ready(function() {
 		        grecaptcha.execute('${setting_api_recaptcha_site_key}', {action: 'submit'}).then(function(token) {
 	    	        // Add your logic to submit to your backend server here.

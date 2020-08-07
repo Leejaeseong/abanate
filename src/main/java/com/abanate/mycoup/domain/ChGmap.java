@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import com.abanate.com.domain.ComSuffixDomain;
@@ -25,7 +26,7 @@ public class ChGmap extends ComSuffixDomain{
 	@Size( min = 8, max = 8, message = "관리일자 길이 오류" )
 	private String mgrDt;
 	
-	@NotBlank( message = "로딩횟수가 입력되지 않았습니다" )
+	@PositiveOrZero( message = "로딩량은 0 이상이어야 합니다")
 	private Long loadCnt;
 	
 	// Set default values 

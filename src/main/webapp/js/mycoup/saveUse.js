@@ -290,12 +290,20 @@ function changeLabels() {
 //The function of save button
 function onSave() {
   	if( chkBeforeSave() ) {
-		showComModal( {	  type:"save"
-	  					, msg:"저장하시겠습니까?"
-	  					, btn1CallbackFnc:function(){
-	  	  					form.submit(); 
-	  	  				 }
-				   } );
+		grecaptcha.ready(function() {
+			grecaptcha.execute(recaptchaSiteKey, {action: 'submit'}).then(function(token) {
+
+				// Add your logic to submit to your backend server here.
+				showComModal( {	  type:"save"
+					, msg:"저장하시겠습니까?"
+					, btn1CallbackFnc:function(){
+						document.querySelector( 'input[name="recaptchaToken"]' ).value = token;
+						form.submit(); 
+					}
+				} );
+			});
+		});
+		
   	}
 }
 

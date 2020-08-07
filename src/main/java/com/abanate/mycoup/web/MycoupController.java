@@ -204,7 +204,7 @@ public class MycoupController {
 				model.addAttribute( "isComplete", true );			
 				return rPage;
 			} else {
-				model.addAttribute( "isError", true );			
+				model.addAttribute( "isError", true );
 				model.addAttribute( "errMsg" , "계정 정보가 올바르지 않습니다" );
 				
 				model = ControllerUtil.setModel( model, sess, req );
@@ -515,13 +515,56 @@ public class MycoupController {
 		// Check possible to load.		
 		model.addAttribute( "canLoadGoogleMap", true );
 		ChGmap chGmap = chGmapRepo.findByMgrDt( DateUtil.getDateStrNoMark() );
-		if( chGmap != null && chGmap.getLoadCnt() > 920 ) {
+		if( chGmap != null && chGmap.getLoadCnt() >= ConstUtil.GMAP_DAILY_LOAD_CNT ) {
 			model.addAttribute( "canLoadGoogleMap", false );			
 		}
 		
 		model.addAttribute( "googleMapKey"	, MycoupPreLoadService.googleMapKey );
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		
 		model = ControllerUtil.setModel( model, sess, req );
 		return "mycoup/around";
+	}
+	
+	/**
+	 * User > around > increase googlemap load count.
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/saveAroundGoogleMapLoadCntInc.json",headers="Accept=*/*",produces="application/json;charset=UTF-8", method=RequestMethod.POST)
+	@ResponseBody
+	public String saveGoogleMapCntInc( @RequestBody String jsonString
+			, HttpSession sess
+			, HttpServletRequest  req
+			, HttpServletResponse res ) {
+
+		Gson gson = new Gson();
+		Map<String, Object> map = ( Map<String, Object> )gson.fromJson( jsonString, new HashMap<String, Object>().getClass() );
+		
+		// Check recaptcha
+		Map<String, Object> recaptchaRes = recaptchaService.token( map.get( "recaptchaToken" ).toString(), MycoupPreLoadService.rechapchaSecretKey );
+		if( ChkUtil.chkPassRecaptcha( recaptchaRes ) ) {
+			
+			// Check user login status.
+			if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_JSON; }
+			
+			String today = DateUtil.getDateStrNoMark();
+			
+			// Update google map load count.
+			int result = chGmapRepo.saveLoadCntInc( today );
+						
+			if( result == 0 ) { // insert
+				ChGmap chGmap = new ChGmap();
+				chGmap.setMgrDt( today );
+				chGmap.setLoadCnt( 1L );
+				chGmap.setComSuffix( sess, req );
+				chGmapRepo.save( chGmap );
+			}
+			
+			return ConstUtil.RECAPTCHA_SUCCESS;
+		} else {
+			return ConstUtil.RECAPTCHA_FAIL;
+		}
+		
 	}
 	
 	/**
@@ -624,6 +667,9 @@ public class MycoupController {
 		if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
 		
 		model = ControllerUtil.setModel( model, sess, req );
+		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		
 		return "mycoup/saveUse";
 	}
 	/**
@@ -718,13 +764,25 @@ public class MycoupController {
 			, @Valid @ModelAttribute( "crUsrStor" ) CrUsrStor  crUsrStor
 			) {
 		
-		// Check store masters login status
-		if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+		// Check recaptcha
+		Map<String, Object> recaptchaRes = recaptchaService.token( req.getParameter( "recaptchaToken" ), MycoupPreLoadService.rechapchaSecretKey );
+		if( ChkUtil.chkPassRecaptcha( recaptchaRes ) ) {
 		
-		mycoupService.saveSaveUse( req, sess, crUsrStor, req.getParameter( "usrId" ) );
+			// Check store masters login status
+			if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+			
+			mycoupService.saveSaveUse( req, sess, crUsrStor, req.getParameter( "usrId" ) );
+			
+			model = ControllerUtil.setModel( model, sess, req );
+			model.addAttribute( "isComplete", true );		
+			
+		} else {
+			model.addAttribute( "isError", true );			
+			model.addAttribute( "errMsg" , "자동화된 접근은 지원하지 않습니다" );
+		}
 		
-		model = ControllerUtil.setModel( model, sess, req );
-		model.addAttribute( "isComplete", true );		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );		
+		
 		return "mycoup/saveUse";
 	}
 	

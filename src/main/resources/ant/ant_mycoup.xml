@@ -5,12 +5,23 @@
 	<!-- load Properties file  -->
     <property file="ant_setting_mycoup.properties"/>    
 
+	<!-- Ant utilities
+	     To set a jar in eclipse, do below
+	     1. Window > Preferences > Ant > Runtime > Global Entries > Add JARs > abanate  etc / download / ant-contrib-1.0b3.jar
+	     2. Window > Preferences > Ant > Runtime > Global Entries > Add JARs > abanate  etc / download / jsch-0.1.55.jar
+	 -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="ant-contrib-${version}.jar" />
+		</classpath>
+	</taskdef>
+
 	<!-- main target -->
     <target name="main" >
-    	
+
     	<antcall target="dist_mycoup"/>
     	
-    </target>    
+    </target>
 	
 	<!-- distribute mycoup source -->
     <target name="dist_mycoup" >
@@ -20,27 +31,93 @@
         <echo message="======================================================================"/>
     	
     	<echo message="======================================================================"/>
-        <echo message="=== 1. Build source to make file of 'ROOT.war'"/>
+        <echo message="=== 1. Manually build source to make file of '${name_war_ori}' to ${path_local_war}"/>
         <echo message="======================================================================"/>
+    	
+    	<if>
+    		<available file="${path_local_war}${seperator_file}${name_war_ori}"/>
+    		<then>
+    			<echo message="======================================================================"/>
+		        <echo message="=== File is located, continue distribution." />
+		        <echo message="======================================================================"/>
+    		</then>
+    		<else>
+    			<echo message="======================================================================"/>
+		        <echo message="=== File is not located, abort distribution !!!" />
+		        <echo message="======================================================================"/>
+    			<fail status="0"/>
+    			
+    		</else>
+    	</if>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 2. Change name '${name_war_ori}' to '${name_war}'"/>
+        <echo message="======================================================================"/>
+    	<rename src="${path_local_war}${seperator_file}${name_war_ori}" dest="${path_local_war}${seperator_file}${name_war}"/>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 2. Stop tomcat"/>
+        <echo message="======================================================================"/>
+    	<sshexec	host="${server_ip}"
+					port="${server_port}"
+			        username="${server_id}"
+					keyfile="${server_privatekey}"
+					trust="true"
+					command="sudo ${path_tomcat}/bin/shutdown.sh"/>
+					
+    	<echo message="======================================================================"/>
+        <echo message="=== 3. Sleep 3 seconds"/>
+        <echo message="======================================================================"/>
+		<sleep seconds="3"/>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 4. Kill tomcat process, if there is running."/>
+        <echo message="======================================================================"/>
+    	<sshexec	host="${server_ip}"
+					port="${server_port}"
+			        username="${server_id}"
+					keyfile="${server_privatekey}"
+					trust="true"
+					command="ps aux  |  grep -i tomcat  |  awk '{print $2}'  |  xargs sudo kill -9"
+    				failonerror="false"/>
+    	
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 5. Delete file of ROOT.war and directory of ROOT in server"/>
+        <echo message="======================================================================"/>
+    	<sshexec	host="${server_ip}"
+					port="${server_port}"
+			        username="${server_id}"
+					keyfile="${server_privatekey}"
+					trust="true"
+					command="sudo rm -rf ${path_tomcat}/webapps/ROOT*"/>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 6. Copy file of ROOT.war"/>
+        <echo message="======================================================================"/>
+    	<scp	file="${path_local_war}${seperator_file}${name_war}"
+    			toDir="${server_id}@${server_ip}:${path_tomcat}/webapps/"
+    			port="${server_port}"
+    			keyfile="${server_privatekey}"
+				trust="true">
+        </scp>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 7. Delete local file of ROOT.war "/>
+        <echo message="======================================================================"/>
+    	<delete file="${path_local_war}${seperator_file}${name_war}"/>
+    	
+    	<echo message="======================================================================"/>
+        <echo message="=== 8. Start tomcat"/>
+        <echo message="======================================================================"/>
+    	<sshexec	host="${server_ip}"
+					port="${server_port}"
+			        username="${server_id}"
+					keyfile="${server_privatekey}"
+					trust="true"
+					command="sudo ${path_tomcat}/bin/startup.sh"/>
     	
     </target>
 	
-	<target name="buildwar" description="create a war file">
-	    <war basedir="${basedir}/build" destfile="ROOT.war"
-	         webxml="${basedir}/WebContent/WEB-INF/web.xml">
-	          <fileset dir="WebContent"/>
-	            <exclude name="WEB-INF/**" />
-	                <lib dir="WebContent/WEB-INF/lib"/>
-	                <lib dir="lib"/>
-	                <classes dir="build/classes"/>
-	                <classes dir="config"/>
-	        <webinf dir="${basedir}/WebContent/WEB-INF/">
-	            <include name="**/*.jar" />
-	        </webinf>
-	    </war> 
-	</target>
-	<target name="deploy" depends="buildwar" description="Deploy this in apache webapps">
-	    <copy file="${app}.war" todir="${tomcatWebApps}" />
-	</target>
 	
 </project>
