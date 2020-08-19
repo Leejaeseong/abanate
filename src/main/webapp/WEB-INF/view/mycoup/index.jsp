@@ -14,6 +14,7 @@
 
   <jsp:include page="navigator.jsp"/>
 
+
   <!-- Full Page Intro -->
   <!--  
   <div class="view" style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/93.jpg'); background-repeat: no-repeat; background-size: cover;">
@@ -26,12 +27,12 @@
       <!-- Content -->
       <div class="text-left white-text mx-5 wow fadeIn">
         <h5 class="mb-4">
-          <i class="far fa-star"></i> 쿠폰/포인트 적립,고객관리<br/><br/>
-          <i class="far fa-star"></i> 번거로운 App 설치 <label class="text-danger font-weight-bold">NO!</label><br/><br/>
-          <i class="far fa-star"></i> 크고 비싼 종이쿠폰 <label class="text-danger font-weight-bold">NO!</label><br/><br/>
-          <i class="far fa-star"></i> 기계 장비 도입 <label class="text-danger font-weight-bold">NO!</label><br/><br/>
-          <i class="far fa-star"></i> 모든 서비스는 <label class="text-danger font-weight-bold">무료</label><br/><br/>
-          이제 쿠폰과 포인트를 편리하게 모아 보아요<br/><br/>
+          <i class="far fa-star"></i> <!--쿠폰/포인트 적립,고객관리-->${mLang["ind_intro1"]}<br/><br/>
+          <i class="far fa-star"></i> <!--번거로운 App 설치-->${mLang["ind_intro2"]} <label class="text-danger font-weight-bold">NO!</label><br/><br/>
+          <i class="far fa-star"></i> <!--크고 비싼 종이쿠폰-->${mLang["ind_intro3"]} <label class="text-danger font-weight-bold">NO!</label><br/><br/>
+          <i class="far fa-star"></i> <!--기계 장비 도입 -->${mLang["ind_intro4"]} <label class="text-danger font-weight-bold">NO!</label><br/><br/>
+          <i class="far fa-star"></i> <!--모든 서비스는-->${mLang["ind_intro5_1"]} <label class="text-danger font-weight-bold"><!--무료-->${mLang["ind_intro5_2"]}</label><br/><br/>
+          <!--이제 쿠폰과 포인트를 편리하게 모아 보아요-->${mLang["ind_intro5_3"]}
         </h5>
 
 		<!--  
@@ -44,11 +45,11 @@
 
       <!-- <div class="bg-primary"> -->
 	   <c:if test="${sessionScope.cmUsr == null}">
-        <a href="./login.do" class="btn btn-outline-white btn-sm" style="width:10em;"><span id="idTextLogin">Login</span>
+        <a href="./login.do" class="btn btn-outline-white btn-sm" style="width:14em;"><span id="idTextLogin"><!--로그인-->${mLang["login"]}</span>
           <i class="fas fa-sign-in-alt"></i> 
         </a>
         
-        <a href="./joinMember.do" class="btn btn-outline-white btn-sm" style="width:12em;">간편 가입
+        <a href="./joinMember.do" class="btn btn-outline-white btn-sm" style="width:14em;"><!--간편 가입-->${mLang["easy_join"]}
           <i class="far fa-address-card"></i>
         </a>
        </c:if>
@@ -72,7 +73,7 @@
       <!--Section-->
       <section>
 
-        <h3 class="h3 text-center mb-5">어떻게 사용 하나요?</h3>
+        <h3 class="h3 text-center mb-5"><!--어떻게 사용 하나요?-->${mLang["ind_how_use"]}</h3>
 
         <jsp:include page="comIntroArticle.jsp"/>
 
@@ -80,9 +81,6 @@
       <!--Section-->
 
       <hr class="mb-5">
-      <script type="text/javascript">
-      	
-      </script>
     </div>
   </main>
   <!--Main layout-->

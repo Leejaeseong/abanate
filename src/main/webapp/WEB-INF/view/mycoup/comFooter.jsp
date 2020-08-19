@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   	<!-- Modal -->
 	<div class="modal fade" id="comModal" tabindex="-1" role="dialog" aria-labelledby="common modal" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
@@ -103,11 +104,11 @@
 			// Case of confirming modal
 			if( options.type != undefined && options.type == "save" ) {	// // Ask confirm to save
 				document.querySelector( ".modal-header" ).style.backgroundColor = "#17A2B8";	// info color
-				document.querySelector( "#comModalTitle" ).textContent = "확인";
+				document.querySelector( "#comModalTitle" ).textContent = '${mLang["confirm"]}'; //확인
 				
 				document.querySelector( "#comModalBtn1" 	).hidden 		= false;
-				document.querySelector( "#comModalBtn1" 	).textContent 	= "저장";
-				document.querySelector( "#comModalBtnClose" ).textContent 	= "취소";
+				document.querySelector( "#comModalBtn1" 	).textContent 	= '${mLang["save"]}';	// 저장
+				document.querySelector( "#comModalBtnClose" ).textContent 	= '${mLang["cancel"]}';	// 취소
 
 				// Click btn1
 				document.querySelector( "#comModalBtn1" 	).addEventListener( "click", function( evt ) {
@@ -119,17 +120,17 @@
 				
 			} else {	// Case of normal alarming modal
 				document.querySelector( "#comModalBtn1" 	).hidden 		= true;
-				document.querySelector( "#comModalBtnClose" ).textContent 	= "닫기";
+				document.querySelector( "#comModalBtnClose" ).textContent 	= '${mLang["close"]}'; // 닫기
 			
 				if( options.type == undefined || options.type == "info" ) {
 					document.querySelector( ".modal-header" ).style.backgroundColor = "#428bca";	// primary color
-					document.querySelector( "#comModalTitle" ).textContent = "알림";
+					document.querySelector( "#comModalTitle" ).textContent = '${mLang["noti"]}';	// 알림
 				} else if( options.type != undefined && options.type == "warning" ) {
 					document.querySelector( ".modal-header" ).style.backgroundColor = "#f0ad4e";	// warning color
-					document.querySelector( "#comModalTitle" ).textContent = "경고";
+					document.querySelector( "#comModalTitle" ).textContent = '${mLang["warn"]}';	// 경고
 				} else if( options.type != undefined && options.type == "error" ) {
 					document.querySelector( ".modal-header" ).style.backgroundColor = "#d9534f";	// danger color
-					document.querySelector( "#comModalTitle" ).textContent = "오류";
+					document.querySelector( "#comModalTitle" ).textContent = '${mLang["error"]}';	// 오류
 				}
 				
 			} 

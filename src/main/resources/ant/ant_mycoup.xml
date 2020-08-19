@@ -53,7 +53,7 @@
     	<echo message="======================================================================"/>
         <echo message="=== 2. Change name '${name_war_ori}' to '${name_war}'"/>
         <echo message="======================================================================"/>
-    	<rename src="${path_local_war}${seperator_file}${name_war_ori}" dest="${path_local_war}${seperator_file}${name_war}"/>
+    	<move file="${path_local_war}${seperator_file}${name_war_ori}" tofile="${path_local_war}${seperator_file}${name_war}"/>
     	
     	<echo message="======================================================================"/>
         <echo message="=== 2. Stop tomcat"/>

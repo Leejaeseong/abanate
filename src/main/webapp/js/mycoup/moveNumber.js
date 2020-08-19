@@ -19,6 +19,7 @@ window.addEventListener("load", function() {	// It can declare parameter in func
   	
 });
 
+/*
 document.querySelector( '#phone1' ).addEventListener("keyup", function() {	// It can declare parameter in function( i.g. "evt" )
 	if( document.querySelector( '#phone1' ).value.length == 3 ) {
 		document.querySelector( '#phone2' ).focus();
@@ -29,8 +30,13 @@ document.querySelector( '#phone2' ).addEventListener("keyup", function() {	// It
 		document.querySelector( '#phone3' ).focus();
 	}
 });
+*/
 
 // Event blur at the first form of a user phone number
+form.querySelector( 'input[name="usrId"]' ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
+  	findUsr();
+});
+/*
 form.querySelector( "#phone1" ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
   	findUsr();
 });
@@ -42,6 +48,7 @@ form.querySelector( "#phone2" ).addEventListener( "blur", function() {	// It can
 form.querySelector( "#phone3" ).addEventListener( "blur", function() {	// It can declare parameter in function( i.g. "evt" )
   	findUsr();
 });
+*/
 
 //***************************************************************************************************
 //***************************************************************************************************
@@ -53,11 +60,8 @@ form.querySelector( "#phone3" ).addEventListener( "blur", function() {	// It can
 function findUsr() {
 	
 	// If all of the forms are filled, then execute this.
-  	if( chkPhoneNo( "phone1", "phone2", "phone3", true ) ) {
-  	  	// Set phone number
-		form.querySelector( 'input[name="usrId"]' ).value = document.querySelector( '#phone1' ).value + document.querySelector( '#phone2' ).value + document.querySelector( '#phone3' ).value;
-
-		// Send ajax data.
+  	if( chkPhoneNo( "usrId", true ) ) {
+  	  	// Send ajax data.
 		ajaxSend( "./findUserByUsrId.json" 
 				, { 	usrId 		: form.querySelector( 'input[name="usrId"]' ).value
 					, 	searchType 	: "new" }
@@ -98,10 +102,10 @@ function onSave() {
 function chkBeforeSave() {
 
 	if( !chkNull( form.querySelector( 'input[name="usrId"]' ).value ) ) {
-		showComModal( {msg:"이동하실 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
+		showComModal( {msg:"이동하실 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 		return false;
 	} else if( myId == form.querySelector( 'input[name="usrId"]' ).value ) {
-		showComModal( {msg:"동일한 전화번호로는 이동이 불가능합니다.",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
+		showComModal( {msg:"동일한 전화번호로는 이동이 불가능합니다.",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 		return false;
 	}
   	

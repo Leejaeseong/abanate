@@ -101,6 +101,8 @@ public class MycoupController {
 		model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
 		
 		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/joinMember";
 	}
@@ -143,17 +145,20 @@ public class MycoupController {
 			model.addAttribute( "isComplete", true );
 		} else {
 			model.addAttribute( "isError", true );			
-			model.addAttribute( "errMsg" , "자동화된 로그인은 지원하지 않습니다" );
+			model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_machineryloginnoacceptable", req) );	// 자동화된 로그인은 지원하지 않습니다
 			
 			model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
 		}
 		
-		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
 		return "mycoup/joinMember";
 	}
 	
 	/**
-	 * Index only for test
+	 * Index
 	 */
 	@RequestMapping(value = "index.do", method = RequestMethod.GET)
 	public String index(	  Model model
@@ -162,11 +167,21 @@ public class MycoupController {
 								, HttpServletResponse res
 								) {
 		
-		CmUsr cmUsr = new CmUsr();
+//		CmUsr cmUsr = new CmUsr();
 //		cmUsr.setUsrId( "01011111234" );
-		cmUsr.setUsrId( "01012345678" );
-		cmUsr.setPasswd( "123456" );
+//		cmUsr.setUsrId( "01012345678" );
+//		cmUsr.setPasswd( "123456" );
 //		mycoupService.login(cmUsr, sess, req);
+		
+		String usrLang = ControllerUtil.getCookie( "usrLang", "/mycoup/", req);
+		if( ChkUtil.chkNull( usrLang ) && usrLang.equals( "ko-KR" ) ) {
+			ControllerUtil.setCookie( "/mycoup/", res, "usrLang", usrLang );
+		} else {
+			ControllerUtil.setCookie( "/mycoup/", res, "usrLang", "English" );
+		}
+		
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/index";
 	}
@@ -201,21 +216,29 @@ public class MycoupController {
 					return "redirect:/mycoup/saveUse.do";
 				}
 				
-				model.addAttribute( "isComplete", true );			
+				model.addAttribute( "isComplete", true );
+				model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+				model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+				
 				return rPage;
 			} else {
 				model.addAttribute( "isError", true );
-				model.addAttribute( "errMsg" , "계정 정보가 올바르지 않습니다" );
+				model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_wrongaccount", req) ); // 계정 정보가 올바르지 않습니다
 				
 				model = ControllerUtil.setModel( model, sess, req );
 				model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );				
 				model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+				model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+				model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 				
 				return "mycoup/login";
 			}
 		} else {
 			model.addAttribute( "isError", true );			
-			model.addAttribute( "errMsg" , "자동화된 로그인은 지원하지 않습니다" );	
+			model.addAttribute( "errMsg" , "자동화된 로그인은 지원하지 않습니다" );
+			model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+			model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+			
 			return "mycoup/login";
 		}
 		
@@ -244,6 +267,9 @@ public class MycoupController {
 			model.addAttribute( "result"			, ConstUtil.NOT_EXIST_DATA 				);
 		}
 		
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
 		return "mycoup/changePwd";
 	}
 	/**
@@ -265,7 +291,9 @@ public class MycoupController {
 				try {
 					cmUsr.setPasswd( SecureUtil.sha256( req.getParameter( "passwd" ) ) );
 				} catch( NoSuchAlgorithmException e ) {
-					throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
+					model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+					model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+					throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
 				}
 				cmUsr.setPasswdChngToken( "" );
 				cmUsr.setComSuffix( sess, req );
@@ -273,13 +301,16 @@ public class MycoupController {
 				model.addAttribute( "isComplete", true );
 			} else {
 				model.addAttribute( "isError", true );
-				model.addAttribute( "errMsg" , "자동화된 접근(ex. Robot, 크롤링)은 허용되지 않습니다" );
+				model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_machinerynoacceptable", req) );	// 자동화된 접근(ex. Robot, 크롤링)은 허용되지 않습니다
 			}
 			
 		} else {
 			model.addAttribute( "isError", true );
-			model.addAttribute( "errMsg" , "접근 경로가 올바르지 않습니다" );
+			model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_wrongaccesspath", req) );	// 접근 경로가 올바르지 않습니다
 		}
+		
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/changePwd";
 	}
@@ -344,10 +375,13 @@ public class MycoupController {
 	@RequestMapping(value = "apiAddress.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String apiAddress(	  Model model
 			, HttpSession sess
+			, HttpServletResponse res
 			, HttpServletRequest req ) {
 		
 		model.addAttribute( "SETTING_API_ADDRESS_KEY_PC"	, MycoupPreLoadService.koreaAddressKeyPc );
 		model.addAttribute( "SETTING_API_ADDRESS_KEY_MOBILE", MycoupPreLoadService.koreaAddressKeyMobile );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		// 주소 연동 폐기, 승인키 갱신, 현재는 개발용으로 라이선스 유효기간 짧음
 		
@@ -403,6 +437,9 @@ public class MycoupController {
 		model.addAttribute( "sumInfo", rMap );
 
 		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
 		return "mycoup/mycoupList";
 	}
 	/**
@@ -523,6 +560,9 @@ public class MycoupController {
 		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
 		
 		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
 		return "mycoup/around";
 	}
 	
@@ -605,6 +645,8 @@ public class MycoupController {
 		
 		// Check stor masters login status
 		if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/moveNumber";
 	}
@@ -649,7 +691,9 @@ public class MycoupController {
 		mycoupService.saveMoveNumber( req, sess );
 		
 		model = ControllerUtil.setModel( model, sess, req );
-		model.addAttribute( "isComplete", true );		
+		model.addAttribute( "isComplete", true );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/moveNumber";
 	}
@@ -669,6 +713,8 @@ public class MycoupController {
 		model = ControllerUtil.setModel( model, sess, req );
 		
 		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/saveUse";
 	}
@@ -749,7 +795,7 @@ public class MycoupController {
 			Map<String, Object> rMap = new HashMap<String, Object>();
 			rMap.put( "chVisit"		, page.getContent() );
 			return gson.toJson( rMap );
-		} else {
+		} else {			
 			return ConstUtil.NOT_EXIST_DATA;
 		}
 	}
@@ -778,10 +824,12 @@ public class MycoupController {
 			
 		} else {
 			model.addAttribute( "isError", true );			
-			model.addAttribute( "errMsg" , "자동화된 접근은 지원하지 않습니다" );
+			model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_machinerynoacceptable", req) );	// 자동화된 접근(ex. Robot, 크롤링)은 허용되지 않습니다
 		}
 		
-		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/saveUse";
 	}
@@ -806,7 +854,9 @@ public class MycoupController {
 		// Count of accumulated customers.
 		model.addAttribute( "accumCustomerCnt", crUsrStorRepo.countByCmStor( cmStor ) );
 		
-		model = ControllerUtil.setModel( model, sess, req );		
+		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		return "mycoup/visitHistory";
 	}
 	/**
@@ -875,7 +925,10 @@ public class MycoupController {
 		// Load goods management objects
 		model.addAttribute( "cmGoos", cmGoosList );	
 		
-		model = ControllerUtil.setModel( model, sess, req );		
+		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
 		return "mycoup/setup";
 	}
 	/**
@@ -896,6 +949,8 @@ public class MycoupController {
 		if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
 		
 		mycoupService.saveSetup( req, sess, cmGoosSeq, savAmt, goosNm, rmks, delArr );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "redirect:/mycoup/setup.do";
 	}
@@ -911,6 +966,8 @@ public class MycoupController {
 		
 		// Check stor masters login status
 		if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/integrationCoupon";
 	}
@@ -1001,9 +1058,188 @@ public class MycoupController {
 		mycoupService.saveIntegrationCoupon( req, sess );
 		
 		model = ControllerUtil.setModel( model, sess, req );
-		model.addAttribute( "isComplete", true );		
+		model.addAttribute( "isComplete", true );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/integrationCoupon";
+	}
+	
+	/**
+	 * User > Modify user information > init
+	 */
+	@RequestMapping(value = "modUsrInfo.do", method = RequestMethod.GET)
+	public String modUsrInfoInit(	  Model model
+									, HttpSession sess
+									, HttpServletRequest  req
+									, HttpServletResponse res ) {
+		
+		// Check user login status.
+		if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+		
+		model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		
+		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
+		return "mycoup/modUsrInfo";
+	}
+	
+	/**
+	 * User > Modify user information > save
+	 * @param request
+	 * @return
+	 * @throws ComException 
+	 */
+	@RequestMapping(value = "modUsrInfo.do", method = RequestMethod.POST)
+	public String modUsrInfoSave(	  Model model
+									, HttpSession sess
+									, HttpServletRequest  req
+									, HttpServletResponse res
+									, @Valid @ModelAttribute( "cmUsr" )  CmUsr   cmUsr
+								) {
+
+		// Check recaptcha
+		Map<String, Object> recaptchaRes = recaptchaService.token( req.getParameter( "recaptchaToken" ), MycoupPreLoadService.rechapchaSecretKey );
+		if( ChkUtil.chkPassRecaptcha( recaptchaRes ) ) {
+		
+			// Check user login status.
+			if( !ControllerUtil.isUsrLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+			
+			// Check passwordk
+			try {
+				if( cmUsrRepo.findByUsrIdAndPasswdAndNatiCd( cmUsr.getUsrId(), SecureUtil.sha256( cmUsr.getPasswd() ), cmUsr.getNatiCd() ) == null ) {
+					model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+					model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+					throw new ComException( mycoupPreLoadService.getMMsg( "contr_wrongaccount", req) );	// 계정 정보가 올바르지 않습니다					
+				}
+			} catch( NoSuchAlgorithmException e ) {
+				model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+				model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+				throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
+			}
+			
+			// Record modified user informations.
+			CmUsr oCmUsr = (CmUsr)sess.getAttribute( "cmUsr" );
+			
+			oCmUsr.setUsrNm( cmUsr.getUsrNm() );
+			oCmUsr.setEmail( cmUsr.getEmail() );
+			oCmUsr.setMarketAgreeYn( cmUsr.getMarketAgreeYn() );
+			
+			if( req.getParameter( "chngPasswd" ) != null && !"".equals( (String)req.getParameter( "chngPasswd" ) ) ) {
+				try {
+					oCmUsr.setPasswd( SecureUtil.sha256( req.getParameter( "chngPasswd" ) ) );
+				} catch( NoSuchAlgorithmException e ) {
+					model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+					model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+					throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
+				}
+			}
+			
+			oCmUsr.setComSuffix( sess, req );
+			cmUsrRepo.save( oCmUsr );
+			
+			sess.setAttribute( "cmUsr", oCmUsr );
+			
+			model = ControllerUtil.setModel( model, sess, req );
+			
+			model.addAttribute( "isComplete", true );
+		} else {
+			model.addAttribute( "isError", true );			
+			model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_machinerynoacceptable", req) );	// 자동화된 접근(ex. Robot, 크롤링)은 허용되지 않습니다
+			
+			model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+		}
+		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		return "mycoup/modUsrInfo";
+	}
+	
+	/**
+	 * Store > Modify store information > init
+	 */
+	@RequestMapping(value = "modstorInfo.do", method = RequestMethod.GET)
+	public String modStorInfoInit(	  Model model
+			, HttpSession sess
+			, HttpServletRequest  req
+			, HttpServletResponse res ) {
+		
+		// Check store owner login status.
+		if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+		
+		model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		
+		model = ControllerUtil.setModel( model, sess, req );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
+		return "mycoup/modStorInfo";
+	}
+	
+	/**
+	 * Store > Modify store information > save
+	 * @param request
+	 * @return
+	 * @throws ComException 
+	 */
+	@RequestMapping(value = "modStorInfo.do", method = RequestMethod.POST)
+	public String modStorInfoSave(	  Model model
+			, HttpSession sess
+			, HttpServletRequest  req
+			, HttpServletResponse res
+			, @Valid @ModelAttribute( "cmUsr" )  CmUsr  cmUsr
+			, @Valid @ModelAttribute( "cmStor" ) CmStor	cmStor
+			) {
+		
+		// Check recaptcha
+		Map<String, Object> recaptchaRes = recaptchaService.token( req.getParameter( "recaptchaToken" ), MycoupPreLoadService.rechapchaSecretKey );
+		if( ChkUtil.chkPassRecaptcha( recaptchaRes ) ) {
+			
+			// Check user login status.
+			if( !ControllerUtil.isStorLogin( sess ) ) { return ConstUtil.AUTH_FAIL_PAGE; }
+			
+			mycoupService.modUsrAndStor(cmUsr, cmStor, sess, req);
+			
+			model = ControllerUtil.setModel( model, sess, req );
+			
+			model.addAttribute( "isComplete", true );
+		} else {
+			model.addAttribute( "isError", true );			
+			model.addAttribute( "errMsg" , mycoupPreLoadService.getMMsg( "contr_machinerynoacceptable", req) );	// 자동화된 접근(ex. Robot, 크롤링)은 허용되지 않습니다
+			
+			model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+		}
+		
+		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
+		return "mycoup/modUsrInfo";
+	}
+	
+	/**
+	 * Refresh multi language set.
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "refMultiLanguage.do", method = RequestMethod.GET)
+	public String refMultiLanguage( Model model
+							, HttpSession sess
+							, HttpServletResponse res
+							, HttpServletRequest req ) {
+		
+		mycoupPreLoadService.initMLang();
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
+		
+		return "mycoup/index";
 	}
 	
 	/**
@@ -1015,6 +1251,7 @@ public class MycoupController {
 	public String initComGet( Model model
 							, @PathVariable String urlName
 							, HttpSession sess
+							, HttpServletResponse res
 							, HttpServletRequest req ) {
 		
 		model = ControllerUtil.setModel( model, sess, req );
@@ -1023,6 +1260,8 @@ public class MycoupController {
 		model.addAttribute( "setting_api_recaptcha_site_key", SETTING_API_RECAPTCHA_SITE_KEY );
 		
 		model.addAttribute( "cmNatiCd" ,  mycoupPreLoadService.getCmNatiCdList() );
+		model.addAttribute( "usrLang" ,  ControllerUtil.getCookie( "usrLang", "/mycoup/", req) );
+		model.addAttribute( "mLang" ,  mycoupPreLoadService.getMLang( req, res ) );
 		
 		return "mycoup/" + urlName;
 	}

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.abanate.mycoup.service.MycoupPreLoadService;
+
 /**
  * [참조]
  * https://www.slipp.net/questions/600
@@ -54,6 +56,7 @@ public class ComExceptionAdvice {
         		if( e instanceof BindException ) {	// BindException인 경우 첫번째 바인드 오류 부분을 메시지에 담음
         			msg = ( ( BindException )e ).getAllErrors().get( 0 ).getDefaultMessage();
         		}
+        		
         	} else {	// error page 로 이동        
         		model = new ModelAndView("com/exception");
         	}

@@ -7,7 +7,7 @@ let usrLang = "";
 
 // After document load.
 window.addEventListener("load", function() {	// This function can define a event parameter. 
-	
+	/*
 	if( !getCookie( "usrLang" ) ) {
 		usrLang = getLanguage();
 		setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS, "/mycoup/" );
@@ -16,6 +16,7 @@ window.addEventListener("load", function() {	// This function can define a event
 	}
 	
 	callTrans();
+	*/
 });
 
 // Translate
@@ -32,7 +33,7 @@ function callTrans() {
 function changeLanguage( obj ) {
 	usrLang = obj.value;
 	setCookie( "usrLang", usrLang, COOKIE_VALID_DAYS, "/mycoup/" );
-	callTrans();
+	goMain();
 }
 
 // Korean language

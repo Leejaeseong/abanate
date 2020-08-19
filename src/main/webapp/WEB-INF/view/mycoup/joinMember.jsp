@@ -18,7 +18,7 @@
 
     <div class="container bg-primary">
       <h1>        
-        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-user-friends"></i> 회원가입</span>
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-user-friends"></i> <!--회원가입-->${mLang["signup"]}</span>
       </h1>
     </div>
 	
@@ -31,12 +31,12 @@
           <i class="fas fa-users-cog"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-            <label>회원 구분</label>
+            <label><!--회원 구분-->${mLang["membertype"]}</label>
         </div>
         <div class="col form-inline text-center">
           <select class="form-control form-control-sm" name="usrTp" style="width:12em;" onchange="switchUsr();">
-            <option value="U" selected>사용자</option>
-            <option value="S" >경영주</option>
+            <option value="U" selected><!--사용자-->${mLang["user"]}</option>
+            <option value="S" ><!--경영주-->${mLang["storeowner"]}</option>
           </select>
         </div>
         
@@ -46,18 +46,10 @@
           <i class="fas fa-mobile-alt"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>전화번호(ID)</label>
+          <label><!--전화번호(ID)-->${mLang["phone_id"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
-          <!--  
-          <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
-          <input type="hidden" name="usrId"/>
-          -->
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -66,7 +58,7 @@
           <i class="fas fa-globe"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>국가</label>
+          <label><!--국가-->${mLang["nation"]}</label>
         </div>
         <div class="col form-inline text-center">
           <select class="form-control form-control-sm" name="natiCd" style="width:12em;"></select>
@@ -78,11 +70,11 @@
             <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>비밀번호</label>
+          <label><!--비밀번호-->${mLang["passwd"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" name="passwd" placeholder="Password" style="width:12em;" maxlength="20">
-          <label for="password" class="font-italic small">※ 관리자도 해독 불가</label>
+          <label for="password" class="font-italic small">※ <!--관리자도 해독 불가-->${mLang["strictedpasswd"]}</label>
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -91,7 +83,7 @@
           <i class="fas fa-key"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>비밀번호<br/>확인</label>
+          <label><!--비밀번호<br/>확인-->${mLang["confirmpasswd_br"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" id="passwdConfirm" placeholder="Password" style="width:12em;" maxlength="20">
@@ -103,7 +95,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>가입자 성함<font class="small"><br/>( 또는 예명 )</font>
+          <label><!--가입자 성함-->${mLang["username"]}<font class="small"><br/>( <!--또는 예명-->${mLang["oraliasname"]} )</font>
           </label>
         </div>
         <div class="col form-inline text-center">
@@ -116,7 +108,7 @@
           <i class="far fa-envelope"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>이메일 주소</label>
+          <label><!--이메일 주소-->${mLang["email"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="email" class="form-control form-control-sm" name="email" aria-describedby="email address" placeholder="Enter email" style="width:12em;" maxlength="64">
@@ -128,10 +120,10 @@
           <i class="fas fa-sign"></i>
         </div>                  
         <div id="divStorNmLb" class="col-4 text-left mt-2">
-            <label>상호</label>
+            <label><!--상호-->${mLang["storename"]}</label>
         </div>
         <div id="divStorNmForm" class="col form-inline text-center">
-          <input type="text" class="form-control form-control-sm" name="storNm" aria-describedby="stor name" placeholder="상호" style="width:12em;" maxlength="32">
+          <input type="text" class="form-control form-control-sm" name="storNm" aria-describedby="stor name" style="width:12em;" maxlength="32">
         </div>
         
         <div id="divStorSavTpHr" class="w-100"><hr/></div> <!-- horizontal line -->
@@ -140,12 +132,12 @@
           <i class="fas fa-filter"></i>
         </div>                  
         <div id="divStorSavTpLb" class="col-4 text-left mt-2">
-          <label>적립 구분</label>
+          <label><!--적립 구분-->${mLang["savetype"]}</label>
         </div>
         <div id="divStorSavTpForm" class="col form-inline text-center">
           <select class="form-control form-control-sm" name="savTp" style="width:12em;">
-            <option value="C" selected>쿠폰</option>
-            <option value="P" >포인트</option>
+            <option value="C" selected><!--쿠폰-->${mLang["coupon"]}</option>
+            <option value="P" ><!--포인트-->${mLang["point"]}</option>
           </select>
         </div>
         
@@ -155,18 +147,10 @@
           <i class="fas fa-phone-square"></i>
         </div>                  
         <div id="divStorTelNoLb" class="col-4 text-left mt-2">
-          <label>연락처</label>
+          <label><!--연락처-->${mLang["contactnumber"]}</label>
         </div>
         <div id="divStorTelNoForm" class="col form-inline text-center">
         	<input type="text" class="form-control form-control-sm" name="telNo" style="width:12em;" maxlength="20">
-        	<!--  
-          	<input type="text" class="form-control form-control-sm" id="telNo1" style="width:3em;" maxlength="3">
-          	<label class="mt-2" style="width:0.8em;">-</label>
-          	<input type="text" class="form-control form-control-sm" id="telNo2" style="width:3.5em;" maxlength="4">
-          	<label class="mt-2" style="width:0.8em;">-</label>
-          	<input type="text" class="form-control form-control-sm" id="telNo3" style="width:3.5em;" maxlength="4">
-          	<input type="hidden" name="telNo"/>
-        	-->
         </div>
 
         <div id="divStorAddrHr" class="w-100"><hr/></div> <!-- horizontal line -->
@@ -175,22 +159,13 @@
           <i class="fas fa-map-marked-alt"></i>
         </div>
         <div id="divStorAddrLb" class="col-4 text-left mt-2">
-            <label>주소</label>
+            <label><!--주소-->${mLang["address"]}</label>
         </div>
         <div id="divStorAddrForm" class="col form-inline text-center">
-          	<input type="text" class="form-control form-control-sm" id="addrPt1" name="addrPt1" aria-describedby="address" placeholder="주소" style="width:12em;" maxlength="85">
+          	<input type="text" class="form-control form-control-sm" id="addrPt1" name="addrPt1" aria-describedby="address" style="width:12em;" maxlength="85">
           	<div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
-          	<div onclick="popAddress();">위도</div><input type="text" class="form-control form-control-sm" id="mapLat" name="mapLat" style="width: 3.5em;"/>          	       
-          	<div onclick="popAddress();">경도</div><input type="text" class="form-control form-control-sm" id="mapLng" name="mapLng" style="width: 3.5em;"/>
-        	<!-- 
-          	<input type="text" class="form-control form-control-sm" id="address" name="address" aria-describedby="address" placeholder="주소" style="width:12em;" onclick="popAddress();" readonly>
-          	<input type="hidden" id="roadAddrPart1" 	name="addrPt1"	/>
-          	<input type="hidden" id="roadAddrPart2" 	name="addrPt2"	/>
-          	<input type="hidden" id="addrDetail" 		name="addrDtl"	/>
-          	<input type="hidden" id="zipNo" 			name="zipNo"	/>          
-          	<input type="hidden" id="mapLat" 			name="mapLat"	/>          
-          	<input type="hidden" id="mapLng" 			name="mapLng"	/>          
-        	 -->
+          	<div onclick="popAddress();"><!--위도-->${mLang["latitude"]}</div><input type="text" class="form-control form-control-sm" id="mapLat" name="mapLat" style="width: 3.5em;"/>          	       
+          	<div onclick="popAddress();"><!--경도-->${mLang["longitude"]}</div><input type="text" class="form-control form-control-sm" id="mapLng" name="mapLng" style="width: 3.5em;"/>
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -199,24 +174,24 @@
           <i class="far fa-handshake"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-            <label>마케팅 동의</label>
+            <label><!--마케팅 동의-->${mLang["marketingagree"]}</label>
         </div>
         <div class="col align-self-center pl-3">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="marketAgreeYn" id="marketAgreeYnRadio1" value="Y" checked>
-            <label class="form-check-label" for="marketAgreeYnRadio1">동의</label>
+            <label class="form-check-label" for="marketAgreeYnRadio1"><!--동의-->${mLang["agree"]}</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="marketAgreeYn" id="marketAgreeYnRadio2" value="N">
-            <label class="form-check-label" for="marketAgreeYnRadio2">받지 않음</label>
+            <label class="form-check-label" for="marketAgreeYnRadio2"><!--받지 않음-->${mLang["denyreceive"]}</label>
           </div>
         </div>
         
         <div class="w-100"><hr/></div>  <!-- horizontal line -->
 
         <div class="col text-center">
-          <button type="button" class="btn btn-primary" onclick="onJoin();">가입 <i class="far fa-address-card"></i></button>
-          <button type="button" class="btn btn-dark" onclick="history.back();">돌아가기 <i class="fas fa-undo-alt"></i></button>
+          <button type="button" class="btn btn-primary" onclick="onJoin();"><!--가입-->${mLang["join"]} <i class="far fa-address-card"></i></button>
+          <button type="button" class="btn btn-dark" onclick="history.back();"><!--돌아가기-->${mLang["back"]} <i class="fas fa-undo-alt"></i></button>
         </div>
 
         <div class="w-100">&nbsp;</div> <!-- bottom space of regist border -->
@@ -243,130 +218,71 @@
 		if( isError ) {
 			showComModal( {type:"error", msg:errMsg} );
 		} else if ( isComplete ) {
-			showComModal( {msg:"가입을 축하드립니다",closeCallbackFnc:function(){ location.href = "./login.do" } } );
+			// 가입을 축하드립니다
+			showComModal( {msg:'${mLang["congratjoin"]}',closeCallbackFnc:function(){ location.href = "./login.do" } } );
 			
 		}
 		
 	});
 
-	/*
-	// Event of move phone focus
-  	document.querySelector( '#phone1' ).addEventListener("keyup", function(evt) {
-		if( document.querySelector( '#phone1' ).value.length == 3 ) {
-			document.querySelector( '#phone2' ).focus();
-		}
-	});
-  	document.querySelector( '#phone2' ).addEventListener("keyup", function(evt) {
-		if( document.querySelector( '#phone2' ).value.length == 4 ) {
-			document.querySelector( '#phone3' ).focus();
-		}
-	});
-	
-	// Event of move telNo focus
-  	document.querySelector( '#telNo1' ).addEventListener("keyup", function(evt) {
-		if( document.querySelector( '#telNo1' ).value.length == 3 ) {
-			document.querySelector( '#telNo2' ).focus();
-		}
-	});
-  	document.querySelector( '#telNo2' ).addEventListener("keyup", function(evt) {
-		if( document.querySelector( '#telNo2' ).value.length == 4 ) {
-			document.querySelector( '#telNo3' ).focus();
-		}
-	});
-	*/
-	
   	
 	function onJoin() {
 		var regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		
 		var form = document.querySelector( '#idForm' );
 		// 체크
-		/*
-		if( 	   document.querySelector( '#phone1' ).value == "" ) {
-			showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-			return false;
-		} else if( document.querySelector( '#phone2' ).value == "" ) {
-			showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone2' ).focus() }} );
-			return false;
-		} else if( document.querySelector( '#phone3' ).value == "" ) {
-			showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone3' ).focus() }} );
-			return false;
-		} else if( isNaN( document.querySelector( "#phone1" ).value ) ) {
-			showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-			return false;
-		} else if( isNaN( document.querySelector( "#phone2" ).value ) ) {
-			showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone2' ).focus() }} );
-			return false;
-		} else if( isNaN( document.querySelector( "#phone3" ).value ) ) {
-			showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone3' ).focus() }} );
-			return false;
-		} else if( document.querySelector( '#phone1' ).value.length < 2 || document.querySelector( '#phone2' ).value.length < 3 || document.querySelector( '#phone3' ).value.length < 4 ) {
-			showComModal( {type:"warning",msg:"전화번호 형식이 아닙니다",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
-			return false;
-		*/
 		if( document.querySelector( 'input[name="usrId"]' ).value == "" ) {
-			showComModal( {type:"warning",msg:"전화번호를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
+			// 전화번호를 입력해 주세요
+			showComModal( {type:"warning",msg:'${mLang["inputphonenumber"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 			return false;
 		} else if( isNaN( document.querySelector( 'input[name="usrId"]' ).value ) ) {
-			showComModal( {type:"warning",msg:"전화번호는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
+			// ${mLang[""]}
+			showComModal( {type:"warning",msg:'${mLang["inputonlynumberinphone"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="usrId"]' ).focus() }} );
 			return false;
 		} else if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
-			showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
+			// 비밀번호는 6자리 이상을 입력해 주세요
+			showComModal( {type:"warning",msg:'${mLang["chkpasswdlength"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 			return false;
 		} else if( document.querySelector( '#passwdConfirm' ).value != form.querySelector( 'input[name="passwd"]' ).value ) {
-			showComModal( {type:"warning",msg:"비밀번호와 비밀번호 확인의<br/>내용이 다릅니다",closeCallbackFnc:function(){ document.querySelector( '#passwdConfirm' ).focus() }} );
+			// 비밀번호와 비밀번호 확인의<br/>내용이 다릅니다
+			showComModal( {type:"warning",msg:'${mLang["differentfrompasswordwithconfirm_br"]}',closeCallbackFnc:function(){ document.querySelector( '#passwdConfirm' ).focus() }} );
 			return false;
 		} else if( form.querySelector( 'input[name="usrNm"]' ).value == "" ) {
-			showComModal( {type:"warning",msg:"성함을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrNm"]' ).focus() }} );
+			// 성함을 입력해 주세요
+			showComModal( {type:"warning",msg:'${mLang["inputusername"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="usrNm"]' ).focus() }} );
 			return false;
 		} else if( form.querySelector( 'input[name="email"]' ).value == "" ) {
-			showComModal( {type:"warning",msg:"이메일 주소를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
+			// ${mLang[""]}
+			showComModal( {type:"warning",msg:'${mLang["inputemail"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
 			return false;
 		} else if( !regExpEmail.test( form.querySelector( 'input[name="email"]' ).value ) ) {
-			showComModal( {type:"warning",msg:"이메일 주소 형식을 확인해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
+			// 이메일 주소 형식을 확인해 주세요
+			showComModal( {type:"warning",msg:'${mLang["chkemailformat"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
 			return false;
 		}
 		
 		// 경영주 Validation 및 설정
 		if( form.querySelector( 'select[name="usrTp"]' ).value == "S" ) {
 			if( form.querySelector( 'input[name="storNm"]' ).value == "" ) {
-				showComModal( {msg:"상호를 입력 해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="storNm"]' ).focus() }} );
-				return false;
-			/*
-			} else if( ( document.querySelector( "#telNo1" ).value != "" || document.querySelector( "#telNo2" ).value != "" || document.querySelector( "#telNo3" ).value != "" )
-					   && document.querySelector( "#telNo1" ).value == "") {
-				showComModal( {msg:"연락처를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo1' ).focus() }} );
-				return false;
-			} else if( ( document.querySelector( "#telNo1" ).value != "" || document.querySelector( "#telNo2" ).value != "" || document.querySelector( "#telNo3" ).value != "" )
-					   && document.querySelector( "#telNo2" ).value == "") {
-				showComModal( {msg:"연락처를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo2' ).focus() }} );
-				return false;
-			} else if( ( document.querySelector( "#telNo1" ).value != "" || document.querySelector( "#telNo2" ).value != "" || document.querySelector( "#telNo3" ).value != "" )
-					   && document.querySelector( "#telNo3" ).value == "") {
-				showComModal( {msg:"연락처를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo3' ).focus() }} );
-				return false;
-			} else if( document.querySelector( "#telNo1" ).value != null && isNaN( document.querySelector( "#telNo1" ).value ) ) {
-				showComModal( {msg:"연락처는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo1' ).focus() }} );
-				return false;
-			} else if( document.querySelector( "#telNo1" ).value != null && isNaN( document.querySelector( "#telNo1" ).value ) ) {
-				showComModal( {msg:"연락처는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo1' ).focus() }} );
-				return false;
-			} else if( document.querySelector( "#telNo1" ).value != null && isNaN( document.querySelector( "#telNo1" ).value ) ) {
-				showComModal( {msg:"연락처는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#telNo1' ).focus() }} );
-				return false;
-			*/
+				// 상호를 입력 해 주세요
+				showComModal( {msg:'${mLang["inputsignboardname"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="storNm"]' ).focus() }} );
+				return false;			
 			} else if( document.querySelector( 'input[name="telNo"]' ).value != "" && isNaN( document.querySelector( 'input[name="telNo"]' ).value ) ) {
-				showComModal( {msg:"연락처는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="telNo"]' ).focus() }} );
+				// 연락처는 숫자만 입력해 주세요
+				showComModal( {msg:'${mLang["inputonlynumbercontact"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="telNo"]' ).focus() }} );
 				return false;
 			//} else if( !chkNull( document.querySelector( "#address" ) ) ) {
 			} else if( !chkNull( document.querySelector( "#addrPt1" ) ) ) {
-				showComModal( {msg:"주소를 입력해 주세요"} );
+				// 주소를 입력해 주세요
+				showComModal( {msg:'${mLang["inputaddress"]}'} );
 				return false;
 			} else if( isNaN( document.querySelector( "#mapLat" ).value ) ) {
-				showComModal( {msg:"위도는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#mapLat' ).focus(); }} );
+				// 위도는 숫자만 입력해 주세요
+				showComModal( {msg:'${mLang["inputonlynumberlatitude"]}',closeCallbackFnc:function(){ document.querySelector( '#mapLat' ).focus(); }} );
 				return false;
 			} else if( isNaN( document.querySelector( "#mapLng" ).value ) ) {
-				showComModal( {msg:"경도는 숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#mapLng' ).focus(); }} );
+				// 경도는 숫자만 입력해 주세요
+				showComModal( {msg:'${mLang["inputonlynumberlongitude"]}',closeCallbackFnc:function(){ document.querySelector( '#mapLng' ).focus(); }} );
 				return false;
 			} 
 			
@@ -443,7 +359,8 @@
 	}
 	
 	function popAddress(){
-		showComModal( {type:"info",msg:"주소 검색 후 지도를 꾸욱 클릭하여<br/>위도와 경도를 메모해 주세요<br/>예) 위도 = 37.12345 / 경도 = 126.12345"
+		// 주소 검색 후 지도를 꾸욱 클릭하여<br/>위도와 경도를 메모해 주세요<br/>예) 위도 = 37.12345 / 경도 = 126.12345
+		showComModal( {type:"info",msg:'${mLang["chklatandlongonmap_br"]}'
 			,closeCallbackFnc:function(){ window.open("https://www.google.co.kr/maps","pop","scrollbars=yes, resizable=yes"); }
 		} );
 
@@ -515,9 +432,11 @@
 			//}
 				
     	} else if( responseText == "id duplicated" ){
-    		showComModal( {type:"warning",msg:"중복된 아이디가 있습니다<br/>다른 아이디를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
+        	// 중복된 아이디가 있습니다<br/>다른 아이디를 입력해 주세요
+    		showComModal( {type:"warning",msg:'${mLang["dupleidinputanother_br"]}',closeCallbackFnc:function(){ document.querySelector( '#phone1' ).focus() }} );
     	} else if( responseText == "email duplicated" ){
-    		showComModal( {type:"warning",msg:"중복된 이메일 주소가 있습니다<br/>다른 이메일 주소를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
+        	// 중복된 이메일 주소가 있습니다<br/>다른 이메일 주소를 입력해 주세요
+    		showComModal( {type:"warning",msg:'${mLang["dupleemailinputanother_br"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
     	}
 	}
 	
@@ -535,15 +454,15 @@
 	<script language="javascript">
 		// Event load of document
 	  	window.addEventListener("load", function(evt) {
+			usrLang = '${usrLang}';
+			
 			// Set nation code to select tag
 			<c:forEach var="name" items="${cmNatiCd}" varStatus="status">
 			addNatiCd( '${name.natiCd}', '${name.natiNmKor}', '${name.natiNmEng}' );
 			</c:forEach>
 
 			// select default nation code
-			if( usrLang ) {
-				document.querySelector( 'select[name="natiCd"]' ).value = getNation( usrLang );
-			}
+			document.querySelector( 'select[name="natiCd"]' ).value = getNation( usrLang );
 		});
 	</script>
 </body>

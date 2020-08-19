@@ -41,12 +41,15 @@
           <small>이동 할 번호</small>
         </div>
         <div class="col form-inline text-center">
+          <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
+          <!--  
           <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
           <label class="mt-2" style="width:0.8em;">-</label>
           <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
           <input type="hidden" name="usrId"/>
+          -->
         </div>
         <div class="w-100"><hr/></div> <!-- horizontal line -->
 

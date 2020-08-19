@@ -26,7 +26,9 @@ public class Test {
 		
 		//System.out.println( CmStor.SavTp.C + ", " + CmStor.SavTp.C.toString().equals( "C" ) );
 		
-		System.out.println( System.getProperty("os.name").toLowerCase() );
+		//System.out.println( System.getProperty("os.name").toLowerCase() );
+		
+		System.out.println( "k.123".substring( 2 ) );
 		
 	}
 	

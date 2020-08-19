@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.abanate.com.util.ChkUtil;
 import com.abanate.com.util.ConstUtil;
+import com.abanate.com.util.ControllerUtil;
 import com.abanate.com.util.DateUtil;
 import com.abanate.com.util.SecureUtil;
 import com.abanate.com.util.SendMail;
@@ -49,6 +50,9 @@ public class MycoupService {
 	@Autowired
 	ChVisitRepo chVisitRepo;
 	
+	@Autowired
+	MycoupPreLoadService mycoupPreLoadService;
+	
 	//private static final Logger log = CustomLogger.getLogger();
 	
 	public CmUsr joinUsr2( CmUsr cmUsr, CmStor cmStor, HttpSession sess, HttpServletRequest req ) {
@@ -81,12 +85,25 @@ public class MycoupService {
 				cmUsr.setPasswdChngToken( token );
 				cmUsr.setComSuffix( sess, req );
 				cmUsrRepo.save( cmUsr );
-				String content = "<br/>For change your password in " + ConstUtil.MY_COUP_EMAIL + ",<br/>Please click below link.<br/><br/><br/>"
-								+"<a href='" + req.getScheme() + "://" + req.getServerName() + "/mycoup/changePwd.do?usrId=" + usrId + "&natiCd=" + natiCd + "&passwdChngToken=" + token + "'>Change password link</a>"
-								+"<br/><br/><br/>Thank you.";
+				
+				String usrLang = ControllerUtil.getCookie( "usrLang", "/mycoup/", req);
+				
+				String subject = "";
+				String content = "";
+				if( ChkUtil.chkNull( usrLang ) && usrLang.equals( "ko-KR" ) ) {
+					subject = "[" + ConstUtil.MY_COUP_EMAIL + "] 비밀번호 변경을 요청하셨습니다";
+					content = "<br/>" + ConstUtil.MY_COUP_EMAIL + " 사이트 비밀번호 변경은 <br/>아래 링크를 통해 진행 해 주세요<br/><br/><br/>"
+							+"<a href='" + req.getScheme() + "://" + req.getServerName() + "/mycoup/changePwd.do?usrId=" + usrId + "&natiCd=" + natiCd + "&passwdChngToken=" + token + "'>비밀번호 변경 화면으로 이동</a>"
+							+"<br/><br/><br/>감사합니다";
+				} else {
+					subject = "[" + ConstUtil.MY_COUP_EMAIL + "] Change your password.";
+					content = "<br/>For change your password in " + ConstUtil.MY_COUP_EMAIL + ",<br/>Please click below link.<br/><br/><br/>"
+							+"<a href='" + req.getScheme() + "://" + req.getServerName() + "/mycoup/changePwd.do?usrId=" + usrId + "&natiCd=" + natiCd + "&passwdChngToken=" + token + "'>Change password link</a>"
+							+"<br/><br/><br/>Thank you.";
+				}								
 				
 				SendMail sm = new SendMail();
-				if( sm.sendMail( email, "[" + ConstUtil.MY_COUP_EMAIL + "] Change your password.", content ) ) {
+				if( sm.sendMail( email, subject, content ) ) {
 					return true;
 				} else {
 					return false;
@@ -137,7 +154,7 @@ public class MycoupService {
 		try {
 			cmUsr.setPasswd( SecureUtil.sha256( cmUsr.getPasswd() ) );
 		} catch( NoSuchAlgorithmException e ) {
-			throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>(  변환 오류 )
 		}
 		//cmUsr.setNatiCd( "KR" );
 		cmUsr.setComSuffix(sess, req);
@@ -159,6 +176,55 @@ public class MycoupService {
 	}
 	
 	/**
+	 * Modify user and stor informations.
+	 * @param cmUsr
+	 */
+	public CmUsr modUsrAndStor( CmUsr cmUsr, CmStor cmStor, HttpSession sess, HttpServletRequest req ) {
+		
+		// Check passwordk
+		try {
+			if( cmUsrRepo.findByUsrIdAndPasswdAndNatiCd( cmUsr.getUsrId(), SecureUtil.sha256( cmUsr.getPasswd() ), cmUsr.getNatiCd() ) == null ) {
+				throw new ComException( mycoupPreLoadService.getMMsg( "contr_wrongaccount", req) );	// 계정 정보가 올바르지 않습니다					
+			}
+		} catch( NoSuchAlgorithmException e ) {
+			throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
+		}
+		
+		// Record modified user informations.
+		CmUsr oCmUsr  = (CmUsr)sess.getAttribute( "cmUsr"  );		
+					
+		oCmUsr.setUsrNm( cmUsr.getUsrNm() );
+		oCmUsr.setEmail( cmUsr.getEmail() );
+		oCmUsr.setMarketAgreeYn( cmUsr.getMarketAgreeYn() );
+		
+		if( req.getParameter( "chngPasswd" ) != null && !"".equals( (String)req.getParameter( "chngPasswd" ) ) ) {
+			try {
+				oCmUsr.setPasswd( SecureUtil.sha256( req.getParameter( "chngPasswd" ) ) );
+			} catch( NoSuchAlgorithmException e ) {
+				throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
+			}
+		}
+		
+		oCmUsr.setComSuffix( sess, req );
+		cmUsrRepo.save( oCmUsr );
+		
+		sess.setAttribute( "cmUsr", oCmUsr );
+		
+		// Record modified store informations.
+		CmStor oCmStor = (CmStor)sess.getAttribute( "cmStor" );
+		oCmStor.setStorNm( 	cmStor.getStorNm() 	);
+		oCmStor.setTelNo( 	cmStor.getTelNo() 	);
+		oCmStor.setAddrPt1( cmStor.getAddrPt1() );
+		oCmStor.setMapLat( 	cmStor.getMapLat() 	);
+		oCmStor.setMapLng( 	cmStor.getMapLng() 	);
+		
+		oCmStor.setComSuffix( sess, req );
+		cmStorRepo.save( oCmStor );
+		
+		return cmUsr;
+	}
+	
+	/**
 	 * Login
 	 * @param true : Success login, false : Failure login
 	 */
@@ -168,7 +234,7 @@ public class MycoupService {
 		try {
 			cmUsr.setPasswd( SecureUtil.sha256( cmUsr.getPasswd() ) );
 		} catch( NoSuchAlgorithmException e ) {
-			throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
 		}
 		
 		cmUsr = cmUsrRepo.findByUsrIdAndPasswdAndNatiCdAndJoinYn( cmUsr.getUsrId(), cmUsr.getPasswd(), cmUsr.getNatiCd(), "Y" );
@@ -197,7 +263,7 @@ public class MycoupService {
 		CmUsr oldUsr = (CmUsr)sess.getAttribute( "cmUsr" );
 		// Check validation of sender and receiver's ID.
 		if( oldUsr.getUsrId().equals( req.getParameter( "usrId" ) ) ) {
-			throw new ComException( "양도/양수자가 동일한 전화번호 입니다" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "serv_sendrecvsamenumber", req) );	// 양도/양수자가 동일한 전화번호 입니다
 		}
 		
 		// Check validation of sender's password.
@@ -205,11 +271,11 @@ public class MycoupService {
 		try {
 			passwd = SecureUtil.sha256( req.getParameter( "password" ) );
 		} catch( NoSuchAlgorithmException e ) {
-			throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
 		}
 		
 		if( !oldUsr.getPasswd().equals( passwd ) ) {
-			throw new ComException( "비밀번호를 확인해 주세요" );			
+			throw new ComException( mycoupPreLoadService.getMMsg( "serv_chkpasswd", req) );	// 비밀번호를 확인해 주세요			
 		}
 		
 		// 1. If receiver not exist then create user and cr_usr_stor entity who is not joined. 
@@ -242,7 +308,7 @@ public class MycoupService {
 				nCrUsrStor.setUseAmt	( oCrUsrStor.getUseAmt()   	);
 				nCrUsrStor.setAccumAmt	( oCrUsrStor.getAccumAmt()	);
 			}
-			nCrUsrStor.setRmks( "번호이동" );
+			nCrUsrStor.setRmks( mycoupPreLoadService.getMMsg( "serv_rmk_movenumber", req) );	// 번호이동
 			nCrUsrStor.setComSuffix (sess, req);
 			crUsrStorRepo.save( nCrUsrStor );
 			
@@ -254,8 +320,8 @@ public class MycoupService {
 			newChVisit.setSavAmt	( oCrUsrStor.getSavAmt()	);
 			newChVisit.setUseAmt	( oCrUsrStor.getUseAmt()	);
 			newChVisit.setAccumAmt	( oCrUsrStor.getAccumAmt()	);
-			newChVisit.setGoosNm	( "번호이동" 				);
-			newChVisit.setRmks		( "번호이동" 				);
+			newChVisit.setGoosNm	( mycoupPreLoadService.getMMsg( "serv_rmk_movenumber", req) );	// 번호이동
+			newChVisit.setRmks		( mycoupPreLoadService.getMMsg( "serv_rmk_movenumber", req) );	// 번호이동
 			newChVisit.setComSuffix (sess, req);
 			chVisitRepo.save( newChVisit );
 		}
@@ -268,7 +334,7 @@ public class MycoupService {
 		
 		// 4. Old user convert into not joined user.
 		oldUsr.setJoinYn( "N" );
-		oldUsr.setRmks( "번호이동 후 회원 해지" );
+		oldUsr.setRmks( mycoupPreLoadService.getMMsg( "serv_rmk_terminateaftermovenumber", req) );	// 번호이동 후 회원 해지
 		oldUsr.setComSuffix( sess, req );
 		cmUsrRepo.save( oldUsr );
 		
@@ -348,7 +414,7 @@ public class MycoupService {
 		if( req.getParameter( "useTp").equals( "save" ) && cmUsr != null && cmStor.getSavLimitAmt() > 0L ) {
 			CrUsrStor chkCrUsrStor = crUsrStorRepo.findByCmUsrAndCmStor(cmUsr, cmStor);
 			if( ( ChkUtil.toZeroByLong( chkCrUsrStor.getAccumAmt() ) + ChkUtil.toZeroByLong( crUsrStor.getSavAmt() ) ) > cmStor.getSavLimitAmt() ) {
-				throw new ComException( "적립 제한을 초과하기에 적립할 수 없습니다" );
+				throw new ComException( mycoupPreLoadService.getMMsg( "serv_oversavelimit", req) );	// 적립 제한을 초과하기에 적립할 수 없습니다
 			}
 		}
 			   
@@ -358,7 +424,7 @@ public class MycoupService {
 			cmUsr.setUsrId			( usrId 	);
 			cmUsr.setNatiCd			( ( (CmUsr)sess.getAttribute( "cmUsr" ) ).getNatiCd() );
 			cmUsr.setPasswd			( "*" 		);
-			cmUsr.setUsrNm			( "미가입"	);
+			cmUsr.setUsrNm			( mycoupPreLoadService.getMMsg( "serv_notjoined", req)	);	// 미가입
 			cmUsr.setMarketAgreeYn	( "N" 		);
 			cmUsr.setJoinYn			( "N" 		);
 			cmUsr.setComSuffix		( sess, req	);
@@ -417,7 +483,7 @@ public class MycoupService {
 			chVisitRepo.save	( chVisit 													);	// Save visit history
 		} else {
 			if( tCrUsrStor.getUseAmt() > 0 ) {
-				throw new ComException( "적립 이력이 없으므로 사용할 수 없습니다." );				
+				throw new ComException( mycoupPreLoadService.getMMsg( "serv_cantuse_cause_notexist_savehistory", req) );	// 적립 이력이 없으므로 사용할 수 없습니다				
 			}
 			// Process save or merge.
 			tCrUsrStor.setCmUsr		( cmUsr 	);
@@ -460,7 +526,7 @@ public class MycoupService {
 		String natiCd = ( (CmUsr)sess.getAttribute( "cmUsr" ) ).getNatiCd();
 		// Check validation of sender and receiver's ID.
 		if( req.getParameter( "oldUsrId" ).equals( req.getParameter( "newUsrId" ) ) )  {
-			throw new ComException( "양도/양수자가 동일한 전화번호 입니다" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "serv_sendrecvsamenumber", req) );	// 양도/양수자가 동일한 전화번호 입니다
 		}
 		
 		// Check validation of sender's password.
@@ -468,12 +534,12 @@ public class MycoupService {
 		try {
 			passwd = SecureUtil.sha256( req.getParameter( "passwd" ) );
 		} catch( NoSuchAlgorithmException e ) {
-			throw new ComException( "정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )" );
+			throw new ComException( mycoupPreLoadService.getMMsg( "contr_errorinpasswdconvert", req) );	// 정보 처리 시 오류가 발생하였습니다<br/>관리자에게 연락 부탁드립니다<br/>( 비밀번호 변환 오류 )
 		}
 		
 		CmUsr 		oldUsr 			= cmUsrRepo.findByUsrIdAndPasswdAndNatiCd( req.getParameter( "oldUsrId" ), passwd, natiCd );
 		if( !ChkUtil.chkNull( oldUsr ) ) {
-			throw new ComException( "비밀번호를 확인해 주세요" );			
+			throw new ComException( mycoupPreLoadService.getMMsg( "serv_chkpasswd", req) );	// 비밀번호를 확인해 주세요			
 		}
 		
 		// Define variables.
@@ -483,7 +549,7 @@ public class MycoupService {
 		
 		// Validation
 		if( moveAmt > oldCrUsrStor.getAccumAmt() ) {
-			throw new ComException( "양도자가 가진 적립금보다 더 많이 이동할 수 없습니다." );
+			throw new ComException( mycoupPreLoadService.getMMsg( "serv_cantmove_over_senderscoup", req) );	// 양도자가 가진 적립금보다 더 많이 이동할 수 없습니다
 		}		
 		
 		CmUsr 		newUsr			= cmUsrRepo.findByUsrIdAndNatiCd( req.getParameter( "newUsrId" ), sess.getAttribute( "natiCd" ).toString() );
@@ -520,8 +586,8 @@ public class MycoupService {
 		newChVisit.setUseTp		( "S" 							);
 		newChVisit.setSavAmt	( moveAmt 						);
 		newChVisit.setAccumAmt	( newCrUsrStor.getAccumAmt()	);
-		newChVisit.setGoosNm	( "양수" 						);		
-		newChVisit.setRmks		( "양수" 						);
+		newChVisit.setGoosNm	( mycoupPreLoadService.getMMsg( "serv_rmk_acquisition", req) );	// 양수		
+		newChVisit.setRmks		( mycoupPreLoadService.getMMsg( "serv_rmk_acquisition", req) );	// 양수
 		
 		// Old user.
 		oldCrUsrStor	.setUseAmt	( oldCrUsrStor.getUseAmt() 		+ moveAmt 	);
@@ -533,8 +599,8 @@ public class MycoupService {
 		oldChVisit.setUseTp		( "U" 							);
 		oldChVisit.setUseAmt	( moveAmt 						);
 		oldChVisit.setAccumAmt	( oldCrUsrStor.getAccumAmt()	);
-		oldChVisit.setGoosNm	( "양도" 						);		
-		oldChVisit.setRmks		( "양도" 						);		
+		oldChVisit.setGoosNm	( mycoupPreLoadService.getMMsg( "serv_rmk_transfer", req) );	// 양도		
+		oldChVisit.setRmks		( mycoupPreLoadService.getMMsg( "serv_rmk_transfer", req) );	// 양도		
 		
 		// Add suffix
 		newUsr			.setComSuffix(sess, req);

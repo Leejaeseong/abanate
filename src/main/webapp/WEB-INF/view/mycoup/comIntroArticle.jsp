@@ -1,9 +1,20 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 		<!--Grid row-->
         <div class="row wow fadeIn">
-        
           <br/>
+          
+<c:if test="${cookie.usrLang.value == 'ko-KR'}">
+          <img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_4.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_6.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_7.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
+          <br/>
+          
           <a href="./intro001.do" style="width:100%;">&nbsp;&nbsp;(모두) 이 사이트는 뭐 하는 곳인가요?</a>
           <br/>
           <br/>
@@ -72,10 +83,18 @@
           <br/>
           <a href="./intro009.do" style="width:100%;">&nbsp;&nbsp;(정보) 쿠폰등의 적립 앱은 넘쳐나지 않나요?</a>
           <br/>
+</c:if>         
           
-          
-          
+<c:if test="${cookie.usrLang.value == 'English'}">
+          <img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_4.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_6.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_7.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
           <br/>
+          
           <a href="./intro001_.do" style="width:100%;">&nbsp;&nbsp;(All) What is this site doing?</a>
           <br/>
           <br/>
@@ -144,14 +163,7 @@
           <br/>
           <a href="./intro009_.do" style="width:100%;">&nbsp;&nbsp;(Information) Isn't the overflowing app like coupons overflowing?</a>
           <br/>
-          
-          <img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_4.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_6.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_7.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
+</c:if>
 
         </div>
         <!--/Grid row-->

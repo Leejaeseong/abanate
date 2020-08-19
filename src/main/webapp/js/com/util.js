@@ -51,11 +51,13 @@ function getLanguage() {
 
 // Get browser default national code
 function getNation( lang ) {
-	if( lang ) {
-		return lang.substr( 3, 2 );
+	if( getCookie( "natiCd" ) ) {
+		return getCookie( "natiCd" );
+	} else if( lang == "ko-KR" ) {
+		return "KR";
 	} else {
 		return getLanguage().substr( 3, 2 );
-	}
+	}	
 }
 
 // Check whether korea.

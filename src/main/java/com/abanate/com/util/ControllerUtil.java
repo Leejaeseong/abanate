@@ -107,5 +107,22 @@ public class ControllerUtil {
 			}
 		}
 	}
+	
+	/**
+	 * Get cookie.
+	 */
+	public static String getCookie( String key, String path, HttpServletRequest  req ) {
+		String value = "";
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if( cookie.getName().equals( key ) ) {
+					return cookie.getValue();
+				}
+			}
+		}
+		
+		return value;
+	}
 
 }

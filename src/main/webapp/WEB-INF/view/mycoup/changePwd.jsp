@@ -18,7 +18,7 @@
 
     <div class="container bg-primary">
         <h1>        
-          <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-exchange-alt"></i> 비밀번호 변경</span>
+          <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-exchange-alt"></i> <!--비밀번호 변경-->${mLang["chngpasswd"]}</span>
         </h1>
       </div>
 	
@@ -33,7 +33,7 @@
           <i class="fas fa-mobile-alt"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>전화번호(ID)</label>
+          <label><!--전화번호(ID)-->${mLang["phone_id"]}</label>
         </div>
         <div class="col form-inline text-center">
         	<input type="text" class="form-control form-control-sm text-center" id="usrId" style="width:12em;" disabled="disabled">
@@ -47,7 +47,7 @@
           <i class="fas fa-globe"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>국가</label>
+          <label><!--국가-->${mLang["nation"]}</label>
         </div>
         <div class="col form-inline text-center">
           <select class="form-control form-control-sm" name="natiCdDisplay" style="width:12em;" disabled="disabled"></select>
@@ -60,7 +60,7 @@
           <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>변경 비밀번호</label>
+          <label><!--비밀번호 변경-->${mLang["chngpasswd"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" name="passwd" placeholder="Password" style="width:12em;">
@@ -72,7 +72,7 @@
           <i class="fas fa-key"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>비밀번호<br/>확인</label>
+          <label><!--비밀번호<br/>확인-->${mLang["confirmpasswd_br"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" id="passwdConfirm" placeholder="Password" style="width:12em;" maxlength="20">
@@ -81,8 +81,8 @@
         <div class="w-100">&nbsp;</div>  <!-- horizontal blank -->
 
         <div class="col text-center">
-        	<button type="button" class="btn btn-primary" onclick="onSubmit();">적용하기 <i class="fas fa-clipboard-check"></i></button>
-        	<button type="button" class="btn btn-dark" onclick="history.back();">돌아가기 <i class="fas fa-undo-alt"></i></button>
+        	<button type="button" class="btn btn-primary" onclick="onSubmit();"><!--적용하기-->${mLang["apply"]} <i class="fas fa-clipboard-check"></i></button>
+        	<button type="button" class="btn btn-dark" onclick="history.back();"><!--돌아가기-->${mLang["back"]} <i class="fas fa-undo-alt"></i></button>
         </div>
         
         <div class="w-100">&nbsp;</div> <!-- bottom space of border -->
@@ -110,11 +110,13 @@
 			document.querySelector( '#usrId' ).value = usrId;
 			
 			if( !isComplete && ( !searchResult || searchResult == NOT_EXIST_DATA ) ) {
-				showComModal( { type:"error", msg:"잘못된 접근입니다.",closeCallbackFnc:function(){ goMain() } } );
+				// 접근 경로가 올바르지 않습니다
+				showComModal( { type:"error", msg:'${mLang["contr_wrongaccesspath"]}',closeCallbackFnc:function(){ goMain() } } );
 			} else if( isError ) {
 				showComModal( { type:"error", msg:errMsg } );
 			} else if( isComplete ) {
-				showComModal( { msg:"비밀번호가 변경 되었습니다.",closeCallbackFnc:function(){ goLogin() } } );
+				// 비밀번호가 변경 되었습니다
+				showComModal( { msg:'${mLang["pwdchangecompleted"]}',closeCallbackFnc:function(){ goLogin() } } );
 			}
 		});
 		
@@ -129,10 +131,12 @@
 		function onSubmit() {
 			var form = document.querySelector( '#idForm' );
 			if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
-				showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
+				// 비밀번호는 6자리 이상을 입력해 주세요
+				showComModal( {type:"warning",msg:'${mLang["chkpasswdlength"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 				return false;
 			} else if( form.querySelector( 'input[name="passwd"]' ).value != form.querySelector( '#passwdConfirm' ).value ) {
-				showComModal( {type:"warning",msg:"비밀번호가 동일하지 않습니다.",closeCallbackFnc:function(){ document.querySelector( '#passwdConfirm' ).focus() }} );
+				// 비밀번호와 비밀번호 확인의<br/>내용이 다릅니다
+				showComModal( {type:"warning",msg:'${mLang["differentfrompasswordwithconfirm_br"]}',closeCallbackFnc:function(){ document.querySelector( '#passwdConfirm' ).focus() }} );
 				return false;
 			} 
 			
@@ -154,15 +158,15 @@
 	<script language="javascript">
 		// Event load of document
 	  	window.addEventListener("load", function(evt) {
+			usrLang = '${usrLang}';
+			
 			// Set nation code to select tag
 			<c:forEach var="name" items="${cmNatiCd}" varStatus="status">
 			addNatiCd( '${name.natiCd}', '${name.natiNmKor}', '${name.natiNmEng}', 'natiCdDisplay' );
 			</c:forEach>
-			
+
 			// select default nation code
-			if( usrLang ) {
-				document.querySelector( 'select[name="natiCdDisplay"]' ).value = getNation( usrLang );
-			}
+			document.querySelector( 'select[name="natiCdDisplay"]' ).value = getNation( usrLang );
 			
 		});
 	</script>

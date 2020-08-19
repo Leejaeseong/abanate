@@ -87,27 +87,6 @@ function searchVisitHistory() {
 			  }
 			, searchVisitHistoryAft );
 	
-	/*
-	var sndData = { usrId:form.querySelector( 'input[name="usrId"]' ).value,pageNo:++pageNo };
-   	xhr.open("POST", "./findSaveUseInfoMore.do", true);
-   	xhr.setRequestHeader('Content-Type', 'application/json'); 	// Content type to json
-   	xhr.send(JSON.stringify( sndData )); 						// Send data by use stringify function
-	xhr.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		// The common line about the authentification check.
-    		if( this.responseText == "authentification is failed" ) { goMainAfterMessage(); return false; } // Move to main page if authentification is failed
-        	if( this.responseText != NOT_EXIST_DATA ) {
-	        	viewVisitHistory( JSON.parse(this.responseText) )
-        	} else {
-        		showComModal( {msg:"마지막 페이지 입니다."} );
-        		return false;
-        	}
-       	} else if (this.readyState == 4 && this.status != 200) {
-       		showComModal( {type:"error",msg:"오류가 발생하였습니다<br/>관리자에게 문의 부탁드립니다",closeCallbackFnc:function(){ goMain(); } } );
-       	}
-   	};
-   	*/
-	
 }
 
 //Call if the find visit history ajax communication is succeeded.
@@ -132,13 +111,6 @@ function viewMetaInfo( rData ) {
 	document.querySelector( "#idSavAmt" 	).textContent = toNumWithSep( getDataByProjection( rData, "savAmt" 		) );
 	document.querySelector( "#idUseAmt" 	).textContent = toNumWithSep( getDataByProjection( rData, "useAmt" 		) );
 	document.querySelector( "#idAccumAmt" 	).textContent = toNumWithSep( getDataByProjection( rData, "accumAmt" 	) );
-	/*
-	document.querySelector( "#idSearchCnt" 	).textContent = toNumWithSep( rData.searchCnt )	;
-	document.querySelector( "#idUsrCnt" 	).textContent = toNumWithSep( rData.usrCnt )	;
-	document.querySelector( "#idSavAmt" 	).textContent = toNumWithSep( rData.savAmt )	;
-	document.querySelector( "#idUseAmt" 	).textContent = toNumWithSep( rData.useAmt )	;
-	document.querySelector( "#idAccumAmt" 	).textContent = toNumWithSep( rData.accumAmt )	;
-	*/
 }
 
 // Display visit histories.
