@@ -18,7 +18,7 @@
 
     <div class="container bg-primary">
         <h1>        
-          <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-exchange-alt"></i> 정보 변경</span>
+          <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-exchange-alt"></i> <!--정보 변경-->${mLang["nav_modinfo"]}</span>
         </h1>
       </div>
 	
@@ -33,7 +33,7 @@
           <i class="fas fa-mobile-alt"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>전화번호(ID)</label>
+          <label><!--전화번호(ID)-->${mLang["phone_id"]}</label>
         </div>
         <div class="col form-inline text-center">
         	<input type="text" class="form-control form-control-sm text-center" style="width:12em;" disabled="disabled" value="${sessionScope.cmUsr.usrId}">
@@ -46,7 +46,7 @@
           <i class="fas fa-globe"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>국가</label>
+          <label><!--국가-->${mLang["nation"]}</label>
         </div>
         <div class="col form-inline text-center">
           <select class="form-control form-control-sm" name="natiCdDisplay" style="width:12em;" disabled="disabled"></select>
@@ -59,7 +59,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>가입자 성함<font class="small"><br/>( 또는 예명 )</font>
+          <label><!--가입자 성함-->${mLang["username"]}<font class="small"><br/>( <!--또는 예명-->${mLang["oraliasname"]} )</font>
           </label>
         </div>
         <div class="col form-inline text-center">
@@ -73,7 +73,7 @@
           <i class="far fa-envelope"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>이메일 주소</label>
+          <label><!--이메일 주소-->${mLang["email"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="email" class="form-control form-control-sm" name="email" aria-describedby="email address" placeholder="Enter email" style="width:12em;" maxlength="64"
@@ -86,16 +86,16 @@
           <i class="far fa-handshake"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-            <label>마케팅 동의</label>
+            <label><!--마케팅 동의-->${mLang["marketingagree"]}</label>
         </div>
         <div class="col align-self-center pl-3">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="marketAgreeYn" id="marketAgreeYnRadio1" value="Y"<c:if test="${sessionScope.cmUsr.marketAgreeYn == 'Y'}"> checked</c:if>>
-            <label class="form-check-label" for="marketAgreeYnRadio1">동의</label>
+            <label class="form-check-label" for="marketAgreeYnRadio1"><!--동의-->${mLang["agree"]}</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="marketAgreeYn" id="marketAgreeYnRadio2" value="N"<c:if test="${sessionScope.cmUsr.marketAgreeYn != 'Y'}"> checked</c:if>>
-            <label class="form-check-label" for="marketAgreeYnRadio2">받지 않음</label>
+            <label class="form-check-label" for="marketAgreeYnRadio2"><!--받지 않음-->${mLang["denyreceive"]}</label>
           </div>
         </div>
         
@@ -105,7 +105,7 @@
           <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>변경 비밀번호<br/>(변경시에만 입력)</label>
+          <label><!--변경 비밀번호-->${mLang["passwdtochange"]}<br/>(<!--변경시에만 입력-->${mLang["inputonlytochange"]})</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" name="chngPasswd" placeholder="Password" style="width:12em;">
@@ -117,7 +117,7 @@
           <i class="fas fa-key"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>변경 비밀번호<br/>확인</label>
+          <label><!--변경 비밀번호<br/>확인-->${mLang["passwdtochangeconfirm_br"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" id="chngPasswdConfirm" placeholder="Password" style="width:12em;" maxlength="20">
@@ -129,7 +129,7 @@
           <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>비밀번호</label>
+          <label><!--비밀번호-->${mLang["passwd"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" name="passwd" placeholder="Password" style="width:12em;">
@@ -138,8 +138,8 @@
         <div class="w-100">&nbsp;</div>  <!-- horizontal blank -->
 
         <div class="col text-center">
-        	<button type="button" class="btn btn-primary" onclick="onSubmit();">적용하기 <i class="fas fa-clipboard-check"></i></button>
-        	<button type="button" class="btn btn-dark" onclick="history.back();">돌아가기 <i class="fas fa-undo-alt"></i></button>
+        	<button type="button" class="btn btn-primary" onclick="onSubmit();"><!--적용하기-->${mLang["apply"]} <i class="fas fa-clipboard-check"></i></button>
+        	<button type="button" class="btn btn-dark" onclick="history.back();"><!--돌아가기-->${mLang["back"]} <i class="fas fa-undo-alt"></i></button>
         </div>
         
         <div class="w-100">&nbsp;</div> <!-- bottom space of border -->
@@ -164,7 +164,7 @@
 			if( isError ) {
 				showComModal( {type:"error", msg:errMsg,closeCallbackFnc:function(){ goMain(); } } );
 			} else if ( isComplete ) {
-				showComModal( {msg:"정보가 변경되었습니다",closeCallbackFnc:function(){ goMain(); } } );
+				showComModal( {msg:'${mLang["infochangecompleted"]}',closeCallbackFnc:function(){ goMain(); } } );	// 정보가 변경되었습니다
 				
 			}
 	
@@ -183,27 +183,31 @@
 			
 			var form = document.querySelector( '#idForm' );
 			if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
-				showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
+				// 비밀번호는 6자리 이상을 입력해 주세요
+				showComModal( {type:"warning",msg:'${mLang["chkpasswdlength"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 				return false;
 			} else if( chkNull( form.querySelector( 'input[name="chngPasswd"]' ).value ) && form.querySelector( 'input[name="chngPasswd"]' ).value.length < 6 ) {
-				showComModal( {type:"warning",msg:"변경할 비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( '#chngPasswd' ).focus() }} );
+				// 변경할 비밀번호는 6자리 이상을 입력해 주세요
+				showComModal( {type:"warning",msg:'${mLang["inputchangepasswdlengthatleast6letter"]}',closeCallbackFnc:function(){ document.querySelector( '#chngPasswd' ).focus() }} );
 				return false;
 			} else if( chkNull( form.querySelector( 'input[name="chngPasswd"]' ).value ) && ( form.querySelector( 'input[name="chngPasswd"]' ).value != form.querySelector( '#chngPasswdConfirm' ).value ) ) {
-				showComModal( {type:"warning",msg:"비밀번호가 동일하지 않습니다.",closeCallbackFnc:function(){ document.querySelector( '#chngPasswdConfirm' ).focus() }} );
+				// 비밀번호가 동일하지 않습니다
+				showComModal( {type:"warning",msg:'${mLang["passwordnotsame"]}',closeCallbackFnc:function(){ document.querySelector( '#chngPasswdConfirm' ).focus() }} );
 				return false;
 			} else if( form.querySelector( 'input[name="usrNm"]' ).value == "" ) {
-				showComModal( {type:"warning",msg:"성함을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="usrNm"]' ).focus() }} );
+				// 성함을 입력해 주세요
+				showComModal( {type:"warning",msg:'${mLang["inputusername"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="usrNm"]' ).focus() }} );
 				return false;
 			} else if( form.querySelector( 'input[name="email"]' ).value == "" ) {
-				showComModal( {type:"warning",msg:"이메일 주소를 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
+				// 이메일 주소를 입력해 주세요
+				showComModal( {type:"warning",msg:'${mLang["inputemail"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
 				return false;
 			} else if( !regExpEmail.test( form.querySelector( 'input[name="email"]' ).value ) ) {
-				showComModal( {type:"warning",msg:"이메일 주소 형식을 확인해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
+				// 이메일 주소 형식을 확인해 주세요
+				showComModal( {type:"warning",msg:'${mLang["chkemailformat"]}',closeCallbackFnc:function(){ document.querySelector( 'input[name="email"]' ).focus() }} );
 				return false;
 			}
 
-			
-			
 			grecaptcha.execute('${setting_api_recaptcha_site_key}', {action: 'submit'}).then(function(token) {
     	        // Add your logic to submit to your backend server here.
     	        document.querySelector( 'input[name="recaptchaToken"]' ).value = token;

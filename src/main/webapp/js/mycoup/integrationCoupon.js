@@ -14,37 +14,12 @@ var oldOrNew	= "";
 window.addEventListener("load", function() {	// This function could be define a event parameter, i.g., evt  	
 	
   	if( isError ) {									// Case of error.
-		showComModal( {type:"error", msg:errMsg} );
+		showComModal( {type:"error", msg:errMsg,closeCallbackFnc:function(){ goMain(); }} );
 	} else if ( isComplete ) {						// Case of save success .
-		showComModal( {msg:"적용 되었습니다."} );
+		showComModal( {msg:mLang.get("applycompleted")} );	// 적용 되었습니다
 	}
   	
 });
-
-/*
-// Event of move phone focus
-document.querySelector( '#oldPhone1' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
-	if( document.querySelector( '#oldPhone1' ).value.length == 3 ) {
-		document.querySelector( '#oldPhone2' ).focus();
-	}
-});
-document.querySelector( '#oldPhone2' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
-	if( document.querySelector( '#oldPhone2' ).value.length == 4 ) {
-		document.querySelector( '#oldPhone3' ).focus();
-	}
-});
-
-document.querySelector( '#newPhone1' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
-	if( document.querySelector( '#newPhone1' ).value.length == 3 ) {
-		document.querySelector( '#newPhone2' ).focus();
-	}
-});
-document.querySelector( '#newPhone2' ).addEventListener("keyup", function() {	// This function could be define a event parameter, i.g., evt
-	if( document.querySelector( '#newPhone2' ).value.length == 4 ) {
-		document.querySelector( '#newPhone3' ).focus();
-	}
-});
-*/
 
 // Event blur at the first form of a user phone number
 form.querySelector( 'input[name="oldUsrId"]' ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
@@ -55,38 +30,6 @@ form.querySelector( 'input[name="newUsrId"]' ).addEventListener( "blur", functio
 	oldOrNew = "new";
   	findUsr();
 });
-/*
-form.querySelector( "#oldPhone1" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "old";
-  	findUsr();
-});
-// Event blur at the second form of a user phone number
-form.querySelector( "#oldPhone2" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "old";
-  	findUsr();
-});
-// Event blur at the third form of a user phone number
-form.querySelector( "#oldPhone3" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "old";
-  	findUsr();
-});
-
-// Event blur at the first form of a user phone number
-form.querySelector( "#newPhone1" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "new";
-  	findUsr();
-});
-// Event blur at the second form of a user phone number
-form.querySelector( "#newPhone2" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "new";
-  	findUsr();
-});
-// Event blur at the third form of a user phone number
-form.querySelector( "#newPhone3" ).addEventListener( "blur", function() {	// This function could be define a event parameter, i.g., evt
-	oldOrNew = "new";
-  	findUsr();
-});
-*/
 
 //***************************************************************************************************
 //***************************************************************************************************
@@ -98,7 +41,7 @@ form.querySelector( "#newPhone3" ).addEventListener( "blur", function() {	// Thi
 function findUsr() {
 	
 	if( oldOrNew == "old" ) {
-		oldAccumAmt = 0;		
+		oldAccumAmt = 0;
 	} else if ( oldOrNew == "new" ) {
 		newAccumAmt = 0;
 	}
@@ -106,10 +49,7 @@ function findUsr() {
   	// If all of the forms are filled, then execute this.
   	//if( chkPhoneNo( oldOrNew + "Phone1", oldOrNew + "Phone2", oldOrNew + "Phone3", true ) ) {
 	if( chkPhoneNo( oldOrNew + "UsrId", true ) ) {
-  	  	// Set phone number
-		//form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' ).value = document.querySelector( '#' + oldOrNew + 'Phone1' ).value + document.querySelector( '#' + oldOrNew + 'Phone2' ).value + document.querySelector( '#' + oldOrNew + 'Phone3' ).value;
-
-		// Send ajax data.
+  	  	// Send ajax data.
 		ajaxSend( "./findUserAndAccumInfo.json" 
 				, { 	usrId 		: form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' ).value
 					, 	searchType 	: oldOrNew }
@@ -117,7 +57,7 @@ function findUsr() {
   	} else {
   		form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' 	).value = "";
   		form.querySelector( '#' + oldOrNew + 'UsrNm' 				).value = "";
-  		form.querySelector( '#' + oldOrNew + 'AccumAmt'				).value = "";
+  		form.querySelector( '#' + oldOrNew + 'AccumAmt'				).value = "";  		
   		form.querySelector( 'input[name=addAccumAmt]'				).value = "";
   	}
 }
@@ -133,9 +73,15 @@ function findUsrAft( responseText ) {
     	// Set user point and memo
       	if( chkNull( resJson.usrNm ) ) {
     		accumAmt = resJson.accumAmt;
-    		form.querySelector( "#" + oldOrNew + "AccumAmt" ).value = accumAmt + " " + ( savTp == "C" ? "장" : "점" ) + " 적립 중";
+    		
+    		form.querySelector( "#" + oldOrNew + "AccumAmt" ).value = accumAmt + " " + ( savTp == "C" ? mLang.get("savingqty") : mLang.get("savingpoint") );	// "장 적립 중" : "점 적립 중"
     		if( oldOrNew == "old" ) {
     			oldAccumAmt = accumAmt;
+    			// Move amount
+				//if( chkNull( form.querySelector( 'input[name=oldUsrId]' ).value ) && chkNull( form.querySelector( 'input[name=newUsrId]' ).value ) ) {
+					//form.querySelector( 'input[name=addAccumAmt]' ).value = Number( oldAccumAmt ) + Number( newAccumAmt );
+					form.querySelector( 'input[name=addAccumAmt]' ).value = Number( oldAccumAmt );
+				//}
     		} else if ( oldOrNew == "new" ) {
     			newAccumAmt = accumAmt;
     		}
@@ -146,24 +92,21 @@ function findUsrAft( responseText ) {
 			form.querySelector( 'input[name="' + oldOrNew + 'UsrId"]' 	).value = "";
 			form.querySelector( '#' + oldOrNew + 'UsrNm' 				).value = "";
 			form.querySelector( "#" + oldOrNew + "AccumAmt" 			).value = "";
+			form.querySelector( 'input[name=addAccumAmt]' 				).value = "";
 		} else if( oldOrNew == "new" ) {	// New user create.
-			form.querySelector( '#' + oldOrNew + 'UsrNm' 				).value = "미가입";
+			form.querySelector( '#' + oldOrNew + 'UsrNm' 				).value = mLang.get("serv_notjoined");	// 미가입
 			form.querySelector( "#" + oldOrNew + "AccumAmt" 			).value = "0";
 		}
-		form.querySelector( 'input[name=addAccumAmt]' ).value = "";
+		
 	}
 	
-	// Add amount
-	if( chkNull( form.querySelector( 'input[name=oldUsrId]' ).value ) && chkNull( form.querySelector( 'input[name=newUsrId]' ).value ) ) {
-		form.querySelector( 'input[name=addAccumAmt]' ).value = Number( oldAccumAmt ) + Number( newAccumAmt );
-	}
 }
 
 //The function of save button
 function onSave() {
   	if( chkBeforeSave() ) {
 		showComModal( {	  type:"save"
-	  					, msg:"적용 하시겠습니까?"
+	  					, msg:mLang.get("willyouapply")	// 적용 하시겠습니까?
 	  					, btn1CallbackFnc:function(){
 	  	  					form.submit(); 
 	  	  				 }
@@ -177,22 +120,28 @@ function chkBeforeSave() {
 	var addAccumAmt = form.querySelector( 'input[name=addAccumAmt]' ).value;
 	
 	if( isNaN( addAccumAmt ) ) {
-		showComModal( {type:"warning",msg:"숫자만 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name=addAccumAmt]' ).focus() }} );
+		// 숫자만 입력해 주세요
+		showComModal( {type:"warning",msg:mLang.get("inputonlynumber"),closeCallbackFnc:function(){ document.querySelector( 'input[name=addAccumAmt]' ).focus() }} ); 
 		return false;
 	} else if( addAccumAmt > oldAccumAmt ) {
-		showComModal( {type:"warning",msg:"양도할 적립금을 확인해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name=addAccumAmt]' ).focus() }} );
+		// 양도할 적립금을 확인해 주세요
+		showComModal( {type:"warning",msg:mLang.get("checksendquantities"),closeCallbackFnc:function(){ document.querySelector( 'input[name=addAccumAmt]' ).focus() }} );
 		return false;		
 	} else if( !chkNull( form.querySelector( 'input[name="oldUsrId"]' ).value ) ) {
-		showComModal( {msg:"통합하실 전화번호를 입력해 주세요<br/>또는 이전하실 적립금이 없습니다.",closeCallbackFnc:function(){ document.querySelector( 'input[name="oldUsrId"]' ).focus() }} );
+		// 통합하실 전화번호를 입력해 주세요<br/>또는 이전하실 적립금이 없습니다
+		showComModal( {msg:mLang.get("inputintegratenumberornoquantitiestomove_br"),closeCallbackFnc:function(){ document.querySelector( 'input[name="oldUsrId"]' ).focus() }} );
 		return false;
 	} else if( !chkNull( form.querySelector( 'input[name="newUsrId"]' ).value ) ) {
-		showComModal( {msg:"통합하실 전화번호를 입력해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
+		// 통합하실 전화번호를 입력해 주세요
+		showComModal( {msg:mLang.get("inputintegratenumber"),closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
 		return false;
 	} else if( form.querySelector( 'input[name="oldUsrId"]' ).value == form.querySelector( 'input[name="newUsrId"]' ).value ) {
-		showComModal( {msg:"동일한 전화번호 입니다.",closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
+		// 양도/양수자가 동일한 전화번호 입니다
+		showComModal( {msg:mLang.get("serv_sendrecvsamenumber"),closeCallbackFnc:function(){ document.querySelector( 'input[name="newUsrId"]' ).focus() }} );
 		return false;
 	} else if( form.querySelector( 'input[name="passwd"]' ).value.length < 6 ) {
-		showComModal( {type:"warning",msg:"비밀번호는 6자리 이상을 입력해 주세요",closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
+		// 비밀번호는 6자리 이상을 입력해 주세요
+		showComModal( {type:"warning",msg:mLang.get("chkpasswdlength"),closeCallbackFnc:function(){ document.querySelector( 'input[name="passwd"]' ).focus() }} );
 		return false;
 	}
   	

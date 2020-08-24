@@ -12,7 +12,6 @@ java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyymmdd");
   		<title>My Coup</title>
         <link href="favicon.ico" rel="icon" type="image/x-icon" />
         <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link href="tomcat.css?temp=<%=sdf%>" rel="stylesheet" type="text/css" />
 		<script>
 			/*
 			if( window.location.host.indexOf( "sooho-kr.com" ) != -1 ) {

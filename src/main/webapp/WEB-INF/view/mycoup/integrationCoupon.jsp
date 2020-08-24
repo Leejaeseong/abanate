@@ -25,7 +25,7 @@
 
     <div class="container bg-primary">
       <h1>        
-        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="far fa-object-group"></i> 적립금 이전</span>
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="far fa-object-group"></i> <!--적립금 이전-->${mLang["nav_integcoup"]}</span>
       </h1>
     </div>
 
@@ -38,18 +38,10 @@
           <i class="fas fa-phone-slash"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <small>적립금 양도 전화번호</small>
+          <small><!--적립금 양도 전화번호-->${mLang["senderphonenumber"]}</small>
         </div>
-        <div class="col form-inline text-center">
-          <!--  
-          <input type="text" class="form-control form-control-sm" id="oldPhone1" style="width:3em;" maxlength="3">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="oldPhone2" style="width:3.5em;" maxlength="4">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="oldPhone3" style="width:3.5em;" maxlength="4">
-          <input type="hidden" name="oldUsrId"/>
-          -->
-          <input type="text" class="form-control form-control-sm" name="oldUsrId" style="width:12em;" maxlength="20">
+        <div class="col form-inline text-center">          
+          <input type="text" class="form-control form-control-sm" name="oldUsrId" style="width:12em;" maxlength="20" tabindex="0">
           <input type="hidden" name="oldSavAmt" value="0"/>
           <input type="hidden" name="oldUseAmt" value="0"/>
         </div>
@@ -60,7 +52,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>양도자 성함</small>
+          <small><!--양도자 성함-->${mLang["sendername"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" id="oldUsrNm" style="width:12em;" disabled>
@@ -72,7 +64,7 @@
           <i class="fas fa-retweet"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>양도자 적립금</small>
+          <small><!--양도자 적립금-->${mLang["senderquantities"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" id="oldAccumAmt" disabled style="width:12em;">
@@ -84,18 +76,10 @@
           <i class="fas fa-mobile-alt"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <small>적립금 양수 전화번호</small>
+          <small><!--적립금 양수 전화번호-->${mLang["receiverphonenumber"]}</small>
         </div>
         <div class="col form-inline text-center">
-          <!--  
-          <input type="text" class="form-control form-control-sm" id="newPhone1" style="width:3em;" maxlength="3">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="newPhone2" style="width:3.5em;" maxlength="4">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="newPhone3" style="width:3.5em;" maxlength="4">
-          <input type="hidden" name="newUsrId"/>
-          -->
-          <input type="text" class="form-control form-control-sm" name="newUsrId" style="width:12em;" maxlength="20">
+          <input type="text" class="form-control form-control-sm" name="newUsrId" style="width:12em;" maxlength="20" tabindex="2">
           <input type="hidden" name="newSavAmt" value="0"/>
           <input type="hidden" name="newUseAmt" value="0"/>
         </div>
@@ -105,7 +89,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>양수자 성함</small>
+          <small><!--양수자 성함-->${mLang["receivername"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" id="newUsrNm" style="width:12em;" disabled>
@@ -117,10 +101,10 @@
           <i class="far fa-object-group"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>양수자 적립</small>
+          <small><!--양수자 적립금-->${mLang["receiverquantities"]}</small>
         </div>
         <div class="col form-inline text-center">
-          <input type="text" class="form-control form-control-sm" id="newAccumAmt" disabled style="width:12em;">
+          <input type="text" class="form-control form-control-sm" id="newAccumAmt" disabled style="width:12em;" tabindex="1">
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -129,7 +113,7 @@
           <i class="fas fa-ticket-alt"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>이동 수량(금액)</small>
+          <small><!--이동 수량-->${mLang["movequantities"]}(<!--금액-->${mLang["price"]})</small>
         </div>
         <div class="col form-inline text-center">
             <input type="number" class="form-control form-control-sm" name="addAccumAmt" style="width:12em;">
@@ -141,24 +125,24 @@
             <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>양도자 비밀번호</small>
+          <small><!--양도자 비밀번호-->${mLang["senderpasswd"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="password" class="form-control form-control-sm" name="passwd" placeholder="Password" style="width:12em;">
-          <label for="password" class="font-italic small">&nbsp;&nbsp;※ 고객 직접 입력</label>
+          <label for="password" class="font-italic small">&nbsp;&nbsp;※ <!--고객 직접 입력-->${mLang["customerdirectinput"]}</label>
         </div>
         
         <div class="w-100"><hr/></div> <!-- horizontal line -->
 
         <div class="row w-100">
           <div class="col text-center">              
-            <label class="text-danger">※ 적용 후에는 다시 복구가 불가능 합니다.</label>
+            <label class="text-danger">※ <!--적용 후에는 다시 복구가 불가능 합니다-->${mLang["afterapplyimpossiblerecovery"]}</label>
           </div>
         </div>
 
         <div class="row w-100">
           <div class="col text-center">
-            <button type="button" class="btn btn-primary" onclick="onSave();">적용하기 <i class="fas fa-clipboard-check"></i></button>
+            <button type="button" class="btn btn-primary" onclick="onSave();"><!--적용하기-->${mLang["apply"]} <i class="fas fa-clipboard-check"></i></button>
           </div>
         </div>
 
@@ -175,6 +159,21 @@
   	var isComplete	= '${isComplete}';										// Process completed
 	var isError 	= '${isError}'; 										// Error occured
 	var errMsg  	= '${errMsg}';											// Message of error
+
+	// Multi language variables
+  	var mLang = new Map();
+
+  	mLang.set( "savingqty"										, '${mLang["savingqty"										]}' );
+  	mLang.set( "savingpoint"									, '${mLang["savingpoint"									]}' );
+  	mLang.set( "serv_notjoined"									, '${mLang["serv_notjoined"									]}' );
+  	mLang.set( "applycompleted"									, '${mLang["applycompleted"									]}' );
+  	mLang.set( "willyouapply"									, '${mLang["willyouapply"									]}' );
+  	mLang.set( "inputonlynumber"								, '${mLang["inputonlynumber"								]}' );
+  	mLang.set( "checksendquantities"							, '${mLang["checksendquantities"							]}' );
+  	mLang.set( "inputintegratenumberornoquantitiestomove_br"	, '${mLang["inputintegratenumberornoquantitiestomove_br"	]}' );
+  	mLang.set( "inputintegratenumber"							, '${mLang["inputintegratenumber"							]}' );
+  	mLang.set( "serv_sendrecvsamenumber"						, '${mLang["serv_sendrecvsamenumber"						]}' );
+  	mLang.set( "chkpasswdlength"								, '${mLang["chkpasswdlength"								]}' );
   </script>
 	
    <!-- https://flatpickr.js.org/ -->

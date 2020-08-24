@@ -3,6 +3,7 @@ package com.abanate.com.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,9 @@ public class ComExceptionAdvice {
 
 	@Value( "${setting_api_recaptcha_site_key}" )
 	public String SETTING_API_RECAPTCHA_SITE_KEY;
+	
+	@Autowired
+	MycoupPreLoadService mycoupPreLoadService;
 	
 	/**
 	 * Http exception
@@ -56,6 +60,8 @@ public class ComExceptionAdvice {
         		if( e instanceof BindException ) {	// BindException인 경우 첫번째 바인드 오류 부분을 메시지에 담음
         			msg = ( ( BindException )e ).getAllErrors().get( 0 ).getDefaultMessage();
         		}
+        		
+        		model.addObject( "mLang", mycoupPreLoadService.getMLang( request, response ) );
         		
         	} else {	// error page 로 이동        
         		model = new ModelAndView("com/exception");

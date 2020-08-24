@@ -307,8 +307,8 @@ public class MycoupService {
 				nCrUsrStor.setSavAmt	( oCrUsrStor.getSavAmt()   	);
 				nCrUsrStor.setUseAmt	( oCrUsrStor.getUseAmt()   	);
 				nCrUsrStor.setAccumAmt	( oCrUsrStor.getAccumAmt()	);
+				nCrUsrStor.setRmks( mycoupPreLoadService.getMMsg( "serv_rmk_movenumber", req) );	// 번호이동
 			}
-			nCrUsrStor.setRmks( mycoupPreLoadService.getMMsg( "serv_rmk_movenumber", req) );	// 번호이동
 			nCrUsrStor.setComSuffix (sess, req);
 			crUsrStorRepo.save( nCrUsrStor );
 			

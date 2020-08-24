@@ -25,7 +25,7 @@
 
     <div class="container bg-primary">
       <h1>        
-        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="far fa-object-group"></i> 번호 이동</span>
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="far fa-object-group"></i> <!--번호 이동-->${mLang["nav_movenumber"]}</span>
       </h1>
     </div>
 
@@ -38,18 +38,10 @@
           <i class="fas fa-mobile-alt"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <small>이동 할 번호</small>
+          <small><!--이동 할 번호-->${mLang["phonenumbertomove"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
-          <!--  
-          <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
-          <input type="hidden" name="usrId"/>
-          -->
         </div>
         <div class="w-100"><hr/></div> <!-- horizontal line -->
 
@@ -57,7 +49,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>회원 성함</small>
+          <small><!--회원 성함-->${mLang["membersname"]}</small>
         </div>
         <div class="col form-inline text-center">
           <input type="text" class="form-control form-control-sm" id="usrNm" style="width:12em;" disabled>
@@ -69,23 +61,23 @@
             <i class="fas fa-lock"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <small>비밀번호</small>
+          <small><!--비밀번호-->${mLang["passwd"]}</small>
         </div>
         <div class="col form-inline text-center">
-          <input type="password" class="form-control form-control-sm" name="password" placeholder="Password" style="width:12em;">
+          <input type="password" class="form-control form-control-sm" name="password" style="width:12em;">
         </div>
         
         <div class="w-100"><hr/></div> <!-- horizontal line -->
 
         <div class="row w-100">
           <div class="col text-center">              
-            <label class="text-danger">※ 적용 후에는 현재 전화번호가 삭제되며<br/>다시 복구가 불가능 합니다.</label>
+            <label class="text-danger">※ <!--적용 후에는 현재 전화번호가 삭제되며<br/>다시 복구가 불가능 합니다-->${mLang["afterapplyimpossiblerecoveryanddeletephonenumber_br"]}</label>
           </div>
         </div>
 
         <div class="row w-100">
           <div class="col text-center">
-            <button type="button" class="btn btn-primary" onclick="onSave();">적용하기 <i class="fas fa-clipboard-check"></i></button>
+            <button type="button" class="btn btn-primary" onclick="onSave();"><!--적용하기-->${mLang["apply"]} <i class="fas fa-clipboard-check"></i></button>
           </div>
         </div>
 
@@ -103,6 +95,14 @@
 	var isError 	= '${isError}'; 										// Error occured
 	var errMsg  	= '${errMsg}';											// Message of error
 	var myId		= '${sessionScope.cmUsr.usrId}';
+
+	// Multi language variables
+  	var mLang = new Map();
+  	mLang.set( "serv_notjoined"					, '${mLang[ "serv_notjoined" 				]}' );
+  	mLang.set( "willyouapply"					, '${mLang[ "willyouapply" 					]}' );
+  	mLang.set( "inputphonenumbertomove"			, '${mLang[ "inputphonenumbertomove" 		]}' );
+  	mLang.set( "impossibletomoveinsamenumber"	, '${mLang[ "impossibletomoveinsamenumber"	]}' );
+  	mLang.set( "chkpasswdlength"				, '${mLang[ "chkpasswdlength"				]}' );
   </script>
 	
    <!-- https://flatpickr.js.org/ -->

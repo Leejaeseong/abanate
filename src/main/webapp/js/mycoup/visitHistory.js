@@ -52,12 +52,12 @@ document.querySelector( '#usrNm' ).addEventListener("keyup", function() {	// Thi
 function init() {
 	// Apply date picker.
 	flatpickr( document.querySelector( "#sFromDate"), flatpickrDefault("sFromDate", -30) );
-	flatpickr( document.querySelector( "#sToDate")  , flatpickrDefault("sToDate"       ) );
+	flatpickr( document.querySelector( "#sToDate")  , flatpickrDefault("sToDate"       ) );	
 	
 	// display store information
-	document.querySelector( "#idAccumCustomerCnt" 	).value = accumCustomerCnt 	+ " " + "명";
-	document.querySelector( "#idAccumSavAmt" 		).value = accumSavAmt		+ " " + ( savTp == "C" ? "장":"점" );
-	document.querySelector( "#idAccumUseAmt" 		).value	= accumUseAmt		+ " " + ( savTp == "C" ? "장":"점" );
+	document.querySelector( "#idAccumCustomerCnt" 	).value = accumCustomerCnt 	+ " " + mLang.get("peopleqty");
+	document.querySelector( "#idAccumSavAmt" 		).value = accumSavAmt		+ " " + ( savTp == "C" ? mLang.get("numberqty"):mLang.get("point") );
+	document.querySelector( "#idAccumUseAmt" 		).value	= accumUseAmt		+ " " + ( savTp == "C" ? mLang.get("numberqty"):mLang.get("point") );
 }
 
 // Search visit histories of the store.
@@ -74,7 +74,7 @@ function searchVisitHistory() {
 	//console.log( "from = " + document.querySelector( "#sFromDate" ).value );
 	//console.log( "to   = " + document.querySelector( "#sToDate"   ).value );
 	if( document.querySelector( "#sFromDate" ).value > document.querySelector( "#sToDate" ).value ) {
-		showComModal( {msg:"조회 시작일과 종료일을 확인해 주세요",closeCallbackFnc:function(){ document.querySelector( "#sFromDate" ).nextElementSibling.focus() }} );
+		showComModal( {msg:mLang.get("checkdatestartandend"),closeCallbackFnc:function(){ document.querySelector( "#sFromDate" ).nextElementSibling.focus() }} );
 	  	return false;
 	}
 	
@@ -98,7 +98,7 @@ function searchVisitHistoryAft( responseText ) {
 		viewVisitHistory( JSON.parse(responseText).chVisit 		)
 	} else {
 		// There's no data. 
-		showComModal( {msg:"조회 내역이 없습니다"} );
+		showComModal( {msg:mLang.get("nosearchdata")} );
 	  	return false;					
 	}
 }
@@ -154,8 +154,8 @@ function historyAdd( visitDtm, useTp, usrNm, usrId, savAmt, useAmt, accumAmt, go
 
 	colGoosNm.style.whiteSpace	= "nowrap";
 	
-	colVisitDtm .innerHTML = '<td>' + toDateFormat( visitDtm ) 							+ '</td>';
-	colUseTp  	.innerHTML = '<td>' + ( useTp == "U" ? "사용" : "적립" ) 				+ '</td>';
+	colVisitDtm .innerHTML = '<td>' + toDateFormat( visitDtm ) 									+ '</td>';
+	colUseTp  	.innerHTML = '<td>' + ( useTp == "U" ? mLang.get("use") : mLang.get("save") ) 	+ '</td>';
 	if( useTp == "U" ) {	// Change display color that used type.
 		colUseTp.style.color = "red";
 	}

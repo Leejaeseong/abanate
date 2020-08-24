@@ -216,7 +216,7 @@
 		var errMsg  	= '${errMsg}';		// 오류 메시지
 		
 		if( isError ) {
-			showComModal( {type:"error", msg:errMsg} );
+			showComModal( {type:"error", msg:errMsg,closeCallbackFnc:function(){ goMain(); }} );
 		} else if ( isComplete ) {
 			// 가입을 축하드립니다
 			showComModal( {msg:'${mLang["congratjoin"]}',closeCallbackFnc:function(){ location.href = "./login.do" } } );

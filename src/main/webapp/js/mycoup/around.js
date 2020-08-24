@@ -19,11 +19,11 @@ var tblVisitIdx 	= 0;
 var tblVisitBody	= document.querySelector( '#idVisitTbl > tbody' );
 var nVisitRow, colVisitVisitDtm, colVisitUseTp, colVisitSavUseAmt, colVisitAccumAmt, colVisitGoosNm;
 
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 // Event > addEventListener
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 // Event load of document
 window.addEventListener("load", function() { // This function can define a event parameter. i.g., evt
 	if( canLoadGooglemap ) {
@@ -36,17 +36,18 @@ window.addEventListener("load", function() { // This function can define a event
 			});
 		});
 	} else {
-		showComModal( {type:"info",msg:"오늘의 구글 지도 서비스가 종료되었습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+		// 오늘의 구글 지도 서비스가 종료되었습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다
+		showComModal( {type:"info",msg:mLang.get("todaygooglemapserviceexpired_br")
 										,closeCallbackFnc:function(){ location.href = window.location.protocol + "//" + window.location.hostname + "/mycoup/mycoupList.do"; } } );		
 	}
 	
 });
 
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 // Event > Google map
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 
 // Markers search range - Latitude : ± 0.015000, Longitude : ± 0.035000
 // Search length is about 5 km diameter.
@@ -65,7 +66,8 @@ function initMap( responseText ) {
 			onErrorGeolocation();
 		}
 	} else {
-		showComModal( {type:"warning",msg:"자동화된 접근으로 판단됩니다.<br/>해당 메뉴는 이용하실 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+		// 자동화된 접근으로 판단됩니다.<br/>해당 메뉴는 이용하실 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다
+		showComModal( {type:"warning",msg:mLang.get("autoaccessdeniedyoucantusethismenu_br")
 									,closeCallbackFnc:function(){ goMain(); } } );
 	}
 	
@@ -75,11 +77,9 @@ function initMap( responseText ) {
 function onSuccessGeolocation( position ) {
 	var curPos = { lat: position.coords.latitude, lng: position.coords.longitude };
 	
-	let map = new google.maps.Map(
+	map = new google.maps.Map(
 		document.getElementById( 'map' ), {zoom: zoomLvl, center: curPos }
 	);
-
-	console.log( map );
 	
 	var imgMe = {
 		url: '/img/mycoup/map-marker-me_1.png',
@@ -111,21 +111,19 @@ function findStoreLocationAft( responseText ) {
 	rData.forEach( function( item, idx ){ // This function can define 3rd parameter. i.g., arr
 
 		if( chkNull( item.mapLat ) && chkNull( item.mapLng ) ) {
-
+		
 			let marker = new google.maps.Marker({
 				position: {lat: Number( item.mapLat ), lng: Number( item.mapLng ) },
-				map: map,			      
+				map: map,
 				title: item.storNm,
 				zIndex: idx
 			});
 			
-			console.log( idx );
-
 			// add event
 			attachClickEvent( marker, item.cmStorSeq, item.storNm, item.savTp );
 
 		}
-		
+
 	});
 
 }
@@ -154,15 +152,16 @@ function attachClickEvent( marker, cmStorSeq, storNm, savTp ) {
 // Failed to get my location.
 function onErrorGeolocation() {
 	// TODO Print message of error to Not supported location service in this device.
-	showComModal( {type:"info",msg:"현재 위치를 인식할 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다."
+	// 현재 위치를 인식할 수 없습니다.<br/>쿠폰(포인트)함 메뉴로 검색 해 주세요.<br/>후원금은 대부분 구글 지도 서비스에 사용되고 있습니다
+	showComModal( {type:"info",msg:mLang.get("cantrecognizecurrentlocation_br")
 							  ,closeCallbackFnc:function(){ location.href = window.location.protocol + "//" + window.location.hostname + "/mycoup/mycoupList.do"; } } );			
 }
 
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 // Function
-//***************************************************************************************************
-//***************************************************************************************************
+//***************************************************************************************************/
+//***************************************************************************************************/
 
 //Clear data.
 function clearStorInfo() {
@@ -218,7 +217,8 @@ function getStorInfoAft( responseText ) {
 			savTp = "P";
 		}
 		document.querySelector( "#idStorSavImg" ).style.display = "";
-		document.querySelector( "#idStorSavAmt" ).innerHTML 	= "&nbsp;" + toNumWithSep( rData[0].accumAmt ) + ( savTp == "C" ? "장" : "점" );
+		document.querySelector( "#idStorSavAmt" ).innerHTML 	= "&nbsp;" + toNumWithSep( rData[0].accumAmt ) 
+																	+ ( savTp == "C" ? mLang.get("numberqty") : mLang.get("pointquantitiesunit") );	// "장" : "점"
 	} else {
 		document.querySelector( "#idStorSavImg" ).style.display = "none";
 		document.querySelector( "#idStorSavAmt" ).innerHTML 	= "&nbsp;";
@@ -242,11 +242,11 @@ function addVisitHistory( visitDtm, useTp, useAmt, savAmt, accumAmt, goosNm ){
 			
 	colVisitGoosNm		.style.whiteSpace = "nowrap";	// make horizontal scroll in long text.
 	
-	colVisitVisitDtm 	.innerHTML = '<td>' + toDateFormat( visitDtm )				+ '</td>';
-	colVisitUseTp  		.innerHTML = '<td>' + ( useTp == "U" ? "사용" : "적립" )	+ '</td>';
-	colVisitSavUseAmt	.innerHTML = '<td>' + ( useTp == "U" ? toNumWithSep( useAmt ) : toNumWithSep( savAmt ) ) + '</td>';
-	colVisitAccumAmt	.innerHTML = '<td>' + toNumWithSep( accumAmt )				+ '</td>';
-	colVisitGoosNm		.innerHTML = '<td>' + toBlank( goosNm )						+ '</td>';
+	colVisitVisitDtm 	.innerHTML = '<td>' + toDateFormat( visitDtm )												+ '</td>';
+	colVisitUseTp  		.innerHTML = '<td>' + ( useTp == "U" ? mLang.get("use") : mLang.get("save") )				+ '</td>';	// "사용" : "적립"
+	colVisitSavUseAmt	.innerHTML = '<td>' + ( useTp == "U" ? toNumWithSep( useAmt ) : toNumWithSep( savAmt ) ) 	+ '</td>';
+	colVisitAccumAmt	.innerHTML = '<td>' + toNumWithSep( accumAmt )												+ '</td>';
+	colVisitGoosNm		.innerHTML = '<td>' + toBlank( goosNm )														+ '</td>';
 	
 	if( useTp == "U" ) {	// Change display color that used type.
 		colVisitUseTp.style.color = "red";
@@ -273,7 +273,7 @@ function viewMoreVisitHistoryAft( responseText ) {
 		}		
 	} else {
 		// There's no data. 
-		showComModal( {msg:"조회 내역이 없습니다"} );
+		showComModal( {msg:mLang.get("nosearchdata")} );	// 조회 내역이 없습니다
 		return false;					
 	}
 	

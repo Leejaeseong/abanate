@@ -630,8 +630,8 @@ public class MycoupController {
 		lngFrom = (Double)map.get( "lng" ) - 0.035000;
 		lngTo	= (Double)map.get( "lng" ) + 0.035000;
 		
-		return gson.toJson( cmStorRepo.findByMapLatBetweenAndMapLngBetween( String.valueOf( latFrom ), String.valueOf( latTo ), String.valueOf( lngFrom ), String.valueOf( lngTo ) ) );
-		//return gson.toJson( cmStorRepo.findAll() );
+		//return gson.toJson( cmStorRepo.findByMapLatBetweenAndMapLngBetween( String.valueOf( latFrom ), String.valueOf( latTo ), String.valueOf( lngFrom ), String.valueOf( lngTo ) ) );
+		return gson.toJson( cmStorRepo.findAll() );
 	}
 	
 	/**

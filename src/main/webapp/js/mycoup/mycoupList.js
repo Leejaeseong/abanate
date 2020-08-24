@@ -48,8 +48,8 @@ document.querySelector( '#isVisited' ).addEventListener("change", function() {	/
 
 // Call after document loaded.
 function init() {
-	document.querySelector( "#idCoupSum"  ).value = coupSum 	+ " 장 적립";
-	document.querySelector( "#idPointSum" ).value = pointSum	+ " 점 적립";
+	document.querySelector( "#idCoupSum"  ).value = coupSum 	+ " " + mLang.get("savingqty");		// 장 적립
+	document.querySelector( "#idPointSum" ).value = pointSum	+ " " + mLang.get("savingpoint");	// 점 적립
 }
 
 // Search store information.
@@ -67,8 +67,9 @@ function searchStore( isMore, sType ) {
 	
 	// Validation of phone number.
 	if( !chkPhoneNo( "telNo", false ) ) {
-			showComModal( {msg:"매장 전화번호를 확인해 주세요.",closeCallbackFnc:function(){ document.querySelector( 'input[name="telNo"]' ).focus() }} );
-			return;
+		// 매장 전화번호를 확인해 주세요
+		showComModal( {msg:mLang.get("checkstorephonenumber"),closeCallbackFnc:function(){ document.querySelector( 'input[name="telNo"]' ).focus() }} );
+		return;
 	}
 		
 	// Send ajax data.
@@ -123,7 +124,7 @@ function searchStoreAft( responseText ) {
 		viewStor( JSON.parse(responseText) );
 	} else {
 		// There's no data. 
-		showComModal( {msg:"조회 내역이 없습니다"} );
+		showComModal( {msg:mLang.get("nosearchdata")} );	// 조회 내역이 없습니다
 	  	return false;
 	}
 }
@@ -136,11 +137,12 @@ function viewStor( rData ) {
 			storAdd(  getDataByProjection( rData, "cmStorSeq"	, i )
 					, getDataByProjection( rData, "storNm" 		, i )
 					, getDataByProjection( rData, "savTp" 		, i )
-					, getDataByProjection( rData, "visitDtm" 	, i )
-					, getDataByProjection( rData, "accumAmt" 	, i )
-					, getDataByProjection( rData, "addrPt1", i) + " " + getDataByProjection( rData, "addrPt2", i ) + " " + getDataByProjection( rData, "addrDtl", i )
+					, getDataByProjection( rData, "visitDtm"	, i )
+					, getDataByProjection( rData, "accumAmt"	, i )
+					, getDataByProjection( rData, "addrPt1"		, i )
 			);
 		}
+		
 	}
 }
 
@@ -222,8 +224,9 @@ function getStorInfoAft( responseText ) {
 		if( rData[0].cmStor.savTp == "P" ) {
 			savTp = "P";
 		}
-		document.querySelector( "#idStorSavImg" ).style.display = "";
-		document.querySelector( "#idStorSavAmt" ).innerHTML = "&nbsp;" + toNumWithSep( rData[0].accumAmt ) + ( savTp == "C" ? "장" : "점" );
+		document.querySelector( "#idStorSavImg" ).style.display = "";		
+		document.querySelector( "#idStorSavAmt" ).innerHTML = "&nbsp;" + toNumWithSep( rData[0].accumAmt ) 
+															+ ( savTp == "C" ? mLang.get("numberqty") : mLang.get("pointquantitiesunit") );	// "장" : "점"
 	} else {
 		document.querySelector( "#idStorSavImg" ).style.display = "none";
 		document.querySelector( "#idStorSavAmt" ).innerHTML = "&nbsp;";
@@ -247,11 +250,11 @@ function addVisitHistory( visitDtm, useTp, useAmt, savAmt, accumAmt, goosNm ){
 			
 	colVisitGoosNm		.style.whiteSpace = "nowrap";	// make horizontal scroll in long text.
 	
-	colVisitVisitDtm 	.innerHTML = '<td>' + toDateFormat( visitDtm )				+ '</td>';
-	colVisitUseTp  		.innerHTML = '<td>' + ( useTp == "U" ? "사용" : "적립" )	+ '</td>';
-	colVisitSavUseAmt	.innerHTML = '<td>' + ( useTp == "U" ? toNumWithSep( useAmt ) : toNumWithSep( savAmt ) ) + '</td>';
-	colVisitAccumAmt	.innerHTML = '<td>' + toNumWithSep( accumAmt )				+ '</td>';
-	colVisitGoosNm		.innerHTML = '<td>' + toBlank( goosNm )						+ '</td>';
+	colVisitVisitDtm 	.innerHTML = '<td>' + toDateFormat( visitDtm )												+ '</td>';
+	colVisitUseTp  		.innerHTML = '<td>' + ( useTp == "U" ? mLang.get("use") : mLang.get("save") )				+ '</td>';	// "사용" : "적립"
+	colVisitSavUseAmt	.innerHTML = '<td>' + ( useTp == "U" ? toNumWithSep( useAmt ) : toNumWithSep( savAmt ) ) 	+ '</td>';
+	colVisitAccumAmt	.innerHTML = '<td>' + toNumWithSep( accumAmt )												+ '</td>';
+	colVisitGoosNm		.innerHTML = '<td>' + toBlank( goosNm )														+ '</td>';
 	
 	if( useTp == "U" ) {	// Change display color that used type.
 		colVisitUseTp.style.color = "red";
@@ -279,20 +282,8 @@ function viewMoreVisitHistoryAft( responseText ) {
 		}		
 	} else {
 		// There's no data. 
-		showComModal( {msg:"조회 내역이 없습니다"} );
+		showComModal( {msg:mLang.get("nosearchdata")} );	// 조회 내역이 없습니다
 		return false;					
 	}
 	
 }
-
-/*
-// Click my coupon, find store list that exist coupon to use.
-function findCoupStor() {
-	clearStorInfo( true );	// Clear data.
-	ajaxSend( "./findCoupStor.json" 
-			, {   cmStorSeq		: clickedCmStorSeq
-				, pageNo 		: ++pageVisitNo
-			  }
-			, findCoupStorAft );	
-}
-*/

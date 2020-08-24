@@ -18,7 +18,7 @@
 
     <div class="container bg-primary">
       <h1>        
-        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-clipboard-check"></i> 쿠폰(포인트) 설정</span>        
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-clipboard-check"></i> <!--쿠폰(포인트) 설정-->${mLang["nav_setup"]}</span>        
       </h1>
     </div>
 
@@ -32,12 +32,12 @@
           <i class="fas fa-filter"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>적립 구분</label>
+          <label><!--적립 구분-->${mLang["savetype"]}</label>
         </div>
         <div class="col form-inline text-center">
           <select class="form-control form-control-sm disabled" name="savTp" style="width:12em;">
-            <option value="C" selected>쿠폰</option>
-            <option value="P" >포인트</option>
+            <option value="C" selected><!--쿠폰-->${mLang["coupon"]}</option>
+            <option value="P" ><!--포인트-->${mLang["point"]}</option>
           </select>
         </div>
         
@@ -47,13 +47,13 @@
           <i class="fas fa-hourglass-end"></i>
         </div>                  
         <div class="col-4 text-left mt-2">
-          <label>적립 제한</label>
+          <label><!--적립 제한-->${mLang["savelimit"]}</label>
         </div>
         
         <div class="col align-self-center pl-3">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="savLimitAmtRdo" id="savLimitAmtRdo1" value="N">
-            <label class="form-check-label" for="savLimitAmtRdo1">없음</label>
+            <label class="form-check-label" for="savLimitAmtRdo1"><!--없음-->${mLang["noexist"]}</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="savLimitAmtRdo" id="savLimitAmtRdo2" value="Y">
@@ -70,22 +70,22 @@
       <div class="row wow fadeIn border border-dark justify-content-center">
 
         <div class="row w-100">
-          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">상품 설정</span></h4>
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100"><!--상품 설정-->${mLang["setupgoods"]}</span></h4>
         </div>
 
         <div class="text-right w-100">
-          <button type="button" class="btn btn-primary btn-sm" onclick="add();">추가 <i class="fas fa-sign-in-alt"></i></button>
-          <button type="button" class="btn btn-danger btn-sm"  onclick="del();">삭제 <i class="far fa-trash-alt"></i></button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="add();"><!--추가-->${mLang["add"]} <i class="fas fa-sign-in-alt"></i></button>
+          <button type="button" class="btn btn-danger btn-sm"  onclick="del();"><!--삭제-->${mLang["del"]} <i class="far fa-trash-alt"></i></button>
         </div>
 
         <div class="table-responsive-sm">
           <table id="idGoosTbl" class="table table-striped table-bordered table-sm table-nowrap" style="table-layout: fixed;">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;">선택</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;">수량(포인트)</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:40%;">상품</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;">비고</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:10%;"><!--선택-->${mLang["choice"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;"><!--수-->${mLang["qty"]}(<!--포인트-->${mLang["point"]})</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:40%;"><!--상품-->${mLang["goods"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;"><!--비고-->${mLang["rmks"]}</th>
               </tr>
             </th>
             <tbody>
@@ -99,7 +99,7 @@
       <div class="w-100">&nbsp;</div> <!-- space between border -->
       
       <div class="col text-center">
-        <button type="button" class="btn btn-primary" onclick="onSave();">적용하기 <i class="fas fa-clipboard-check"></i></button>
+        <button type="button" class="btn btn-primary" onclick="onSave();"><!--적용하기-->${mLang["apply"]} <i class="fas fa-clipboard-check"></i></button>
         <input type="hidden" name="delArr"/>
       </div>
 
@@ -183,7 +183,7 @@
 	function del() {
 		var delList = document.querySelectorAll( "[id^='idChk']:checked" );
 		if( delList.length == 0 ) {
-			showComModal( {msg:"삭제할 항목에 체크를 해 주세요"} );
+			showComModal( {msg:'${mLang["checkatdelrow"]}'} );	// 삭제할 항목에 체크를 해 주세요
 			return false;
 		} else {
 			for( var i = 0; i < delList.length; i++ ) {
@@ -203,7 +203,7 @@
   	function onSave() {
   	  	if( chkBeforeSave() ) {
 	  		showComModal( {	  type:"save"
-	  	  					, msg:"저장하시겠습니까?"
+	  	  					, msg:'${mLang["willyousave"]}'	// 저장하시겠습니까?
 	  	  					, btn1CallbackFnc:function(){
 	  	  	  					form.submit(); 
 	  	  	  				 }
@@ -216,7 +216,7 @@
   	  	var dataList = form.querySelectorAll( "[id^='idChk']" );
 
   	  	if( dataList.length == 0 && delSeqs.length == 0 && savLimitAmt == form.querySelector( 'input[name="savLimitAmt"]' ).value) {
-	  	  	showComModal( {msg:"저장할 항목이 없습니다."} );
+	  	  	showComModal( {msg:'${mLang["nodatatosave"]}'} );	// 저장할 항목이 없습니다
 			return false;
   	  	} else {
 	  	  	for( var i = 0; i < dataList.length; i++ ) {
@@ -225,10 +225,10 @@
 		  	  	var tRemk	= form.querySelectorAll( "[id^='idChk']" )[i].parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.children[0];
 
 		  	  	if( isNaN(tAmt.value) || tAmt.value < 1 || tAmt.value > 999999999999 ) {
-		  	  		showComModal( {msg:"숫자로 1 이상 입력해 주세요",closeCallbackFnc:function(){ tAmt.focus() }} );
+		  	  		showComModal( {msg:'${mLang["inputnumberoveroneormore"]}',closeCallbackFnc:function(){ tAmt.focus() }} );	// 숫자로 1 이상 입력해 주세요
 		  	  		return false;
 			  	} else if( tGoosNm.value == "" ) {
-			  		showComModal( {msg:"상품을 입력해 주세요",closeCallbackFnc:function(){ tGoosNm.focus() }} );
+			  		showComModal( {msg:'${mLang["inputgoods"]}',closeCallbackFnc:function(){ tGoosNm.focus() }} );	// 상품을 입력해 주세요
 		  	  		return false;
 				}
 
@@ -237,7 +237,7 @@
 					if( i != j ) {
 						var cTamt 	= form.querySelectorAll( "[id^='idChk']" )[j].parentElement.parentElement.nextElementSibling.children[0];
 						if( cTamt.value == tAmt.value ) {
-							showComModal( {msg:"중복된 수량이 있습니다",closeCallbackFnc:function(){ cTamt.focus() }} );
+							showComModal( {msg:'${mLang["thereisdupleqty"]}',closeCallbackFnc:function(){ cTamt.focus() }} );	// 중복된 수량이 있습니다
 							return false;
 						}
 					}

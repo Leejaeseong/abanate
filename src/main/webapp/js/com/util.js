@@ -27,18 +27,52 @@ function flatpickrDefault( idNm, calcDays ) {
 			locale: {
 			    firstDayOfWeek: 0,	// Set start week to sunday.
 			    weekdays: {
-			      shorthand: ["일", "월", "화", "수", "목", "금", "토"],
-			      longhand:  ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]         
+			      shorthand: [	 footMLang.get("cal_sun_short")
+			      				,footMLang.get("cal_mon_short")
+			      				,footMLang.get("cal_tue_short")
+			      				,footMLang.get("cal_wed_short")
+			      				,footMLang.get("cal_thu_short")
+			      				,footMLang.get("cal_fri_short")
+			      				,footMLang.get("cal_sat_short")],	// "일", "월", "화", "수", "목", "금", "토"
+			      longhand:  [	 footMLang.get("cal_sun_long")
+			      				,footMLang.get("cal_mon_long")
+			      				,footMLang.get("cal_tue_long")
+			      				,footMLang.get("cal_wed_long")
+			      				,footMLang.get("cal_thu_long")
+			      				,footMLang.get("cal_fri_long")
+			      				,footMLang.get("cal_sat_long")]	// "일요일","월요일","화요일","수요일","목요일","금요일","토요일"         
 			    }, 
 			    months: {
-			      shorthand: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-			      longhand:  ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
+			      shorthand: [	 footMLang.get("cal_jan_short")
+			      				,footMLang.get("cal_feb_short")
+			      				,footMLang.get("cal_mar_short")
+			      				,footMLang.get("cal_apr_short")
+			      				,footMLang.get("cal_may_short")
+			      				,footMLang.get("cal_jun_short")
+			      				,footMLang.get("cal_jul_short")
+			      				,footMLang.get("cal_aug_short")
+			      				,footMLang.get("cal_sep_short")
+			      				,footMLang.get("cal_oct_short")
+			      				,footMLang.get("cal_nov_short")
+			      				,footMLang.get("cal_dec_short")],	// "1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"
+			      longhand:  [	 footMLang.get("cal_jan_long")
+			      				,footMLang.get("cal_feb_long")
+			      				,footMLang.get("cal_mar_long")
+			      				,footMLang.get("cal_apr_long")
+			      				,footMLang.get("cal_may_long")
+			      				,footMLang.get("cal_jun_long")
+			      				,footMLang.get("cal_jul_long")
+			      				,footMLang.get("cal_aug_long")
+			      				,footMLang.get("cal_sep_long")
+			      				,footMLang.get("cal_oct_long")
+			      				,footMLang.get("cal_nov_long")
+			      				,footMLang.get("cal_dec_long")]	// "1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"
 			    }
 			}
-			, dateFormat:"Y-m-d"
+			, dateFormat: "Y-m-d"
 			, defaultDate:new Date().setDate( new Date().getDate() + ( calcDays?calcDays:0 ) )
 			, onReady: function(){ // It can be parameters that "selectedDates, dateStr, instance"
-				document.querySelector( "#" + idNm ).style.width="6.5em"
+				document.querySelector( "#" + idNm ).style.width="6.5em";
 			}
 	};
 }
@@ -123,7 +157,7 @@ function goLogout() {
  * @returns
  */
 function goMainAfterMessage() {
-	showComModal( {type:"error",msg:"오류가 발생하였습니다<br/>메인화면으로 이동합니다",closeCallbackFnc:function(){ goMain(); } } );
+	showComModal( {type:"error",msg:footMLang.get( "erroccurgomain_br" ),closeCallbackFnc:function(){ goMain(); } } );	// 오류가 발생하였습니다<br/>메인화면으로 이동합니다
 }
 
 function ajaxSend( url, data, succeedFnc ) {
@@ -145,7 +179,7 @@ function ajaxSend( url, data, succeedFnc ) {
     		succeedFnc( this.responseText );
        	} else if (this.readyState == 4 && this.status != 200) {
        		loading( false );	// Hide loading layer.
-       		showComModal( {type:"error",msg:"오류가 발생하였습니다<br/>관리자에게 문의 부탁드립니다",closeCallbackFnc:function(){ goMain(); } } );
+       		showComModal( {type:"error",msg:footMLang.get( "erroccurcontactadmin_br" ),closeCallbackFnc:function(){ goMain(); } } );	// 오류가 발생하였습니다<br/>관리자에게 문의 부탁드립니다
        	} else {
        		loading( false );	// Hide loading layer.
        	}

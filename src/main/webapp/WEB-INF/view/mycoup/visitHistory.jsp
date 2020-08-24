@@ -25,7 +25,7 @@
 
     <div class="container bg-primary">
       <h1>        
-        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-store"></i> 고객 방문 내역</span>
+        <span class="badge w-100 mb-2 mt-2" style="height:1.5em;"><i class="fas fa-store"></i> <!--고객 방문 내역-->${mLang["custvisithistory"]}</span>
       </h1>
     </div>
 
@@ -34,7 +34,7 @@
       <div class="row wow fadeIn border border-dark justify-content-center">
 
         <div class="row w-100">
-          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">전체 내역</span></h4>
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100"><!--전체 내역-->${mLang["allofhistory"]}</span></h4>
         </div>
 
         <div class="w-100">&nbsp;</div> <!-- space br -->
@@ -43,16 +43,16 @@
           <i class="fas fa-user-friends"></i>
         </div>                  
         <div class="col-3 text-left my-auto">
-          <small>전체 고객</small>
+          <small><!--전체 고객-->${mLang["allofcustomer"]}</small>
         </div>
         
         <div class="col-3 form-inline">
-          <label class="small mt-2">누적 고객</label>
+          <label class="small mt-2"><!--누적 고객-->${mLang["accumcustomer"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input id="idAccumCustomerCnt" type="text" class="form-control form-control-sm text-right" disabled style="width:8em;"/>
           <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
-          <small id="idOpenDt">※개시:<fmt:formatDate value="${cmStor.regDttm}" pattern="yyyy.MM.dd" /></small>
+          <small id="idOpenDt">※<!--개시-->${mLang["open"]}:<fmt:formatDate value="${cmStor.regDttm}" pattern="yyyy.MM.dd" /></small>
         </div>
         
         <div class="w-100"><hr/></div> <!-- horizontal line -->
@@ -61,13 +61,13 @@
           <i class="fas fa-chart-area"></i>
         </div>                  
         <div class="col-3 form-inline">
-          <label class="small mt-2">전체 현황</label>
+          <label class="small mt-2"><!--전체 현황-->${mLang["allofstatus"]}</label>
         </div>
         
         <div class="col-3 form-inline text-center">
-          <label class="small mt-2">적립</label>          
+          <label class="small mt-2"><!--적립-->${mLang["save"]}</label>          
           <div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
-          <label class="small mt-2">사용</label>
+          <label class="small mt-2"><!--사용-->${mLang["use"]}</label>
         </div>
         <div class="col form-inline text-center">
           <input type="text" id="idAccumSavAmt" class="form-control form-control-sm text-right" disabled style="width:8em;"/>
@@ -84,7 +84,7 @@
       <div class="row wow fadeIn border border-dark justify-content-center">
 
         <div class="row w-100">
-          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">검색</span></h4>
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100"><!--검색-->${mLang["search"]}</span></h4>
         </div>
 
         <div class="w-100">&nbsp;</div> <!-- space br -->
@@ -93,7 +93,7 @@
           <i class="far fa-clock"></i>
         </div>
         <div class="col-3 form-inline">
-          <label class="mt-2">일자</label>
+          <label class="mt-2"><!--일자-->${mLang["date"]}</label>
         </div>        
         <div class="col form-inline text-center">
           <input type="text" id="sFromDate" class="form-control form-control-sm text-center" style="width:10em;"/>
@@ -107,17 +107,9 @@
           <i class="far fa-clock"></i>
         </div>
         <div class="col-4 text-left mt-2">
-          <label>전화번호(ID)</label>
+          <label><!--전화번호(ID)-->${mLang["phone_id"]}</label>
         </div>        
         <div class="col form-inline text-center">
-          <!--  
-          <input type="text" class="form-control form-control-sm" id="phone1" style="width:3em;" maxlength="3">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone2" style="width:3.5em;" maxlength="4">
-          <label class="mt-2" style="width:0.8em;">-</label>
-          <input type="text" class="form-control form-control-sm" id="phone3" style="width:3.5em;" maxlength="4">
-          <input type="hidden" id="usrId"/>
-          -->
           <input type="text" class="form-control form-control-sm" name="usrId" style="width:12em;" maxlength="20">
         </div>
 
@@ -127,7 +119,7 @@
           <i class="fas fa-user-tag"></i>
         </div>                  
         <div class="col-4 text-left my-auto">
-          <label>성함<font class="small"><br/>( 또는 예명 )</font>
+          <label><!--성함-->${mLang["name_honer"]}<font class="small"><br/>( <!--또는 예명-->${mLang["oraliasname"]} )</font>
           </label>
         </div>
         <div class="col form-inline text-center">
@@ -137,7 +129,7 @@
         <div class="w-100"><hr/></div> <!-- horizontal line -->
 
         <div class="col text-right">
-          <button type="button" class="btn btn-primary" onclick="searchVisitHistory();">검색 <i class="fas fa-search"></i></button>
+          <button type="button" class="btn btn-primary" onclick="searchVisitHistory();"><!--검색-->${mLang["search"]} <i class="fas fa-search"></i></button>
         </div>
 
         <div class="w-100">&nbsp;</div> <!-- bottom space of regist border -->
@@ -149,14 +141,17 @@
       <div class="row wow fadeIn border border-dark justify-content-center">
 
         <div class="row w-100">
-          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100">검색 결과</span></h4>
+          <h4 class="w-100 bg-primary"><span class="badge badge-success w-100"><!--검색 결과-->${mLang["resultofsearch"]}</span></h4>
         </div>
 
         <div class="w-100">
           <div class="col text-center">
             <small>
-              [검색] <font class="text-info" id="idSearchCnt">0</font>&nbsp;&nbsp;&nbsp;[고객] <font class="text-info" id="idUsrCnt"  >0</font>&nbsp;&nbsp;&nbsp;[적립] <font class="text-info" id="idSavAmt">0</font>&nbsp;&nbsp;&nbsp; 
-              [사용] <font class="text-info" id="idUseAmt"   >0</font>&nbsp;&nbsp;&nbsp;[누적] <font class="text-info" id="idAccumAmt">0</font>
+              [<!--검색-->${mLang["search"]}] <font class="text-info" id="idSearchCnt">0</font>&nbsp;&nbsp;&nbsp;
+              [<!--고객-->${mLang["customer"]}] <font class="text-info" id="idUsrCnt"  >0</font>&nbsp;&nbsp;&nbsp;
+              [<!--적립-->${mLang["save"]}] <font class="text-info" id="idSavAmt">0</font>&nbsp;&nbsp;&nbsp; 
+              [<!--사용-->${mLang["use"]}] <font class="text-info" id="idUseAmt"   >0</font>&nbsp;&nbsp;&nbsp;
+              [<!--누적-->${mLang["accum"]}] <font class="text-info" id="idAccumAmt">0</font>
             </small>
           </div>
         </div>
@@ -168,87 +163,24 @@
           <table id="idHistoryTbl" class="table table-striped table-bordered table-sm table-nowrap">
             <thead class="thead-light">
               <tr>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:22%;">방문 일시</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:13%;">구분</th>
-                <th scope="col" class="text-left"   style="white-space:nowrap; width:25%;">성함</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;">전화번호</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;">적용</th>
-                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;">누적</th>
-                <th scope="col" class="text-left"   style="white-space:nowrap; width:5%;">상품</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:22%;"><!--방문 일시-->${mLang["visitdttm"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:13%;"><!--구분-->${mLang["type"]}</th>
+                <th scope="col" class="text-left"   style="white-space:nowrap; width:25%;"><!--성함-->${mLang["name_honor"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:25%;"><!--전화번호-->${mLang["phonenumber"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;"><!--적용-->${mLang["apply"]}</th>
+                <th scope="col" class="text-center" style="white-space:nowrap; width:5%;"><!--누적-->${mLang["accum"]}</th>
+                <th scope="col" class="text-left"   style="white-space:nowrap; width:5%;"><!--상품-->${mLang["goods"]}</th>
               </tr>
             </th>
             <tbody>
-            <!--
-              <tr>
-                <td class="text-center">2019.10.21<br/>13:10:00</td>
-                <td class="text-center text-danger">사용</td>
-                <td class="text-left">이지은</td>
-                <td class="text-center">010-1234-5678</td>
-                <td class="text-right">10</td>
-                <td class="text-right">5</td>
-              </tr>
-              <tr>
-                <td class="text-center">2019.10.21<br/>13:10:00</td>
-                <td class="text-center">적립</td>
-                <td class="text-left">이지은</td>
-                <td class="text-center">010-1234-5678</td>
-                <td class="text-right">2</td>
-                <td class="text-right">15</td>
-              </tr>
-              <tr>
-                <td class="text-center">2019.10.19<br/>10:10:00</td>
-                <td class="text-center">적립</td>
-                <td class="text-left">이지은</td>
-                <td class="text-center">010-1234-5678</td>
-                <td class="text-right">1</td>
-                <td class="text-right">13</td>
-              </tr>
-              <tr>
-                <td class="text-center">2019.10.17<br/>11:10:00</td>
-                <td class="text-center">적립</td>
-                <td class="text-left">이지은</td>
-                <td class="text-center">010-1234-5678</td>
-                <td class="text-right">3</td>
-                <td class="text-right">12</td>
-              </tr>
-            -->
             </tbody>
           </table>
-          <!--
-          <div class="w-100 d-flex justify-content-center">
-            <nav>
-              <ul class="pagination">
-                <li class="page-item disabled">
-                  <span class="page-link">First</span>
-                </li>
-                <li class="page-item disabled">
-                  <span class="page-link">&lt;&lt;</span>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                  <span class="page-link">
-                    2
-                    <span class="sr-only">(current)</span>
-                  </span>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">&gt;&gt;</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Last</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          -->
-          
         </div>
         
       </div> <!-- end of border -->
       
       <div class="col text-center">
-      	<button type="button" class="btn btn-info" onclick="viewMore();">더 보기 <i class="far fa-caret-square-down"></i></button>        
+      	<button type="button" class="btn btn-info" onclick="viewMore();"><!--더 보기-->${mLang["viewmore"]} <i class="far fa-caret-square-down"></i></button>        
       </div>
       
     </div> <!-- end of container -->
@@ -271,6 +203,15 @@
 
 		init();
   	});
+
+	// Multi language variables
+  	var mLang = new Map();
+  	mLang.set( "peopleqty"				, '${mLang["peopleqty"				]}' );
+  	mLang.set( "numberqty"				, '${mLang["numberqty"				]}' );
+  	mLang.set( "checkdatestartandend"	, '${mLang["checkdatestartandend"	]}' );
+  	mLang.set( "nosearchdata"			, '${mLang["nosearchdata"			]}' );
+  	mLang.set( "use"					, '${mLang["use"					]}' );
+  	mLang.set( "save"					, '${mLang["save"					]}' );
   </script>
 	
    <!-- https://flatpickr.js.org/ -->
