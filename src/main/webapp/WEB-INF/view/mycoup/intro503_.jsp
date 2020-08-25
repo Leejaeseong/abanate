@@ -54,11 +54,21 @@ Once set, it cannot be changed.
 →[Contact] Please enter the phone number of the store
 
 →[Address] Please enter the location of the store
+<br/>
+         <br/> →[Latitude/Longitude] Please enter the location of the store
+         <br/> This is the location of the store to be displayed to customers on the map.
+         <br/> When registering as a member, the location of the store is displayed on the map of customers immediately.
+         <br/> Click on the letters of latitude and longitude to bring up a Google map.
+         <br/> Click the location or share the location
+         <br/> The latitude and longitude appear in the link address.
+         <br/> Please refer to the picture below
+         <br/>
 This is the store location to display on the map to customers.
 Immediately upon signing up for membership, the store location is displayed on the customer's map.
 
 →[Marketing Agreement] You can receive event information by email or phone.
-        	
+        	<br/>
+        	<img src="../../img/mycoup/find_store_location_en.png" alt="Find the latitude and longitude of my store" class="z-depth-0 img-fluid">
 		</h5>
 
       </div>

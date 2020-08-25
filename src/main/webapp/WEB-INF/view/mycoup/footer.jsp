@@ -59,13 +59,17 @@
     <!-- Contact us -->
     <div class="pb-4">
     	<%=com.abanate.com.util.ConstUtil.MY_COUP_EMAIL%>
+    	<br/><br/>
+   		<div class="col text-left">
+   		${mLang["donationplease_br"]}
+   		</div>    	
     </div>
     <!-- /Contact us -->
 
     <!--Copyright-->
     <div class="footer-copyright py-3">
-      © 2019 Copyright:
-      <a href="./index.html"> <%=com.abanate.com.util.ConstUtil.MY_COUP_EMAIL%> </a>
+      © 2020 Copyright:
+      <a href="./index.html"> <%=com.abanate.com.util.ConstUtil.MY_COUP_SITE%> </a>
     </div>
     <!--/.Copyright-->
 

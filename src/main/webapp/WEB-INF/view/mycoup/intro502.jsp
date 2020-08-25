@@ -26,7 +26,7 @@
     <div class="row wow fadeIn border border-dark justify-content-center">
 
       <div class="row w-100">
-      	<img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
+      	<img src="../../img/mycoup/how_7_kr.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
       	<h5 class="mt-3 ml-3 mr-3 mb-3">      	
         	<span class="text-primary font-weight-bold">○ 고객의 방문 내역 확인 ○</span>
         	

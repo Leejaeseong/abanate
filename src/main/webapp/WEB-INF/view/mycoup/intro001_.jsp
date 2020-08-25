@@ -26,7 +26,9 @@
     <div class="row wow fadeIn border border-dark justify-content-center">
 
       <div class="row w-100">
-      	<img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
+      	<img src="../../img/mycoup/how_1_en.png" alt="What it this?-Coupon management in general stores" class="z-depth-0 img-fluid">
+      	<br/>
+      	<img src="../../img/mycoup/how_2_en.png" alt="What is this?-I want to give points to customers" class="z-depth-0 img-fluid">
         <h5 class="mt-3 ml-3 mr-3 mb-3">
         	<span class="text-primary font-weight-bold">○ This is a place where you can easily manage points or coupons for free. ○</span>
         	<br/><br/>

@@ -26,7 +26,9 @@
     <div class="row wow fadeIn border border-dark justify-content-center">
 
       <div class="row w-100">
-      	<img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
+      	<img src="../../img/mycoup/how_1_kr.png" alt="이게 뭐에요?-일반 매장에서 쿠폰 관리" class="z-depth-0 img-fluid">
+      	<br/>
+        <img src="../../img/mycoup/how_2_kr.png" alt="이게 뭐에요?-고객들에게 포인트를 주고 싶어요" class="z-depth-0 img-fluid">
         <h5 class="mt-3 ml-3 mr-3 mb-3">
         	<span class="text-primary font-weight-bold">○ 이곳은 포인트나 쿠폰을 손쉽게 무료로 관리해 주는 곳 입니다 ○</span>
         	<br/><br/>

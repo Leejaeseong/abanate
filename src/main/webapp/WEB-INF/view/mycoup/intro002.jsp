@@ -26,7 +26,7 @@
     <div class="row wow fadeIn border border-dark justify-content-center">
 
       <div class="row w-100">
-      	<img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
+      	<img src="../../img/mycoup/how_4_kr.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
         <h5 class="mt-3 ml-3 mr-3 mb-3">
         	<span class="text-primary font-weight-bold">○ 쿠폰을 가지고 다닐 필요가 없어요 ○</span>
         	<br/><br/>

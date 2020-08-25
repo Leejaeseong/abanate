@@ -1,8 +1,8 @@
 ▣ To-Do
-	□ 다국어
-	□ 메뉴얼 및 문구 정리
-		- 사업장 등록 시 구글 좌표 안내 친절히~
-	□ 세션시간 3시간
+	□ 사이트 노출
+		-. 크롬 사이트 검색 노출 작업 중 	: https://search.google.com/search-console/index?resource_id=https%3A%2F%2Fmycoup.ml%2F
+		-. 네이버 작업 중 					: https://searchadvisor.naver.com/console/site/option?site=http%3A%2F%2Fmycoup.ml
+		-. 다음 							: 이메일로 회신 준다고 함
 	□ 달력이 모바일에서는 다국어가 적용이 안됨.
 	끝!!!
 	
@@ -155,6 +155,9 @@
 			setting_api_key_google_map
 			setting_api_address_key_pc
 	    	setting_api_address_key_mobile
+	    	
+	    - 세션 시간 증가( 30분 -> 3시간 )
+	    	-. 톰켓 web.xml에서 <session-timeout>30</session-timeout> 부분을 180으로 변경
 		
 		- [안해도 될듯, 어차피 지금은 이걸 해도 해결 안 됨, 나중에 문제 되면 다시 봅시다] 쿠키 전송 레벨 설정
 			- 참고 https://ifuwanna.tistory.com/223

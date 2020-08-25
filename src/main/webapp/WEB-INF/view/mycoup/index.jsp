@@ -45,11 +45,11 @@
 
       <!-- <div class="bg-primary"> -->
 	   <c:if test="${sessionScope.cmUsr == null}">
-        <a href="./login.do" class="btn btn-outline-white btn-sm" style="width:14em;"><span id="idTextLogin"><!--로그인-->${mLang["login"]}</span>
+        <a href="./login.do" class="btn btn-outline-white btn-sm" style="width:10em;"><span id="idTextLogin"><!--로그인-->${mLang["login"]}</span>
           <i class="fas fa-sign-in-alt"></i> 
         </a>
         
-        <a href="./joinMember.do" class="btn btn-outline-white btn-sm" style="width:14em;"><!--간편 가입-->${mLang["easy_join"]}
+        <a href="./joinMember.do" class="btn btn-outline-white btn-sm" style="width:13em; padding-left:1em; padding-right:1em;"><!--간편 가입-->${mLang["easy_join"]}
           <i class="far fa-address-card"></i>
         </a>
        </c:if>
@@ -72,8 +72,6 @@
 
       <!--Section-->
       <section>
-
-        <h3 class="h3 text-center mb-5"><!--어떻게 사용 하나요?-->${mLang["ind_how_use"]}</h3>
 
         <jsp:include page="comIntroArticle.jsp"/>
 

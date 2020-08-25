@@ -5,13 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="keywords" content="쿠폰 관리, 무료 쿠폰, 무료, 포인트 관리, Coupon management, Free coupon, Free, Point management">
-  <meta name="description" content="간편하고 편리한 무료 쿠폰, 포인트 관리 웹 사이트 입니다.">
+  <meta name="keywords" content="${mLang['site_keywords']}">
+  <meta name="description" content="${mLang['site_description']}">
+  
+  <meta property="og:type" content="website"> 
+  <meta property="og:title" content="My Coup">
+  <meta property="og:description" content="${mLang['site_description']}">
+  <meta property="og:image" content="https://www.mycoup.ml/img/mycoup/logo.png">
+  <meta property="og:url" content="https://www.mycoup.ml">
   <!--  
   <meta name="googlebot" content="index,follow" />
   -->
   <title>My Coup</title>
   
+  <link rel="canonical" href="https://www.mycoup/mycoup/index.do">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->

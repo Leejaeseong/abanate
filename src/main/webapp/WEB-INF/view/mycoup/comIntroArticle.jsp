@@ -6,14 +6,18 @@
           <br/>
           
 <c:if test="${cookie.usrLang.value == 'ko-KR'}">
-          <img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_4.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_6.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_7.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_1_kr.png" alt="이게 뭐에요?-일반 매장에서 쿠폰 관리" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_2_kr.png" alt="이게 뭐에요?-고객들에게 포인트를 주고 싶어요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_3_kr.png" alt="다 무료이면 MyCoup 운영은 어떻게 하실려고요? " class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_4_kr.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_5_kr.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_6_kr.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_7_kr.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
+          <img src="../../img/mycoup/how_8_kr.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_9_kr.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
           <br/>
+          
+          <h3 class="h3 text-center mt-5"><!--어떻게 사용 하나요?-->${mLang["ind_how_use"]}</h3>
           
           <a href="./intro001.do" style="width:100%;">&nbsp;&nbsp;(모두) 이 사이트는 뭐 하는 곳인가요?</a>
           <br/>
@@ -86,14 +90,18 @@
 </c:if>         
           
 <c:if test="${cookie.usrLang.value == 'English'}">
-          <img src="../../img/mycoup/how_1.png" alt="이게 뭐에요?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_2.png" alt="쿠폰을 가지고 다닐 필요가 없어요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_4.png" alt="쿠폰(포인트) 사용 할게요" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_5.png" alt="그 동안 얼마나 다녀갔는지 볼까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_6.png" alt="내 주변에서 사용할 수 있는 쿠폰이 뭐가 있을까?" class="z-depth-0 img-fluid">
-          <img src="../../img/mycoup/how_7.png" alt="내 고객에게 좋은 행사 소식을 알려주고 싶어" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_1_en.png" alt="What it this?-Coupon management in general stores" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_2_en.png" alt="What is this?-I want to give points to customers" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_3_en.png" alt="Everything is free, how would you like to run MyCoup?" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_4_en.png" alt="No need to carry coupons" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_5_en.png" alt="I'll collect coupons (points)" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_6_en.png" alt="I'll use coupons (points)" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_7_en.png" alt="Shall we see how many you've been?" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_8_en.png" alt="What coupons can I use around me?" class="z-depth-0 img-fluid"> 
+          <img src="../../img/mycoup/how_9_en.png" alt="I want to inform my clients of the good news" class="z-depth-0 img-fluid"> 
           <br/>
+          
+          <h3 class="h3 text-center mt-5"><!--어떻게 사용 하나요?-->${mLang["ind_how_use"]}</h3>
           
           <a href="./intro001_.do" style="width:100%;">&nbsp;&nbsp;(All) What is this site doing?</a>
           <br/>

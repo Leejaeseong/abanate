@@ -158,14 +158,17 @@
         <div id="divStorAddrIcon" class="col-1 align-self-center text-right">
           <i class="fas fa-map-marked-alt"></i>
         </div>
-        <div id="divStorAddrLb" class="col-4 text-left mt-2">
+        <div id="divStorAddrLb" class="col-4 text-left my-auto">
             <label><!--주소-->${mLang["address"]}</label>
+            <label class="font-italic small">(<!--위도와경도 글자를 클릭하면 구글 지도를 통해 위도 경도를 알아낼 수 있어요-->${mLang["addressclicklatandlong"]})</label>
+            
         </div>
         <div id="divStorAddrForm" class="col form-inline text-center">
-          	<input type="text" class="form-control form-control-sm" id="addrPt1" name="addrPt1" aria-describedby="address" style="width:12em;" maxlength="85">
+          	<input type="text" class="form-control form-control-sm" id="addrPt1" name="addrPt1" aria-describedby="address" style="width:12em;" maxlength="85" value="${sessionScope.cmStor.addrPt1}">
           	<div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
-          	<div onclick="popAddress();"><!--위도-->${mLang["latitude"]}</div><input type="text" class="form-control form-control-sm" id="mapLat" name="mapLat" style="width: 3.5em;"/>          	       
-          	<div onclick="popAddress();"><!--경도-->${mLang["longitude"]}</div><input type="text" class="form-control form-control-sm" id="mapLng" name="mapLng" style="width: 3.5em;"/>
+          	<div onclick="popAddress();"><!--위도-->${mLang["latitude"]}</div><input type="text" class="form-control form-control-sm ml-2" id="mapLat" name="mapLat" style="width: 7em;" value="${sessionScope.cmStor.mapLat}"/>
+          	<div class="w-100" style="height:1px;">&nbsp;</div> <!-- space br -->
+          	<div onclick="popAddress();"><!--경도-->${mLang["longitude"]}</div><input type="text" class="form-control form-control-sm ml-2" id="mapLng" name="mapLng" style="width: 7em;" value="${sessionScope.cmStor.mapLng}"/>
         </div>
 
         <div class="w-100"><hr/></div> <!-- horizontal line -->

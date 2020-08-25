@@ -26,7 +26,7 @@
     <div class="row wow fadeIn border border-dark justify-content-center">
 
       <div class="row w-100">
-      	<img src="../../img/mycoup/how_3.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
+      	<img src="../../img/mycoup/how_5_kr.png" alt="쿠폰(포인트) 모을게요" class="z-depth-0 img-fluid">
         <h5 class="mt-3 ml-3 mr-3 mb-3">
         	<span class="text-primary font-weight-bold">○ Easy to earn ○</span>
         	<br/><br/>

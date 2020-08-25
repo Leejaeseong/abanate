@@ -9,6 +9,7 @@ public class ConstUtil {
 	 * about application
 	 */
 	public final static String MY_COUP_EMAIL			= "MyCoup.ml@gmail.com";
+	public final static String MY_COUP_SITE				= "MyCoup.ml";
 	public final static String MY_COUP_NAME				= "MyCoupon";
 	
 	public final static String MY_COUP_AWS_PROP_PATH	= "/home/ec2-user/mycoup.properties";
