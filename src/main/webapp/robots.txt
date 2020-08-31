@@ -1,5 +1,4 @@
 User-agent: Googlebot
-Disallow: /
 User-agent: *
 Disallow: /mycoup/changePwd.do
 Disallow: /mycoup/logout.do

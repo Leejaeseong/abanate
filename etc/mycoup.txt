@@ -2,7 +2,7 @@
 	□ 사이트 노출
 		-. 크롬 사이트 검색 노출 작업 중 	: https://search.google.com/search-console/index?resource_id=https%3A%2F%2Fmycoup.ml%2F
 		-. 네이버 작업 중 					: https://searchadvisor.naver.com/console/site/option?site=http%3A%2F%2Fmycoup.ml
-		-. 다음 							: 이메일로 회신 준다고 함
+		-. 다음 							: 신청 완료 https://search.daum.net/search?nil_suggest=btn&w=site&DA=SBC&q=%EB%AC%B4%EB%A3%8C+%EC%BF%A0%ED%8F%B0+MYCOUP
 	□ 달력이 모바일에서는 다국어가 적용이 안됨.
 	끝!!!
 	
