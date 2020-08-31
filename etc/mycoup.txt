@@ -34,12 +34,20 @@
 		ssh ip : 13.59.144.164 ( port : 22 ) 
 		user : ec2-user
 		도메인 : ec2-13-59-144-164.us-east-2.compute.amazonaws.com
+		
+	□ ### 현재 계정 생성일 : 2020.08.31 ###
+		계정 susan9184@gmail.com
+		키 페어 이름 : susan9184
+		ssh ip : 3.19.71.232 ( port : 22 ) 
+		user : ec2-user
+		도메인 : ec2-3-19-71-232.us-east-2.compute.amazonaws.com
+		
 	
 	□ ### 볼륨 수정 ###
 		- 기본 10G -> 30G로 변경 ( 30G 까지 1년 무료 )
 	
 	□ ### (공통)복사 ###
-		- download 폴더의 openjdk, 톰켓, h2 복사 -> /tmp 폴더로 복사
+		- download 폴더의 openjdk, 톰켓, h2, h2용jar파일(h2-1.4.197.jar) -> /tmp 폴더로 복사
 		- 압축 해제
 			tar -xvzf openjdk-11.0.1_linux-x64_bin.tar.gz
 			tar -xvzf apache-tomcat-9.0.37.tar.gz
@@ -51,7 +59,7 @@
 		
 	□ ### 공통 - AWS ###
 		- AWS 포트 개방
-			- 톰켓 인바운드 8080 추가
+			- 톰켓 인바운드 80 추가
 			- SSL 인바운드 443 추가
 			- h2 인바운드 8082 추가
 			
@@ -66,14 +74,14 @@
 				가장 아래 부분에 아래 두줄 추가
 				export JAVA_HOME=/home/ec2-user/jdk-11.0.1
 				export PATH=$PATH:/home/ec2-user/jdk-11.0.1/bin
-		- bash적용 : source .bash_pfofile
+		- bash적용 : source .bash_profile
 	
 	□ ### H2 ###
 		- h2 설정
 			cd /home/ec2-user/h2/bin
 			cp h2.sh h2_ori.sh
 			vi h2.sh
-			가장 아래 옵션 추가
+			가장 아래 변경( 옵션 추가 )
 				java -cp "$dir/h2-1.4.199.jar:$H2DRIVERS:$CLASSPATH" org.h2.tools.Console -webAllowOthers "$@"
 			설정
 				cd /home/ec2-user/h2/bin
@@ -83,19 +91,21 @@
 				User		phan98
 				Password	tphan98o
 				비번확인	tphan98o
+				quit				
 		- h2 시작
-			cd h2/bin/
+			cd /home/ec2-user/h2/bin
 			./h2.sh &
 		- h2 브라우저 접속( 도메인 변경 )
-			http://ec2-13-59-144-164.us-east-2.compute.amazonaws.com:8082
+			http://ec2-3-19-71-232.us-east-2.compute.amazonaws.com:8082
 			저장한 설정 	: Generic H2 (Server)
 			JDBC URL(기본)	: jdbc:h2:tcp://localhost/~/test
 			사용자명		: phan98
 			비밀번호		: tphan98o
-		- schema 붓기 : mycoup_ddl_h2.sql 실행
+		- [가장 마지막에 이행 부분 있음] schema 붓기 : mycoup_ddl_h2.sql 실행
 		
 	□ ### 톰켓 ###
 		- /home/ec2-user/apache-tomcat-9.0.37/lib/ 에 download의 h2-1.4.197.jar 복사
+			cp /tmp/h2-1.4.197.jar /home/ec2-user/apache-tomcat-9.0.37/lib/
 		- 백업
 			cd /home/ec2-user/apache-tomcat-9.0.37/webapps
 			mkdir BACKUP
@@ -103,15 +113,14 @@
 		- ROOT.war 파일 webapps에 복사
 		
 		- 스크립트 수정(자바 경로) : sudo로 실행할 것이기 때문에 root 계정은 JAJVA_HOME 설정 안했기 때문
-			1. vi /home/ec2-user/apache-tomcat-9.0.37/startup.sh
+			1. vi /home/ec2-user/apache-tomcat-9.0.37/bin/startup.sh
 				시작 부분에 아래 두 줄 추가
 				export JAVA_HOME=/home/ec2-user/jdk-11.0.1
 				export PATH=$PATH:/home/ec2-user/jdk-11.0.1/bin
-			2. vi /home/ec2-user/apache-tomcat-9.0.37/shutdown.sh
+			2. vi /home/ec2-user/apache-tomcat-9.0.37/bin/shutdown.sh
 				시작 부분에 아래 두 줄 추가
 				export JAVA_HOME=/home/ec2-user/jdk-11.0.1
 				export PATH=$PATH:/home/ec2-user/jdk-11.0.1/bin
-			
 		
 		- 무료도메인에 연동
 			-. https://my.freenom.com
@@ -121,32 +130,6 @@
 			freenom.com, 구글 로그인으로 로그인, 계정은 sooho8286@gmail.com
 			DNS management에서 A record 등록, AWS IP는 가입시 마다 변동( target 부분에 넣으면 됨 )
 		
-		- 무료인증서 발급( 3개월마다 시행? )
-			참고 사이트
-				-. https://medium.com/@zauin09/%EC%95%84%EB%A7%88%EC%A1%B4-aws-ec2-amazon-linux%EC%97%90-%EB%AC%B4%EB%A3%8C-ssl-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EC%84%A4%EC%B9%98-lets-encrypt-with-certbot-2668319475e0
-				-. https://idlecomputer.tistory.com/226
-				
-			1. download폴더의 certbot-auto를 temp로 복사하고
-			2. 실행권한 부여 : chmod a+x certbot-auto			
-			3. 아래 내용 실행
-				sudo ./certbot-auto certonly --manual --email sooho8286@gmail.com -d mycoup.ml
-				ip가 로깅되어도 되냐? Y ( 뭔지 잘 모름, 그냥 Y 함 )				
-				해당 위치에 텍스트 파일 추가
-			4. server.xml 편집 : 아래 추가
-				<Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol"
-			               maxThreads="150" SSLEnabled="true" >
-			        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
-			        <SSLHostConfig>
-			            <Certificate certificateKeyFile="/etc/letsencrypt/live/mycoup.ml/privkey.pem"
-			                         certificateFile="/etc/letsencrypt/live/mycoup.ml/cert.pem"
-			                         certificateChainFile="/etc/letsencrypt/live/mycoup.ml/chain.pem"
-			                         type="RSA" />
-			        </SSLHostConfig>
-			5. 자동 재 인증 설정
-				sudo -i
-				crontab -e
-				30 2 * * Sun /tmp/certbot-auto renew
-				           	
 		- 민감정보 properties 파일 작성
 			vi /home/ec2-user/mycoup.properties ( 내용은 에버노트 확인 )
 			gmail_pw
@@ -157,7 +140,11 @@
 	    	setting_api_address_key_mobile
 	    	
 	    - 세션 시간 증가( 30분 -> 3시간 )
+	    	vi /home/ec2-user/apache-tomcat-9.0.37/conf/web.xml
 	    	-. 톰켓 web.xml에서 <session-timeout>30</session-timeout> 부분을 180으로 변경
+	    - 포트 변경
+	    	vi /home/ec2-user/apache-tomcat-9.0.37/conf/server.xml
+	    	8080 -> 80
 		
 		- [안해도 될듯, 어차피 지금은 이걸 해도 해결 안 됨, 나중에 문제 되면 다시 봅시다] 쿠키 전송 레벨 설정
 			- 참고 https://ifuwanna.tistory.com/223
@@ -174,6 +161,39 @@
 		- 기동
 			cd /home/ec2-user/apache-tomcat-9.0.37/bin
 			sudo ./startup.sh
+			
+		- 무료인증서 발급( 3개월마다 시행? )
+			참고 사이트
+				-. https://medium.com/@zauin09/%EC%95%84%EB%A7%88%EC%A1%B4-aws-ec2-amazon-linux%EC%97%90-%EB%AC%B4%EB%A3%8C-ssl-%EC%9D%B8%EC%A6%9D%EC%84%9C-%EC%84%A4%EC%B9%98-lets-encrypt-with-certbot-2668319475e0
+				-. https://idlecomputer.tistory.com/226
+				
+			1. 아래 내용 실행
+				sudo yum update -y
+				sudo amazon-linux-extras install epel
+				sudo yum install certbot
+				sudo /usr/bin/certbot certonly --manual --email sooho8286@gmail.com -d mycoup.ml
+				Agree, Yes 선택
+				해당 위치에 텍스트 파일 추가
+				sudo mkdir /home/ec2-user/apache-tomcat-9.0.37/webapps/ROOT/.well-known
+				sudo mkdir /home/ec2-user/apache-tomcat-9.0.37/webapps/ROOT/.well-known/acme-challenge
+				(파일명 수정) sudo vi /home/ec2-user/apache-tomcat-9.0.37/webapps/ROOT/.well-known/acme-challenge/BHsR8jemwcfkPy239bHBvNslX0-uWX9JBpGEsHUxhBU				
+				
+			2. server.xml 편집 : 아래 추가
+				<Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol"
+			               maxThreads="150" SSLEnabled="true" >
+			        <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+			        <SSLHostConfig>
+			            <Certificate certificateKeyFile="/etc/letsencrypt/live/mycoup.ml/privkey.pem"
+			                         certificateFile="/etc/letsencrypt/live/mycoup.ml/cert.pem"
+			                         certificateChainFile="/etc/letsencrypt/live/mycoup.ml/chain.pem"
+			                         type="RSA" />
+			        </SSLHostConfig>
+			    </Connector>
+			3. 자동 재 인증 설정
+				sudo -i
+				crontab -e
+				30 2 * * Sun /tmp/certbot-auto renew
+			4. 톰켓 재 기동
 			
 	□ ### 서비스 시작 스크립트 작성 ###
 		cd ~
@@ -192,4 +212,16 @@
 		
 		- 접속 확인( 도메인은 변경 )
 			https://mycoup.ml
-			[폐기, firebase 주소] https://mycoup.web.app		
+			[폐기, firebase 주소] https://mycoup.web.app	
+	
+	□ DB 이관
+		웹 H2에서 아래 실행하여 추출
+		script table CM_USR
+		script table CM_STOR
+		script table CM_GOOS
+		script table CR_USR_STOR
+		script table CH_VISIT
+		script table CM_NATI_CD
+		script table CM_GMAP
+			
+	□ 기존 서버 정보 삭제( 과금 방지 )

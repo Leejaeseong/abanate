@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,7 @@ public class MycoupPreLoadService {
 	}
 	
 	public String getMMsg( String key, HttpServletRequest  req ) {
+		
 		String usrLang = ControllerUtil.getCookie( "usrLang", "/mycoup/", req);
 		if( ChkUtil.chkNull( usrLang ) && usrLang.equals( "ko-KR" ) ) {
 			return kLang.get( key );

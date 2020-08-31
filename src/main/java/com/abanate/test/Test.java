@@ -28,9 +28,11 @@ public class Test {
 		
 		//System.out.println( System.getProperty("os.name").toLowerCase() );
 		
-		System.out.println( "k.123".substring( 2 ) );
+		//System.out.println( "k.123".substring( 2 ) );
 		
-	}
+		 	
+		
+	}	
 	
 	public static String rValue() {
 		String a = "aaa";
